@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <!-- Description -->    
+    <meta name="數位族譜" content="探索數位祖譜平台，輕鬆建立家族樹，保存家族歷史與故事，與家人共享珍貴回憶！立即體驗簡單又安全的家族紀錄。">
+
+    <!-- Page Title -->
+    <title>奧森數位族譜｜打造你的家族網站與故事紀錄</title>
+<meta name="description" content="免費建立數位族譜，紀錄家族故事、照片與人物關係，永續傳承家族記憶。">
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T7QMD26F');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T7QMD26F"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J49JCLQLXK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J49JCLQLXK');
+</script>
+    <!-- Favicon -->
+    <link href="static/picture/logo.png" rel="icon">
+    <!-- Bundle -->
+    <link rel="stylesheet" href="static/css/bundle.min.css">
+    <!-- Plugin Css -->
+    <link href="static/css/LineIcons.min.css" rel="stylesheet">
+    <link href="static/css/jquery.fancybox.min.css" rel="stylesheet">
+    <link href="static/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="static/css/wow.css" rel="stylesheet">
+    <!-- Style Sheet -->
+    <link href="static/css/tootik.min.css" rel="stylesheet">
+    <link href="static/css/line-awesome.min.css" rel="stylesheet">
+    <link href="static/css/jquery.pagepiling.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"><link rel="stylesheet" href="./style047.css">
+    
+</head>
+
+<style>
+    #overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        background: #999;
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+        z-index: 100;
+    }
+
+    #popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        background: #fff0;
+        width: 450px;
+        height: 500px;
+        margin-left: -240px; /*Half the value of width to center div*/
+        margin-top: -250px; /*Half the value of height to center div*/
+        z-index: 200;
+    }
+
+    #popupclose {
+        float: right;
+        padding: ;
+        cursor: pointer;
+    }    
+    .contact-icons {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.contact-icons .icon {
+    margin-bottom: 10px;
+}
+
+.contact-icons .icon img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s ease;
+}
+
+.contact-icons .icon:hover img {
+    transform: scale(1.1);
+}
+
+  </style>
+  <style>
+.contact-details {
+    width: 100%;
+    position: relative;
+}
+
+.timeline-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 60px 0;
+    -webkit-overflow-scrolling: touch;
+    height: 220px; /* 固定高度 */
+    position: relative;
+    color: #f1c51c;
+}
+
+.timeline {
+    display: flex;
+    position: relative;
+    min-width: 1200px;
+    height: 100%;
+}
+
+/* 中間白色軸線 */
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -100px; /* 從左邊超出開始 */
+    width: 2600px; /* 固定寬度，確保超出min-width */
+    height: 4px;
+    background: #fff;
+    z-index: 0; /* 確保軸線在圓形下方 */
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.timeline-item {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 2; /* 確保內容在軸線上方 */
+}
+
+.circle_ {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto;
+    /*overflow: hidden; */
+    background: #9abf98;
+    /*border: 2px solid #333; */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.circle_ img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 所有階段在軸線上方 */
+.timeline-item .circle {
+    bottom: 50%; /* 圓形底部貼近軸線 */
+    transform: translate(-50%, 50%); /* 中心與軸線對齊 */
+}
+
+/* 文字在圖片上方 */
+.timeline-item p {
+    position: absolute;
+    top: -25px; /* 文字在圓形上方 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+}
+
+/* 手動設置每個項目的左右位置 */
+.timeline-item:nth-child(1) { left: 0%; }
+.timeline-item:nth-child(2) { left: 16.66%; }
+.timeline-item:nth-child(3) { left: 33.33%; }
+.timeline-item:nth-child(4) { left: 50%; }
+.timeline-item:nth-child(5) { left: 66.66%; }
+.timeline-item:nth-child(6) { left: 83.33%; }
+.timeline-item:nth-child(7) { left: 100%; }
+
+/* 滾動條樣式 */
+.timeline-container::-webkit-scrollbar {
+    height: 8px;
+    width: 100%;
+}
+
+.timeline-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.timeline-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.timeline-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.timeline-container::-webkit-scrollbar:vertical {
+    display: none;
+}
+</style>
+  
+</head>
+<div class="contact-icons">
+    <!-- Facebook 訊息 -->
+    <a href="https://m.me/awesomebobi" target="_blank" class="icon fb-icon">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Facebook_Messenger_logo_2020.svg/1200px-Facebook_Messenger_logo_2020.svg.png" alt="Facebook Message">
+    </a>
+    <!-- Email -->
+    <a href="mailto:jazzplaza@gmail.com" class="icon email-icon">
+        <img src="https://cdn4.iconfinder.com/data/icons/social-media-logos-6/512/112-gmail_email_mail-512.png" alt="Email">
+    </a>
+</div>
+
+<!--<div id="overlay"></div>
+<div id="popup">
+    <div class="popupcontrols">
+        <span id="popupclose"><img class="manImg" src="./img/news.png" min-width="360px" heigh="auto"></img></span>
+    </div>    
+</div>-->
+
+<body data-spy="scroll" data-target=".navbar" data-offset="90">
+
+<!-- Preloader -->
+<div class="loader" id="loader-fade">
+    <div class="linear-activity">
+        <div class="indeterminate"></div>
+    </div>
+</div>
+<!-- Preloader End -->
+
+<!-- START HEADER -->
+<div class="wrap_container cursor-light">
+    <div class="main_container">
+        <div class="side_nav">
+            <div class="my-sticky-nav">
+                <div class="side_menu">
+                    <a class="brand-logo link" href="">
+                        <img src="static/picture/logo.png" alt="logo" style="height: 87%;width: 87%;">
+                    </a>
+                    <div id="my_tog" class="my_tog link" onmouseover="my_click();">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div>
+                        <a class="brand-logo sticky-logo link" href="">
+                            <img src="static/picture/logo.png" alt="logo" style="height: 80%;width: 80%;">
+                        </a>
+                    </div>
+                    <!-- Sticky Nav -->
+                    <nav class="side-nav-menu">
+                        <ul class="nav-menu nav-fill" id="menu">
+                            <li class="nav-item">
+                                <a data-menuanchor="home-banner" class="nav-link link active line" href="#home-banner">家 Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-menuanchor="about" class="nav-link link line" href="#about">樹狀圖 Family Tree</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-menuanchor="team" class="nav-link link line" href="#team">好味道 The taste of memory</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-menuanchor="portfolio" class="nav-link link line" href="#portfolio">美好照片 Precious Photo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-menuanchor="blog" class="nav-link link line" href="#blog">美好影片 Precious Videos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-menuanchor="contact" class="nav-link link line" href="#contact">承先啟後故事 Our Story</a></li>
+                        </ul>                        
+                        <p class="rites-res link"><span style="color: #000000;">© 2025 族譜更新維護</span> </p>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        
+<!-- END HEADER -->
+
+<div id="pagepiling">
+
+<!-- START BANNER -->
+    <section class="section slide1 p-0" id="home-banner">
+        <div class="slider-area" id="slider-area">
+            <div class="bg-overlay bg-pink opacity-8"></div>
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-6 section1left wow" data-wow-delay=".8s">
+                        <h1 class="main-font font-weight-bold text-white">從陳稜路 <span class="d-block">開始的故事</span></h1>
+                        <p class="alt-font text-white my-4">阿公說：千萬不要窮．八嘎雅路! <br>誠為首要，人緣、誠實、學問、積德、命運、風水(厝場)</p>
+                        <a href="#about" class="btn btn-medium btn-rounded btn-trans text-capitalize mb-4 mb-md-0">觀看家族樹狀圖</a>
+                    </div>
+                    <div class="col-12 col-md-6 section1right wow" data-wow-delay=".8s">
+                        <div class="banner-image">
+                            <svg class="slider-shape" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 700 700">
+                                <g>
+                                    <path data-depth="0.05" id="shape-1" fill="#ffffff" d="M355.43 45.1C398 31.19 442.59 29 484 39.88c55.11 14.5 117.25 54.91 134.57 160.78 0 0 18.6 99.41-12.78 232 0 0-38.65 142.61-90.66 192 0 0-59 61.95-148.78 59.18 0 0-42.15 0-102.34-27.17 0 0-184-88.78-240.17-199S11 211.81 150.69 135.43C241.1 86 314.73 58.41 355.43 45.1z" opacity=".25"></path>
+                                    <path data-depth="0.07" id="shape-2" fill="#ffffff" d="M105.78 387.15c-15.76-38.08-21-79.83-14.15-120.46C100.79 212.61 133 148.14 228 116.38c0 0 89-32 211.88-21.76 0 0 132.5 15.66 181.18 57.51 0 0 60.65 46.59 64.69 131.66 0 0 3.11 39.73-17.22 100.45 0 0-67.27 186.43-163.35 255.44S282.55 687.58 202.89 567c-51.57-78-82.04-143.42-97.11-179.85z" opacity=".25"></path>
+                                    <path data-depth="0.09" id="shape-3" fill="#ffffff" d="M112.59 129.56c18.72-39.73 47.85-73.83 84.82-97.56 49.2-31.55 123.12-52.4 216.29-.29 0 0 89.1 47.22 169.11 151.43 0 0 82.67 115.68 84.6 184.07 0 0 6.77 81.22-57.4 145.42 0 0-29.09 30.94-91.54 58.46 0 0-195.21 80.68-318.52 54.43S2.54 484.38 40.43 335.12C65 238.51 94.68 167.58 112.59 129.56z" opacity=".25"></path>
+                                    <path id="shape-4" d="M129.39 153.77C146.74 117 173.73 85.35 208 63.38c45.59-29.25 114.09-48.57 200.42-.28 0 0 82.56 43.75 156.7 140.31 0 0 76.61 107.2 78.4 170.57 0 0 6.27 75.26-53.19 134.75 0 0-27 28.67-84.82 54.17 0 0-180.89 74.76-295.15 50.43S27.41 482.55 62.52 344.24c22.74-89.52 50.27-155.24 66.87-190.47z" opacity="0"></path>
+                                    <clippath id="shape-img">
+                                        <use xlink:href="#shape-4" style="overflow:visible;"></use>
+                                    </clippath>
+                                </g>
+                                <!--Change Image path here-->
+                                <image data-depth="0.1" clip-path="url(#shape-img)" height="100%" width="100%" xlink:href="static/image/slider-img.png"></image>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- END BANNER -->
+
+<!-- START ABOUT -->
+    <section class="section slide2 about" id="about">
+        <div class="bg-overlay bg-gray opacity-8"></div>
+        <div class="box position-relative about-zoom5In wow" data-wow-delay=".5s">
+        <div class="box-overlay"></div>
+        <div class="row align-items-center">
+                    <div class="col-12 col-md-7 col-lg-9">               
+                        <h2 class="main-font">全員&泉源 | 家族樹狀圖</h2>
+                        <p class="py-4 py-md-0">圖示上有手指圖示，表示可點擊看到延伸的成員，家族全員&泉源完整呈現。</p>                        
+                    </div>                    
+                </div></div>
+        <div class="col-12 px-0 section-heading about-fadeIn wow animated" data-wow-delay=".5s" style="visibility: visible;animation-delay: 0.5s;display: flex;justify-content: center;">
+        <!-- partial:index.partial.html -->
+<div class="body genealogy-body genealogy-scroll">
+    <div class="genealogy-tree">
+        <ul>
+            <li>
+                <a href="javascript:void(0);">
+                    <div class="member-view-box">
+                        <div class="member-image">
+                            <img src="./img/01.png" alt="Member">
+                            <div class="member-details">
+                                <h3>邱阿公&黃阿嬤</h3>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <ul class="active">
+                <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">
+                                <div class="member-image2">
+                                    <img src="./img/2-1.png" alt="Member">
+                                    <div class="member-details">
+                                        <h3>邱女兒</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <ul >
+                                                       
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-2-1.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>黃公子&葉媳婦</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-2-1-1.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>黃大姐</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-2-1-2.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>黃小弟</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>                                    
+                                </ul>
+                            </li>
+                            
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-2-2.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>黃公主&夏女婿</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-2-2-1.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>夏大姐</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-2-2-2.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>夏小弟</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>                                    
+                                </ul>
+                            </li>
+                           
+                            
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">
+                                <div class="member-image">
+                                    <img src="./img/2-2.png" alt="Member">
+                                    <div class="member-details">
+                                        <h3>邱女兒&賴女婿</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <ul >
+                            
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-4.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>賴大姐&張女婿</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-1-2-1.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>張大哥</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-1-2-2.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>張小弟</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+                            
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-1-1.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>賴二姐&李女婿</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image2">
+                                            <img src="./img/2-1-3-1.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>賴小妹</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">
+                                <div class="member-image">
+                                    <img src="./img/2-1-2.png" alt="Member">
+                                    <div class="member-details">
+                                        <h3>邱長子&洪媳婦</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <ul >
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-5.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>邱大哥&黃媳婦</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image2">
+                                            <img src="./img/2-1-4-1.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>邱小弟</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">
+                                <div class="member-image2">
+                                    <img src="./img/2-1-3.png" alt="Member">
+                                    <div class="member-details">
+                                        <h3>邱次子</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <ul >
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image2">
+                                            <img src="./img/2-1-3-2.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>邱大姐</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-1-4.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>邱小弟&呂媳婦</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-1-4_1.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>邱○涵</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    
+                                    
+                                </ul>
+                            </li>
+                            
+                            
+                            
+                        </ul>
+                    </li>
+                    
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+        </div>        
+    </section>
+<!-- END ABOUT -->
+
+<!-- START TEAM -->
+    <section class="section slide6 blog-bg" id="team">
+        <div class="bg-overlay bg-yellow opacity-8"></div>
+        <div class="container expand-container">
+            <div class="row align-items-center section-heading">
+                <div class="col-12 col-md-6 main-heading section5left wow" data-wow-delay=".8s">
+                    <h2 class="main-font"><img src="static/image/title_01.png" width="250px"> <span class="d-block">← →</span></h2>
+                </div>
+                <div class="col-12 col-md-6 section5right wow" data-wow-delay=".8s">
+                    <div class="owl-testimonial owl-carousel">
+                        <!-- Item 1 -->
+                        <div class="item">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-8 offset-md-1">
+                                    <div class="icon-quotes-left mb-3"><i class="fas fa-quote-left"></i></div>
+                                    <div class="description text-center text-md-right">
+                                        <p class="text-white paragraph">所謂的享受就是阿樹的麵配上一碗熱湯、西瓜汁加上些許檸檬汁，熟客的口味老闆最知道!跟著阿公吃絕對沒有錯~</p>
+                                    </div>
+                                    <div class="icon-quotes-right mt-md-3"><i class="fas fa-quote-right"></i></div>
+                                </div>
+
+                                <div class="col-12 col-md-3">
+                                    <div class="testimonial-img">
+                                    <span data-tootik="阿公最愛" data-tootik="Sara Jones" data-tootik-conf="top dark square shadow">                                         
+                                            <img src="static/picture/testimonial-img-2.png">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                        <!-- Item 2 -->
+                        <div class="item">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-8 offset-md-1">
+                                    <div class="icon-quotes-left mb-3"><i class="fas fa-quote-left"></i></div>
+                                    <div class="description text-center text-md-right">
+                                        <p class="text-white paragraph">位於孔廟對面的彰化木瓜牛乳大王創始店的紅豆牛奶冰、木瓜牛奶，每回必吃!這可是台北吃不到的喔~</p>
+                                    </div>
+                                    <div class="icon-quotes-right mt-md-3"><i class="fas fa-quote-right"></i></div>
+                                </div>
+
+                                <div class="col-12 col-md-3">
+                                    <div class="testimonial-img">  
+                                    <span data-tootik="台中老饕" data-tootik-conf="top dark square shadow">                                       
+                                            <img src="static/picture/testimonial-img-1.png">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="item">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-8 offset-md-1">
+                                    <div class="icon-quotes-left mb-3"><i class="fas fa-quote-left"></i></div>
+                                    <div class="description text-center text-md-right">
+                                        <p class="text-white paragraph">菜麵、控肉飯是最棒的早餐，也可以當中餐晚餐或消夜!隨時來上一碗，神清氣爽精神好!哈~~~~~~~~~~~~</p>
+                                    </div>
+                                    <div class="icon-quotes-right mt-md-3"><i class="fas fa-quote-right"></i></div>
+                                </div>
+
+                                <div class="col-12 col-md-3">
+                                    <div class="testimonial-img">    
+                                    <span data-tootik="幽默大阿姨" data-tootik-conf="top dark square shadow">                                    
+                                            <img src="static/picture/testimonial-img-3.png">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Team-->
+            <div class="row team-fade wow" data-wow-delay=".8s">
+                <div class="col-sm-12">
+                    <div id="team-slider" class="owl-carousel owl-theme wow fadeInUp">
+                        <!--Team Item-->
+                        <div class="team-box item">
+                            <!--Team Image-->
+                            <div class="team-image">
+                                <img src="static/picture/team-img1.jpg" alt="image">
+                            </div>
+                            <!--Team Text-->
+                            <div class="team-text">
+                                <h5 class="main-font">木瓜牛乳大王</h5>
+                                <span class="alt-font">紅豆牛奶冰、木瓜牛奶必點</span>                                
+                            </div>
+                        </div>
+                        <!--Team Item-->
+                        <div class="team-box item">
+                            <!--Team Image-->
+                            <div class="team-image">
+                                <img src="static/picture/team-img2.jpg" alt="image">
+                            </div>
+                            <!--Team Text-->
+                            <div class="team-text">
+                                <h5 class="main-font">肉包明</h5>
+                                <span class="alt-font">台灣第一肉包子</span>                                
+                            </div>
+                        </div>
+                        <!--Team Item-->
+                        <div class="team-box item">
+                            <!--Team Image-->
+                            <div class="team-image">
+                                <img src="static/picture/team-img3.jpg" alt="image">
+                            </div>
+                            <!--Team Text-->
+                            <div class="team-text">
+                                <h5 class="main-font">素麵</h5>
+                                <span class="alt-font">加豆包大滿足</span>                                
+                            </div>
+                        </div>
+                        <!--Team Item-->
+                        <div class="team-box item">
+                            <!--Team Image-->
+                            <div class="team-image">
+                                <img src="static/picture/team-img-4.jpg" alt="image">
+                            </div>
+                            <!--Team Text-->
+                            <div class="team-text">
+                                <h5 class="main-font">阿泉控肉販</h5>
+                                <span class="alt-font">肥肉是重點</span>                                
+                            </div>
+                        </div>
+                        <!--Team Item-->
+                        <div class="team-box item">
+                            <!--Team Image-->
+                            <div class="team-image">
+                                <img src="static/picture/team-img-5.jpg" alt="image">
+                            </div>
+                            <!--Team Text-->
+                            <div class="team-text">
+                                <h5 class="main-font">阿樹擔仔麵</h5>
+                                <span class="alt-font">一甲子的好味道</span>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- END TEAM -->
+
+<!-- START PORTFOLIO -->
+    <section class="section slide4 portfolio-bg" id="portfolio">
+        <div class="bg-overlay text-light-black opacity-8"></div>
+        <div class="container">
+            <div class="row align-items-center section-heading">
+                <div class="col-12 col-md-6 main-heading section4left wow" data-wow-delay=".8s">
+                    <h2 class="main-font"><img src="static/image/title_02.png" width="250px" > <span class="d-block">← →</span></h2>
+                </div>
+                <div class="col-12 col-md-6 section4right wow" data-wow-delay=".8s">
+                    <div class="row my-4 my-md-0">
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Portfolio -->
+            <div class="row portfolio-fade wow" data-wow-delay=".8s">
+                <div class="col-sm-12">
+                    <div class="team-classic owl-team owl-carousel text-center">
+                        <!-- Item 1 -->
+                        <div class="item">
+                            <div class="team-data-img">
+                                <a href="./img/2022.jpg" data-fancybox="portfolio-images">
+                                    <div class="single-work">
+                                        <img src="static/picture/portfolio-img-1.jpg" alt="team" class="img-responsive" data-no-retina="">
+                                        <div class="overlay-text center-block">
+                                            <div class="cases-image-inner">
+                                                <span class="cases-line top"></span>
+                                                <span class="cases-line top-right"></span>
+                                                <span class="cases-line bottom"></span>
+                                                <span class="cases-line bottom-left"></span>
+                                                <div class="image-overlay">
+                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
+                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="portfolio-content">
+                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2022年初三聚餐-台中品虹橋</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="item">
+                            <div class="team-data-img">
+                                <a href="./img/2021.jpg" data-fancybox="portfolio-images">
+                                    <div class="single-work">
+                                        <img src="static/picture/portfolio-img-2.jpg" alt="team" class="img-responsive" data-no-retina="">
+                                        <div class="overlay-text center-block">
+                                            <div class="cases-image-inner">
+                                                <span class="cases-line top"></span>
+                                                <span class="cases-line top-right"></span>
+                                                <span class="cases-line bottom"></span>
+                                                <span class="cases-line bottom-left"></span>
+                                                <div class="image-overlay">
+                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
+                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="portfolio-content">
+                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2021年過年聚餐-淺田屋</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="item">
+                            <div class="team-data-img">
+                                <a href="./img/2017.jpg" data-fancybox="portfolio-images">
+                                    <div class="single-work">
+                                        <img src="static/picture/portfolio-img-3.jpg" alt="team" class="img-responsive" data-no-retina="">
+                                        <div class="overlay-text center-block">
+                                            <div class="cases-image-inner">
+                                                <span class="cases-line top"></span>
+                                                <span class="cases-line top-right"></span>
+                                                <span class="cases-line bottom"></span>
+                                                <span class="cases-line bottom-left"></span>
+                                                <div class="image-overlay">
+                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
+                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="portfolio-content">
+                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2017過年聚餐</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 4 -->
+                        <div class="item">
+                            <div class="team-data-img">
+                                <a href="static/picture/portfolio-img-4.jpg" data-fancybox="portfolio-images">
+                                    <div class="single-work">
+                                        <img src="static/picture/portfolio-img-4.jpg" alt="team" class="img-responsive" data-no-retina="">
+                                        <div class="overlay-text center-block">
+                                            <div class="cases-image-inner">
+                                                <span class="cases-line top"></span>
+                                                <span class="cases-line top-right"></span>
+                                                <span class="cases-line bottom"></span>
+                                                <span class="cases-line bottom-left"></span>
+                                                <div class="image-overlay">
+                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
+                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="portfolio-content">
+                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2016過年聚餐</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 5 -->
+                        <div class="item">
+                            <div class="team-data-img">
+                                <a href="./img/2015.jpg" data-fancybox="portfolio-images">
+                                    <div class="single-work">
+                                        <img src="static/picture/portfolio-img-5.jpg" alt="team" class="img-responsive" data-no-retina="">
+                                        <div class="overlay-text center-block">
+                                            <div class="cases-image-inner">
+                                                <span class="cases-line top"></span>
+                                                <span class="cases-line top-right"></span>
+                                                <span class="cases-line bottom"></span>
+                                                <span class="cases-line bottom-left"></span>
+                                                <div class="image-overlay">
+                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
+                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="portfolio-content">
+                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2015孫女婚禮</h5>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- Item 6 -->
+                        <div class="item">
+                            <div class="team-data-img">
+                                <a href="static/picture/201902.jpg" data-fancybox="portfolio-images">
+                                    <div class="single-work">
+                                        <img src="static/picture/portfolio-img-6.jpg" alt="team" class="img-responsive" data-no-retina="">
+                                        <div class="overlay-text center-block">
+                                            <div class="cases-image-inner">
+                                                <span class="cases-line top"></span>
+                                                <span class="cases-line top-right"></span>
+                                                <span class="cases-line bottom"></span>
+                                                <span class="cases-line bottom-left"></span>
+                                                <div class="image-overlay">
+                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
+                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="portfolio-content">
+                                    <h5 class="text-yellow main-font mb-2 text-uppercase">201902聚餐</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 7 -->
+                        <div class="item">
+                            <div class="team-data-img">
+                                <a href="static/picture/201708.jpg" data-fancybox="portfolio-images">
+                                    <div class="single-work">
+                                        <img src="static/picture/portfolio-img-7.jpg" alt="team" class="img-responsive" data-no-retina="">
+                                        <div class="overlay-text center-block">
+                                            <div class="cases-image-inner">
+                                                <span class="cases-line top"></span>
+                                                <span class="cases-line top-right"></span>
+                                                <span class="cases-line bottom"></span>
+                                                <span class="cases-line bottom-left"></span>
+                                                <div class="image-overlay">
+                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
+                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="portfolio-content">
+                                    <h5 class="text-yellow main-font mb-2 text-uppercase">201708聚餐</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 8 -->
+                        <div class="item">
+                            <div class="team-data-img">
+                                <a href="static/picture/2016.jpg" data-fancybox="portfolio-images">
+                                    <div class="single-work">
+                                        <img src="static/picture/portfolio-img-8.jpg" alt="team" class="img-responsive" data-no-retina="">
+                                        <div class="overlay-text center-block">
+                                            <div class="cases-image-inner">
+                                                <span class="cases-line top"></span>
+                                                <span class="cases-line top-right"></span>
+                                                <span class="cases-line bottom"></span>
+                                                <span class="cases-line bottom-left"></span>
+                                                <div class="image-overlay">
+                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
+                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="portfolio-content">
+                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2016聚餐</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 9 -->
+                        <div class="item">
+                            <div class="team-data-img">
+                                <a href="static/picture/P1030504.jpg" data-fancybox="portfolio-images">
+                                    <div class="single-work">
+                                        <img src="static/picture/portfolio-img-9.jpg" alt="team" class="img-responsive" data-no-retina="">
+                                        <div class="overlay-text center-block">
+                                            <div class="cases-image-inner">
+                                                <span class="cases-line top"></span>
+                                                <span class="cases-line top-right"></span>
+                                                <span class="cases-line bottom"></span>
+                                                <span class="cases-line bottom-left"></span>
+                                                <div class="image-overlay">
+                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
+                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="portfolio-content">
+                                    <h5 class="text-yellow main-font mb-2 text-uppercase">20220711卦山月圓</h5>
+                                </div>
+                            </div>
+                        </div>                            
+                    </div>
+                    <a class="circle ini-customPrevBtn" id="team-circle-left">
+                        <i class="lni-chevron-left"></i>
+                    </a>
+                    <a class="circle ini-customNextBtn" id="team-circle-right">
+                        <i class="lni-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- END PORTFOLIO -->
+
+<!-- START BLOG -->
+    <section class="section slide6 blog-bg" id="blog">
+        <div class="bg-overlay bg-blue opacity-8"></div>
+        <div class="container expand-container">
+            <div class="row align-items-center section-heading">
+                <div class="col-12 col-md-6 main-heading section5left wow" data-wow-delay=".8s">
+                    <h2 class="main-font"><img src="static/image/title_03.png" width="250px" ><span class="d-block"></span> <span class="d-block"></span></h2>
+                </div>                
+            </div>
+            <!--Row-->
+            <div class="row">
+                <!--News Item-->
+                <div class="col-12 col-md-6 blog-left wow" data-wow-delay=".6s">
+                    <div class="news-item">
+                        <div class="image-holder-gallary">
+                        <div class="tv">
+                            <iframe src="https://www.youtube.com/embed/tcQ9CFvGI28" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
+                        </div></div>
+                        <div class="news-text-box">
+                            <a href="#"><h4 class="news-title main-font">2020日常生活</h4></a>
+                            <p class="para alt-font">Jan 27, 2020 /</p>
+                        </div>
+                    </div>
+                </div>                
+                <!--News Item-->
+                <div class="col-12 col-md-6 blog-right wow" data-wow-delay=".6s">
+                    <div class="news-item">
+                        <div class="image-holder-gallary">
+                            <div class="tv">
+                            <iframe src="https://www.youtube.com/embed/Qpndaw-p8ok" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
+                        </div></div>
+                        <div class="news-text-box">
+                            <a href="#"><h4 class="news-title main-font">2015日常生活</h4></a>
+                            <p class="para alt-font">Dec 22, 2015 /</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- END BLOG -->
+
+<!-- START CONTACT -->
+    <section class="section slide5 contact-sec" id="contact">
+        <div class="bg-overlay bg-green opacity-9"></div>
+        
+            <div class="row">
+                <div class="col-12" data-wow-delay=".8s">
+                    <div class="container">                
+                    <div class="contact-us-contact">
+                        <div class="contact-text text-center deep-black play-fair">
+                         <div class="col-12 wow text-center text-lg-left d-flex align-items-center" data-wow-delay=".8s">
+                    <div class="contact-details wow fadeInRight">
+                        <h4 class="heading main-font">訴說家族故事</h4>
+                        <p class="text alt-font">祖父16歲那年，考上了合作金庫的職員，開始了自己的人生新篇章。他勤勤懇懇地工作，很快就成為了合作金庫的一名優秀員工。
+
+在工作之餘，祖父也努力投資理財，希望能積累財富。他買了一些房產，也購買了一些土地。祖父的努力沒有白費，他的財富逐漸累積起來。
+
+祖父25歲那年，娶了一個賢惠的妻子。妻子是個勤勞能幹的女人，她非常支持祖父的事業。祖父和妻子一起努力，生了四個孩子。
+
+祖父很重視子女的教育，他希望子女們能有更好的未來。他把所有的積蓄都用來供子女讀書，讓他們都接受了良好的教育。
+
+子女們長大後，都成了有用之才。他們在各自的領域取得了成功，為祖父感到驕傲。
+
+如今，祖父已經年過八旬，但他仍然精神矍鑠。他很滿意自己的一生，他實現了自己的願望，不再窮困，也讓子孫後代過上了幸福的生活。
+
+祖父的故事告訴我們，只要努力奮鬥，就一定能改變命運。也讓我們更加珍惜現在的生活，努力為自己的未來打拼。</p>
+                        <div class="timeline-container">
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="circle_"><img src="static/image/01.png" alt="Event 1"></div>
+                <p>1929-定居建寶庄</p>
+            </div>
+            <div class="timeline-item">
+                <div class="circle_"><img src="static/image/02.png" alt="Event 2"></div>
+                <p>1940-購地自建祖厝</p>
+            </div>
+            <div class="timeline-item">
+                <div class="circle_"><img src="static/image/03.png" alt="Event 3"></div>
+                <p>1950-農務轉移釋出</p>
+            </div>
+            <div class="timeline-item">
+                <div class="circle_"><img src="static/image/04.png" alt="Event 4"></div>
+                <p>1973-計畫整建購地</p>
+            </div>
+            <div class="timeline-item">
+                <div class="circle_"><img src="static/image/01.png" alt="Event 5"></div>
+                <p>1998-家族返鄉祭祖</p>
+            </div>
+            <div class="timeline-item">
+                <div class="circle_"><img src="static/image/02.png" alt="Event 6"></div>
+                <p>2005-家族國外旅遊</p>
+            </div>
+            <div class="timeline-item">
+                <div class="circle_"><img src="static/image/03.png" alt="Event 7"></div>
+                <p>2025-建構數位族譜</p>
+            </div>
+        </div>
+    </div>
+                        
+                        
+                    </div>
+                </div>
+                        </div>  
+                
+            </div>
+                
+                
+            </div>
+        </div>
+    </section>
+<!-- END CONTACT -->
+</div>
+
+<!-- Start Copyright -->
+<div class="slider-bottom cursor-light">   
+    <div class="slider-copyright text-white link">族譜更新維護 <a target="_blank" href="https://awesomebobi.blogspot.com/">奧森設計工作室</a></div>
+</div>
+<!-- End Copyright -->
+
+<!--Animated Cursor-->
+<div id="animated-cursor">
+    <div id="cursor">
+        <div id="cursor-loader"></div>
+    </div>
+</div>
+
+
+<script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+<script  src="./script.js"></script>
+<script src="static/js/bundle.min.js"></script>
+<script src="static/js/wow.min.js"></script>
+<!-- Plugin Js -->
+<script src="static/js/jquery.appear.js"></script>
+<script src="static/js/jquery.fancybox.min.js"></script>
+<script src="static/js/owl.carousel.min.js"></script>
+<!-- CUSTOM JS -->
+<script src="static/js/jquery.pagepiling.min.js"></script>
+<script src="static/js/TweenMax.min.js"></script>
+<script src="static/js/contact_us.js"></script>
+<script src="static/js/script.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://awesome-bobi.neocities.org/ad/ad.html",
+  "@type": "WebPage",
+  "name": "數位族譜平台",
+  "description": "探索數位祖譜，輕鬆建立家族樹，保存家族歷史，與家人共享珍貴回憶。",
+  "url": "https://awesomebobi.blogspot.com/",
+  "mainEntity": {
+    "@type": "Thing",
+    "name": "數位族譜",
+    "description": "家族歷史紀錄工具"
+  }
+}
+</script>
+</body></html>
