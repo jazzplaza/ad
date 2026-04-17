@@ -1,244 +1,70 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
-    <!-- Meta Tags -->
     <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-    <!-- Description -->    
-    <meta name="description" content="探索數位族譜平台，建立家族樹與祖先世系，保存家族歷史與故事。">
-
-    <!-- Page Title -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>奧森數位族譜｜打造你的家族網站與故事紀錄</title>
-<meta name="description" content="數位族譜平台，提供家族族譜建立、祖先資料整理、族譜查詢與世系圖生成，讓家族歷史永久保存。">
-
-<meta name="keywords" content="數位族譜,家族族譜,線上族譜,族譜系統,族譜查詢,genealogy,family tree">
-
-<meta name="robots" content="index, follow">
-
-<link rel="canonical" href="https://jazzplaza.github.io/ad/ad.html">
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-T7QMD26F');</script>
-<!-- End Google Tag Manager -->
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T7QMD26F"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J49JCLQLXK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-J49JCLQLXK');
-</script>
-    <!-- Favicon -->
+    <meta name="description" content="數位族譜平台，提供家族族譜建立、祖先資料整理、族譜查詢與世系圖生成，讓家族歷史永久保存。">
+    <meta name="keywords" content="數位族譜,家族族譜,線上族譜,族譜系統,族譜查詢,genealogy,family tree">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://jazzplaza.github.io/ad/ad.html">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://code.jquery.com">
     <link href="static/picture/logo.png" rel="icon">
-    <!-- Bundle -->
     <link rel="stylesheet" href="static/css/bundle.min.css">
-    <!-- Plugin Css -->
     <link href="static/css/LineIcons.min.css" rel="stylesheet">
     <link href="static/css/jquery.fancybox.min.css" rel="stylesheet">
     <link href="static/css/owl.carousel.min.css" rel="stylesheet">
     <link href="static/css/wow.css" rel="stylesheet">
-    <!-- Style Sheet -->
     <link href="static/css/tootik.min.css" rel="stylesheet">
     <link href="static/css/line-awesome.min.css" rel="stylesheet">
     <link href="static/css/jquery.pagepiling.css" rel="stylesheet">
     <link href="static/css/style.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"><link rel="stylesheet" href="./style047.css">
-    
+    <link rel="stylesheet" href="./style047.css">
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-T7QMD26F');
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J49JCLQLXK"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J49JCLQLXK');
+    </script>
 </head>
-
-<style>
-    #overlay {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        background: #999;
-        width: 100%;
-        height: 100%;
-        opacity: 0.8;
-        z-index: 100;
-    }
-
-    #popup {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        background: #fff0;
-        width: 450px;
-        height: 500px;
-        margin-left: -240px; /*Half the value of width to center div*/
-        margin-top: -250px; /*Half the value of height to center div*/
-        z-index: 200;
-    }
-
-    #popupclose {
-        float: right;
-        padding: ;
-        cursor: pointer;
-    }    
-    .contact-icons {
-    position: fixed;
-    right: 20px;
-    top: 20px;
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
-}
-
-.contact-icons .icon {
-    margin-bottom: 10px;
-}
-
-.contact-icons .icon img {
-    width: 40px;
-    height: 40px;
-    transition: transform 0.3s ease;
-}
-
-.contact-icons .icon:hover img {
-    transform: scale(1.1);
-}
-
-  </style>
-  <style>
-.contact-details {
-    width: 100%;
-    position: relative;
-}
-
-.timeline-container {
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 60px 0;
-    -webkit-overflow-scrolling: touch;
-    height: 220px; /* 固定高度 */
-    position: relative;
-    color: #f1c51c;
-}
-
-.timeline {
-    display: flex;
-    position: relative;
-    min-width: 1200px;
-    height: 100%;
-}
-
-/* 中間白色軸線 */
-.timeline::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: -100px; /* 從左邊超出開始 */
-    width: 2600px; /* 固定寬度，確保超出min-width */
-    height: 4px;
-    background: #fff;
-    z-index: 0; /* 確保軸線在圓形下方 */
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
-}
-
-.timeline-item {
-    flex: 1;
-    text-align: center;
-    position: relative;
-    z-index: 2; /* 確保內容在軸線上方 */
-}
-
-.circle_ {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin: 0 auto;
-    /*overflow: hidden; */
-    background: #9abf98;
-    /*border: 2px solid #333; */
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.circle_ img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* 所有階段在軸線上方 */
-.timeline-item .circle {
-    bottom: 50%; /* 圓形底部貼近軸線 */
-    transform: translate(-50%, 50%); /* 中心與軸線對齊 */
-}
-
-/* 文字在圖片上方 */
-.timeline-item p {
-    position: absolute;
-    top: -25px; /* 文字在圓形上方 */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-}
-
-/* 手動設置每個項目的左右位置 */
-.timeline-item:nth-child(1) { left: 0%; }
-.timeline-item:nth-child(2) { left: 16.66%; }
-.timeline-item:nth-child(3) { left: 33.33%; }
-.timeline-item:nth-child(4) { left: 50%; }
-.timeline-item:nth-child(5) { left: 66.66%; }
-.timeline-item:nth-child(6) { left: 83.33%; }
-.timeline-item:nth-child(7) { left: 100%; }
-
-/* 滾動條樣式 */
-.timeline-container::-webkit-scrollbar {
-    height: 8px;
-    width: 100%;
-}
-
-.timeline-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-.timeline-container::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-
-.timeline-container::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-.timeline-container::-webkit-scrollbar:vertical {
-    display: none;
-}
-</style>
-  
-</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="90">
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T7QMD26F" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
 <div class="contact-icons">
     <!-- Facebook 訊息 -->
     <a href="https://m.me/awesomebobi" target="_blank" class="icon fb-icon">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Facebook_Messenger_logo_2020.svg/1200px-Facebook_Messenger_logo_2020.svg.png" alt="Facebook Message">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png" alt="Facebook Message">
     </a>
     <!-- Email -->
     <a href="mailto:jazzplaza@gmail.com" class="icon email-icon">
         <img src="https://cdn4.iconfinder.com/data/icons/social-media-logos-6/512/112-gmail_email_mail-512.png" alt="Email">
     </a>
+    <!-- Genealogy Info -->
+    <button type="button" class="icon info-icon" id="genealogy-info-trigger" aria-haspopup="dialog" aria-controls="genealogy-info-modal" aria-expanded="false">
+        <span class="info-icon-badge" aria-hidden="true"><i class="las la-info"></i></span>
+        <span class="sr-only">族譜查詢說明</span>
+    </button>
 </div>
 
-<!--<div id="overlay"></div>
-<div id="popup">
-    <div class="popupcontrols">
-        <span id="popupclose"><img class="manImg" src="./img/news.png" min-width="360px" heigh="auto"></img></span>
-    </div>    
-</div>-->
-
-<body data-spy="scroll" data-target=".navbar" data-offset="90">
+<div class="info-modal" id="genealogy-info-modal" role="dialog" aria-modal="true" aria-labelledby="genealogy-info-title" hidden>
+    <div class="info-modal__backdrop" data-modal-close="true"></div>
+    <div class="info-modal__panel">
+        <button type="button" class="info-modal__close" data-modal-close="true" aria-label="關閉說明視窗">&times;</button>
+        <h3 id="genealogy-info-title">直系族譜查詢說明</h3>
+        <p>若需要進一步查詢直系血親的戶籍與族譜資料，可洽詢戶政事務所提供的戶籍謄本與相關申辦服務。</p>
+        <p>建議先確認可申請的身分資格、所需證件與授權文件，再向所在地戶政服務窗口或官方網站查詢最新流程。</p>
+    </div>
+</div>
 
 <!-- Preloader -->
 <div class="loader" id="loader-fade">
@@ -336,15 +162,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <section class="section slide2 about" id="about">
         <div class="bg-overlay bg-gray opacity-8"></div>
         <div class="box position-relative about-zoom5In wow" data-wow-delay=".5s">
-        <div class="box-overlay"></div>
-        <div class="row align-items-center">
-                    <div class="col-12 col-md-7 col-lg-9">               
-                        <h2 class="main-font">全員&泉源 | 家族樹狀圖</h2>
-                        <p class="py-4 py-md-0">圖示上有手指圖示，表示可點擊看到延伸的成員，家族全員&泉源完整呈現。</p>                        
-                    </div>                    
-                </div></div>
-        <div class="col-12 px-0 section-heading about-fadeIn wow animated" data-wow-delay=".5s" style="visibility: visible;animation-delay: 0.5s;display: flex;justify-content: center;">
-        <!-- partial:index.partial.html -->
+            <div class="box-overlay"></div>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-7 col-lg-9">
+                    <h2 class="main-font">全員&泉源 | 家族樹狀圖</h2>
+                    <p class="py-4 py-md-0">點擊姓名即可展開下一層，提供族譜與祖先族譜兩種檢視。</p>
+                    <div class="genealogy-tablist" role="tablist" aria-label="家族樹切換">
+                        <button type="button" class="genealogy-tab is-active" data-genealogy-tab="paternal" role="tab" aria-selected="true" aria-controls="genealogy-panel-paternal" id="genealogy-tab-paternal">族譜</button>
+                        <button type="button" class="genealogy-tab" data-genealogy-tab="maternal" role="tab" aria-selected="false" aria-controls="genealogy-panel-maternal" id="genealogy-tab-maternal">祖先族譜</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 px-0 section-heading about-fadeIn wow animated genealogy-panel-wrap" data-wow-delay=".5s" style="visibility: visible;animation-delay: 0.5s;display: flex;justify-content: center;">
+        <div class="genealogy-panel is-active" data-genealogy-panel="paternal" id="genealogy-panel-paternal" role="tabpanel" aria-labelledby="genealogy-tab-paternal">
 <div class="body genealogy-body genealogy-scroll">
     <div class="genealogy-tree">
         <ul>
@@ -644,7 +475,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </ul>
     </div>
 </div>
-        </div>        
+        </div>
+        <div class="genealogy-panel" data-genealogy-panel="maternal" id="genealogy-panel-maternal" role="tabpanel" aria-labelledby="genealogy-tab-maternal" hidden></div>
+        </div>
     </section>
 <!-- END ABOUT -->
 
@@ -1178,34 +1011,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 
-<script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
-<script  src="./script.js"></script>
-<script src="static/js/bundle.min.js"></script>
-<script src="static/js/wow.min.js"></script>
+<script defer src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script defer src="./script.js"></script>
+<script defer src="static/js/bundle.min.js"></script>
+<script defer src="static/js/wow.min.js"></script>
 <!-- Plugin Js -->
-<script src="static/js/jquery.appear.js"></script>
-<script src="static/js/jquery.fancybox.min.js"></script>
-<script src="static/js/owl.carousel.min.js"></script>
+<script defer src="static/js/jquery.appear.js"></script>
+<script defer src="static/js/jquery.fancybox.min.js"></script>
+<script defer src="static/js/owl.carousel.min.js"></script>
 <!-- CUSTOM JS -->
-<script src="static/js/jquery.pagepiling.min.js"></script>
-<script src="static/js/TweenMax.min.js"></script>
-<script src="static/js/contact_us.js"></script>
-<script src="static/js/script.js"></script>
-<script type="application/ld+json">
-<!-- 結構化資料 (SEO) -->
-
+<script defer src="static/js/jquery.pagepiling.min.js"></script>
+<script defer src="static/js/TweenMax.min.js"></script>
+<script defer src="static/js/contact_us.js"></script>
+<script defer src="static/js/script.js"></script>
 <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "WebSite",
- "name": "奧森數位族譜",
- "url": "https://jazzplaza.github.io/ad/ad.html",
- "description": "建立家族族譜、祖先世系與家族故事的數位族譜平台",
- "inLanguage": "zh-TW",
- "publisher": {
-   "@type": "Organization",
-   "name": "奧森設計工作室"
- }
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "奧森數位族譜",
+      "url": "https://jazzplaza.github.io/ad/ad.html",
+      "description": "建立家族族譜、祖先世系與家族故事的數位族譜平台",
+      "inLanguage": "zh-TW",
+      "publisher": {
+        "@id": "https://jazzplaza.github.io/ad/ad.html#organization"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://jazzplaza.github.io/ad/ad.html#organization",
+      "name": "奧森設計工作室",
+      "url": "https://awesomebobi.blogspot.com/"
+    }
+  ]
 }
 </script>
 </body></html>
