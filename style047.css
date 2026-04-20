@@ -25,7 +25,7 @@
     justify-content: center;
     white-space: nowrap;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     padding: 50px;
     min-height: 500px;
     min-width: 100%;
@@ -57,12 +57,15 @@
     padding-left: 0px;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: max-content;
 }
 .genealogy-tree li {
     float: left; text-align: center;
     list-style-type: none;
     position: relative;
-    padding: 20px 5px 0 5px;
+    padding: 20px 10px 0 10px;
 }
 .genealogy-tree li::before, .genealogy-tree li::after{
     content: '';
@@ -128,6 +131,7 @@
     border-radius: 4px;
     position: relative;
     color: #000000;
+    min-width: max-content;
 }
 .member-image{    
     position: relative;
@@ -355,15 +359,18 @@
 .genealogy-panel-wrap {
     width: 100%;
     display: block !important;
+    overflow: visible;
 }
 
 .genealogy-panel {
     width: 100%;
+    overflow: visible;
 }
 
 .genealogy-panel .genealogy-body {
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 40px;
 }
 
 .genealogy-panel[hidden] {
@@ -486,6 +493,46 @@
         font-size: 14px;
     }
 
+    .genealogy-panel-wrap {
+        overflow-x: auto;
+        overflow-y: visible;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .genealogy-body {
+        min-height: auto;
+        width: max-content;
+        min-width: max-content;
+        max-width: none;
+        padding: 8px 24px 24px;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .genealogy-tree {
+        zoom: 1;
+        min-width: max-content;
+    }
+
+    .genealogy-tree li {
+        padding: 20px 10px 0 10px;
+    }
+
+    .member-image img {
+        width: 122px;
+        height: 60px;
+    }
+
+    .member-image2 img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .member-details h3 {
+        font-size: 14px;
+        line-height: 1.35;
+    }
+
     .info-modal__panel {
         margin-top: 10vh;
         padding: 24px 18px 18px;
@@ -511,10 +558,5 @@
 
     .timeline {
         min-width: 960px;
-    }
-
-    .genealogy-body {
-        padding-left: 20px;
-        padding-right: 20px;
     }
 }

@@ -8,6 +8,22 @@ $(function () {
         $tree.find('ul.active').hide();
     }
 
+    function showTreeChildren($children) {
+        $children
+            .stop(true, true)
+            .slideDown('fast', function () {
+                $(this).css('display', 'flex');
+            })
+            .addClass('active');
+    }
+
+    function hideTreeChildren($children) {
+        $children
+            .stop(true, true)
+            .slideUp('fast')
+            .removeClass('active');
+    }
+
     function syncMaternalTree() {
         var $paternalBody = $('#genealogy-panel-paternal .genealogy-body').first();
         var $maternalPanel = $('#genealogy-panel-maternal');
@@ -55,7 +71,12 @@ $(function () {
             return;
         }
 
-        $children.stop(true, true).slideToggle('fast').toggleClass('active');
+        if ($children.is(':visible')) {
+            hideTreeChildren($children);
+        } else {
+            showTreeChildren($children);
+        }
+
         event.stopPropagation();
     });
 
