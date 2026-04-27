@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
     <meta charset="utf-8">
@@ -164,9 +164,11 @@
         <div class="box position-relative about-zoom5In wow" data-wow-delay=".5s">
             <div class="box-overlay"></div>
             <div class="row align-items-center">
-                <div class="col-12 col-md-7 col-lg-9">
+                <div class="col-12 col-md-8 col-lg-9">
                     <h2 class="main-font">全員&泉源 | 家族樹狀圖</h2>
                     <p class="py-4 py-md-0">點擊姓名即可展開下一層，提供族譜與祖先族譜兩種檢視。</p>
+                </div>
+                <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-md-end">
                     <div class="genealogy-tablist" role="tablist" aria-label="家族樹切換">
                         <button type="button" class="genealogy-tab is-active" data-genealogy-tab="paternal" role="tab" aria-selected="true" aria-controls="genealogy-panel-paternal" id="genealogy-tab-paternal">族譜</button>
                         <button type="button" class="genealogy-tab" data-genealogy-tab="maternal" role="tab" aria-selected="false" aria-controls="genealogy-panel-maternal" id="genealogy-tab-maternal">祖先族譜</button>
@@ -175,7 +177,7 @@
             </div>
         </div>
         <div class="col-12 px-0 section-heading about-fadeIn wow animated genealogy-panel-wrap" data-wow-delay=".5s" style="visibility: visible;animation-delay: 0.5s;display: flex;justify-content: center;">
-        <div class="genealogy-panel is-active" data-genealogy-panel="paternal" id="genealogy-panel-paternal" role="tabpanel" aria-labelledby="genealogy-tab-paternal">
+        <template id="genealogy-tree-family-template">
 <div class="body genealogy-body genealogy-scroll">
     <div class="genealogy-tree">
         <ul>
@@ -475,7 +477,246 @@
         </ul>
     </div>
 </div>
-        </div>
+        </template>
+        <template id="genealogy-tree-ancestor-template">
+<div class="body genealogy-body genealogy-scroll">
+    <div class="genealogy-tree">
+        <ul>
+            <li>
+                <a href="javascript:void(0);">
+                    <div class="member-view-box">                        
+                            <div class="member-details">
+                                <h3>本籍 黃太公&本籍 卓老太太</h3>
+                                <div class="ancestor-arrow-inside" aria-hidden="true">▼</div></div>
+                        </div>                    
+                </a>
+                <ul class="active">
+                <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">                                
+                                    <div class="member-details">
+                                        <h3>邱女兒</h3>
+                                <div class="ancestor-arrow-inside" aria-hidden="true">▼</div></div>
+                                </div>                            
+                        </a>
+                        <ul >
+                                                       
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">                                        
+                                            <div class="member-details">
+                                                <h3>黃公子&葉媳婦</h3>
+                                <div class="ancestor-arrow-inside" aria-hidden="true">▼</div></div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                    <div class="member-details">
+                                                        <h3>黃大姐</h3>
+                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">                                                
+                                                    <div class="member-details">
+                                                        <h3>黃小弟</h3>
+                                </div>
+                                                </div>                                            
+                                        </a>
+                                    </li>                                    
+                                </ul>
+                            </li>
+                            
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">                                        
+                                            <div class="member-details">
+                                                <h3>黃公主&夏女婿</h3>
+                                <div class="ancestor-arrow-inside" aria-hidden="true">▼</div></div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">                                                
+                                                    <div class="member-details">
+                                                        <h3>夏大姐</h3>
+                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">                                                
+                                                    <div class="member-details">
+                                                        <h3>夏小弟</h3>
+                                </div>
+                                            </div>
+                                        </a>
+                                    </li>                                    
+                                </ul>
+                            </li>
+                           
+                            
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">                                
+                                    <div class="member-details">
+                                        <h3>邱女兒&賴女婿</h3>
+                                <div class="ancestor-arrow-inside" aria-hidden="true">▼</div></div>
+                            </div>
+                        </a>
+                        <ul >
+                            
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">                                        
+                                            <div class="member-details">
+                                                <h3>賴大姐&張女婿</h3>
+                                <div class="ancestor-arrow-inside" aria-hidden="true">▼</div></div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">                                                
+                                                    <div class="member-details">
+                                                        <h3>張大哥</h3>
+                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">                                                
+                                                    <div class="member-details">
+                                                        <h3>張小弟</h3>
+                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+                            
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">                                        
+                                            <div class="member-details">
+                                                <h3>賴二姐&李女婿</h3>
+                                </div>
+                                    </div>
+                                </a>
+                                
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">                                        
+                                            <div class="member-details">
+                                                <h3>賴小妹</h3>
+                                </div>
+                                    </div>
+                                </a>
+                                
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">                                
+                                    <div class="member-details">
+                                        <h3>邱長子&洪媳婦</h3>
+                                <div class="ancestor-arrow-inside" aria-hidden="true">▼</div></div>
+                            </div>
+                        </a>
+                        <ul >
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">                                        
+                                            <div class="member-details">
+                                                <h3>邱大哥&黃媳婦</h3>
+                                </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">                                        
+                                            <div class="member-details">
+                                                <h3>邱小弟</h3>
+                                </div>
+                                    </div>
+                                </a>
+                            </li>
+                            
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">                                
+                                    <div class="member-details">
+                                        <h3>邱次子</h3>
+                                <div class="ancestor-arrow-inside" aria-hidden="true">▼</div></div>
+                            </div>
+                        </a>
+                        <ul >
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">                                        
+                                            <div class="member-details">
+                                                <h3>邱大姐</h3>
+                                </div>
+                                    </div>
+                                </a>
+                                
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">                                        
+                                            <div class="member-details">
+                                                <h3>邱小弟&呂媳婦</h3>
+                                <div class="ancestor-arrow-inside" aria-hidden="true">▼</div></div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">                                                
+                                                    <div class="member-details">
+                                                        <h3>邱小妹</h3>
+                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    
+                                    
+                                </ul>
+                            </li>
+                            
+                            
+                            
+                        </ul>
+                    </li>
+                    
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+        </template>
+        <div class="genealogy-panel is-active" data-genealogy-panel="paternal" id="genealogy-panel-paternal" role="tabpanel" aria-labelledby="genealogy-tab-paternal"></div>
         <div class="genealogy-panel" data-genealogy-panel="maternal" id="genealogy-panel-maternal" role="tabpanel" aria-labelledby="genealogy-tab-maternal" hidden></div>
         </div>
     </section>
@@ -1048,3 +1289,4 @@
 }
 </script>
 </body></html>
+

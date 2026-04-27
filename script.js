@@ -2,6 +2,15 @@ $(function () {
     var $infoModal = $('#genealogy-info-modal');
     var $infoTrigger = $('#genealogy-info-trigger');
 
+    function cloneTemplate(templateId) {
+        var template = document.getElementById(templateId);
+        if (!template || !('content' in template)) {
+            return null;
+        }
+
+        return $(template.content.cloneNode(true));
+    }
+
     function initGenealogyTree($tree) {
         $tree.find('ul').hide();
         $tree.children('ul').show();
@@ -24,16 +33,70 @@ $(function () {
             .removeClass('active');
     }
 
-    function syncMaternalTree() {
-        var $paternalBody = $('#genealogy-panel-paternal .genealogy-body').first();
-        var $maternalPanel = $('#genealogy-panel-maternal');
+    function ensureGenealogyTreeContent($content) {
+        if (!$content || !$content.length) {
+            return null;
+        }
 
-        if (!$paternalBody.length || !$maternalPanel.length) {
+        if (!$content.find('.genealogy-tree').length) {
+            return null;
+        }
+
+        return $content;
+    }
+
+    function formatAncestorCouples($root) {
+        $root.find('.member-details h3').each(function () {
+            var $title = $(this);
+            var rawText = $title.text().trim();
+
+            if (!rawText) {
+                return;
+            }
+
+            if (rawText.indexOf('&') === -1 && rawText.indexOf('＆') === -1) {
+                return;
+            }
+
+            var parts = rawText.split(/[&＆]/).map(function (p) { return p.trim(); }).filter(Boolean);
+            if (parts.length !== 2) {
+                return;
+            }
+
+            $title
+                .addClass('ancestor-pair')
+                .empty()
+                .append($('<span/>', { 'class': 'ancestor-vertical-name', text: parts[0] }))
+                .append($('<span/>', { 'class': 'ancestor-vertical-name', text: parts[1] }));
+        });
+    }
+
+    function renderFamilyTree() {
+        var $panel = $('#genealogy-panel-paternal');
+        var $content = ensureGenealogyTreeContent(cloneTemplate('genealogy-tree-family-template'));
+
+        if (!$panel.length || !$content) {
             return;
         }
 
-        $maternalPanel.empty().append($paternalBody.clone());
-        initGenealogyTree($maternalPanel.find('.genealogy-tree'));
+        $panel.empty().append($content);
+        initGenealogyTree($panel.find('.genealogy-tree').first());
+    }
+
+    function renderAncestorTree() {
+        var $panel = $('#genealogy-panel-maternal');
+        var $content = ensureGenealogyTreeContent(cloneTemplate('genealogy-tree-ancestor-template'));
+
+        if (!$panel.length || !$content) {
+            return;
+        }
+
+        $content.find('img').remove();
+        $content.find('.genealogy-tree').addClass('genealogy-tree--ancestor');
+        formatAncestorCouples($content);
+
+        $panel.empty().append($content);
+        initGenealogyTree($panel.find('.genealogy-tree').first());
     }
 
     function setGenealogyPanel(panelName) {
@@ -58,11 +121,8 @@ $(function () {
         $infoTrigger.attr('aria-expanded', 'false');
     }
 
-    $('.genealogy-tree').each(function () {
-        initGenealogyTree($(this));
-    });
-
-    syncMaternalTree();
+    renderFamilyTree();
+    renderAncestorTree();
 
     $(document).on('click', '.genealogy-tree li', function (event) {
         var $children = $(this).children('ul');
