@@ -49,6 +49,18 @@ $(function () {
             .removeClass('active');
     }
 
+    function showAllTreeDescendants($node) {
+        $node.find('ul').each(function () {
+            showTreeChildren($(this));
+        });
+    }
+
+    function hideAllTreeDescendants($node) {
+        $node.find('ul').each(function () {
+            hideTreeChildren($(this));
+        });
+    }
+
     function ensureGenealogyTreeContent($content) {
         if (!$content || !$content.length) {
             return null;
@@ -142,19 +154,30 @@ $(function () {
     renderFamilyTree();
     renderAncestorTree();
 
-    $(document).on('click', '.genealogy-tree li', function (event) {
-        var $children = $(this).children('ul');
+    $(document).on('click', '.genealogy-tree li > a', function (event) {
+        var $node = $(this).closest('li');
+        var $children = $node.children('ul');
+        var isTopLevelNode = $node.parent('ul').parent('.genealogy-tree').length > 0;
 
         if (!$children.length) {
             return;
         }
 
-        if ($children.is(':visible')) {
-            hideTreeChildren($children);
+        if (isTopLevelNode) {
+            if ($children.is(':visible')) {
+                hideAllTreeDescendants($node);
+            } else {
+                showAllTreeDescendants($node);
+            }
         } else {
-            showTreeChildren($children);
+            if ($children.is(':visible')) {
+                hideTreeChildren($children);
+            } else {
+                showTreeChildren($children);
+            }
         }
 
+        event.preventDefault();
         event.stopPropagation();
     });
 
