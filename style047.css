@@ -404,13 +404,28 @@
 }
 
 .genealogy-panel .genealogy-body {
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: auto;
+    margin-right: auto;
     padding-bottom: 40px;
 }
 
 .genealogy-panel[hidden] {
     display: none !important;
+}
+
+@media (min-width: 992px) {
+    #about.section {
+        padding-top: 0;
+    }
+
+    #about.about .box {
+        margin-top: 0 !important;
+    }
+
+    #about.pp-section.pp-table.active .pp-tableCell {
+        vertical-align: top !important;
+        padding-top: 0 !important;
+    }
 }
 
 .timeline-container {
@@ -541,7 +556,7 @@
         min-width: max-content;
         max-width: none;
         padding: 8px 24px 24px;
-        justify-content: flex-start;
+        justify-content: center;
         align-items: flex-start;
     }
 

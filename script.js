@@ -17,6 +17,22 @@ $(function () {
         $tree.find('ul.active').hide();
     }
 
+    function centerGenealogyBody($body) {
+        var el = $body && $body.length ? $body.get(0) : null;
+        if (!el) {
+            return;
+        }
+
+        requestAnimationFrame(function () {
+            var maxScrollLeft = el.scrollWidth - el.clientWidth;
+            if (maxScrollLeft <= 0) {
+                return;
+            }
+
+            el.scrollLeft = Math.max(0, Math.floor(maxScrollLeft / 2));
+        });
+    }
+
     function showTreeChildren($children) {
         $children
             .stop(true, true)
@@ -81,6 +97,7 @@ $(function () {
 
         $panel.empty().append($content);
         initGenealogyTree($panel.find('.genealogy-tree').first());
+        centerGenealogyBody($panel.find('.genealogy-body').first());
     }
 
     function renderAncestorTree() {
@@ -97,6 +114,7 @@ $(function () {
 
         $panel.empty().append($content);
         initGenealogyTree($panel.find('.genealogy-tree').first());
+        centerGenealogyBody($panel.find('.genealogy-body').first());
     }
 
     function setGenealogyPanel(panelName) {
