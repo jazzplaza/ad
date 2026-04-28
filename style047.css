@@ -22,7 +22,7 @@
 /*----------------genealogy-tree----------*/
 .genealogy-body{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     white-space: nowrap;
     overflow-x: auto;
     overflow-y: visible;
@@ -404,8 +404,8 @@
 }
 
 .genealogy-panel .genealogy-body {
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0;
+    margin-right: 0;
     padding-bottom: 40px;
 }
 
