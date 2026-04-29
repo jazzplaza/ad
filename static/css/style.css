@@ -103,12 +103,12 @@ section{padding: 0;}
 .text-light-black {color: #232728;}
 
 /* Background color */
-.bg-green {background: #353d31;}
+.bg-green {background: #353d31e8;}
 .bg-pink {background: #136062c9;}
 .bg-yellow {background: #f7961eb0;}
 .bg-gray {background: #999999;}
-.text-light-black {background: #232728;}
-.bg-blue {background: #637a91;}
+.text-light-black {background: #232728a6;}
+.bg-blue {background: #266eb5b3;}
 .bg-red {background: #790707;}
 .bg-transparent {background: transparent;}
 
@@ -748,10 +748,14 @@ section{padding: 0;}
 
 /* ===================================
     Expand Nav bar & body Shrink
-====================================== */
+ ====================================== */
 
 .expand_nav{
     left:0;
+}
+
+.side_nav.expand_nav{
+    width:20%;
 }
 
 .close_nav{
