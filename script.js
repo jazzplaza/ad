@@ -49,6 +49,41 @@ $(function () {
             .removeClass('active');
     }
 
+    function keepGenealogyNodeCentered($node) {
+        var nodeEl = $node && $node.length ? $node.get(0) : null;
+        if (!nodeEl) {
+            return;
+        }
+
+        var $body = $node.closest('.genealogy-body');
+        var bodyEl = $body.length ? $body.get(0) : null;
+        if (!bodyEl) {
+            return;
+        }
+
+        function centerOnce() {
+            var bodyRect = bodyEl.getBoundingClientRect();
+            var nodeRect = nodeEl.getBoundingClientRect();
+
+            var bodyCenter = bodyRect.left + bodyRect.width / 2;
+            var nodeCenter = nodeRect.left + nodeRect.width / 2;
+            var delta = nodeCenter - bodyCenter;
+
+            if (!Number.isFinite(delta) || Math.abs(delta) < 1) {
+                return;
+            }
+
+            bodyEl.scrollLeft += delta;
+        }
+
+        requestAnimationFrame(function () {
+            centerOnce();
+            setTimeout(function () {
+                requestAnimationFrame(centerOnce);
+            }, 220);
+        });
+    }
+
     function showAllTreeDescendants($node) {
         $node.find('ul').each(function () {
             showTreeChildren($(this));
@@ -177,6 +212,7 @@ $(function () {
             }
         }
 
+        keepGenealogyNodeCentered($node);
         event.preventDefault();
         event.stopPropagation();
     });
