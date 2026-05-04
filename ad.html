@@ -42,18 +42,39 @@
 </noscript>
 <div class="contact-icons">
     <!-- Facebook 訊息 -->
-    <a href="https://m.me/awesomebobi" target="_blank" class="icon fb-icon">
+    <a href="https://m.me/awesomebobi" target="_blank" class="icon fb-icon" data-tooltip="透過FB聯繫">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png" alt="Facebook Message">
     </a>
     <!-- Email -->
-    <a href="mailto:jazzplaza@gmail.com" class="icon email-icon">
+    <a href="mailto:jazzplaza@gmail.com" class="icon email-icon" data-tooltip="Email聯繫">
         <img src="https://cdn4.iconfinder.com/data/icons/social-media-logos-6/512/112-gmail_email_mail-512.png" alt="Email">
     </a>
     <!-- Genealogy Info -->
-    <button type="button" class="icon info-icon" id="genealogy-info-trigger" aria-haspopup="dialog" aria-controls="genealogy-info-modal" aria-expanded="false">
+    <button type="button" class="icon info-icon" id="genealogy-info-trigger" aria-haspopup="dialog" aria-controls="genealogy-info-modal" aria-expanded="false" data-tooltip="製作須知">
         <span class="info-icon-badge" aria-hidden="true"><i class="las la-info"></i></span>
         <span class="sr-only">族譜查詢說明</span>
     </button>
+    <!-- YouTube Audio -->
+    <button type="button" class="icon yt-audio-icon" id="yt-audio-trigger" aria-pressed="false" aria-label="播放音效" data-tooltip="聽咱的故事">
+        <i class="lab la-youtube" aria-hidden="true"></i>
+    </button>
+</div>
+
+<!-- Hidden YouTube audio player (for sound only) -->
+<div class="yt-audio-player" aria-hidden="true">
+    <div id="yt-audio-player"></div>
+</div>
+
+<!-- Bottom audio timeline (shows only while playing) -->
+<div class="yt-audio-bar" id="yt-audio-bar" hidden>
+    <button type="button" class="yt-audio-bar__btn" id="yt-audio-bar-toggle" aria-label="停止播放">
+        <i class="fa fa-stop" aria-hidden="true"></i>
+    </button>
+    <div class="yt-audio-bar__meta">
+        <div class="yt-audio-bar__title alt-font" id="yt-audio-bar-title">音源播放中</div>
+        <div class="yt-audio-bar__time alt-font"><span id="yt-audio-bar-current">0:00</span> / <span id="yt-audio-bar-duration">0:00</span></div>
+    </div>
+    <input class="yt-audio-bar__range" id="yt-audio-bar-range" type="range" min="0" max="1000" value="0" step="1" aria-label="播放進度">
 </div>
 
 <div class="info-modal" id="genealogy-info-modal" role="dialog" aria-modal="true" aria-labelledby="genealogy-info-title" hidden>
@@ -725,11 +746,15 @@
     <section class="section slide6 blog-bg" id="team">
         <div class="bg-overlay bg-yellow opacity-8"></div>
         <div class="container expand-container">
-            <div class="row align-items-center section-heading">
-                <div class="col-12 col-md-6 main-heading section5left wow" data-wow-delay=".8s">
-                    <h2 class="main-font"><img src="static/image/title_01.png" width="250px"> <span class="d-block"></span></h2>
+            <div class="row align-items-start section-template-row">
+                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+                    <h2 class="main-font section-template-title-img">
+                        <img src="static/image/title_01.png" width="250px" alt="好味道">
+                    </h2>
+                    <p class="section-template-subtitle alt-font">把回憶的味道留在這裡，分享每一段家的日常。</p>
+                    <a href="#portfolio" class="btn btn-medium btn-rounded btn-trans text-capitalize section-template-btn">照片回味</a>
                 </div>
-                <div class="col-12 col-md-6 section5right wow" data-wow-delay=".8s">
+                <div class="col-12 col-lg-8 section-template-content wow" data-wow-delay=".8s">
                     <div class="owl-testimonial owl-carousel">
                         <!-- Item 1 -->
                         <div class="item">
@@ -787,13 +812,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                         </div>
                     </div>
                 </div>
             </div>
 
             <!--Team-->
-            <div class="row team-fade wow" data-wow-delay=".8s">
+            <div class="row team-fade wow section-template-secondary" data-wow-delay=".8s">
                 <div class="col-sm-12">
                     <div id="team-slider" class="owl-carousel owl-theme wow fadeInUp">
                         <!--Team Item-->
@@ -867,253 +892,71 @@
     <section class="section slide4 portfolio-bg" id="portfolio">
         <div class="bg-overlay text-light-black opacity-8"></div>
         <div class="container">
-            <div class="row align-items-center section-heading">
-                <div class="col-12 col-md-6 main-heading section4left wow" data-wow-delay=".8s">
-                    <h2 class="main-font"><img src="static/image/title_02.png" width="250px" > <span class="d-block"></span></h2>
+            <div class="row align-items-start section-template-row">
+                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+                    <h2 class="main-font section-template-title-img">
+                        <img src="static/image/title_02.png" width="250px" alt="照片回味">
+                    </h2>
+                    <p class="section-template-subtitle alt-font">每一張照片都是一次回家，留住笑聲與相聚的溫度。</p>
+                    <a href="#blog" class="btn btn-medium btn-rounded btn-trans text-capitalize section-template-btn">影片回味</a>
                 </div>
-                <div class="col-12 col-md-6 section4right wow" data-wow-delay=".8s">
-                    <div class="row my-4 my-md-0">
-                        
-                        
-                    </div>
-                </div>
-            </div>
+                <div class="col-12 col-lg-8 section-template-content wow" data-wow-delay=".8s">
             <!-- Portfolio -->
             <div class="row portfolio-fade wow" data-wow-delay=".8s">
                 <div class="col-sm-12">
-                    <div class="team-classic owl-team owl-carousel text-center">
-                        <!-- Item 1 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/2022.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-1.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2022年初三聚餐-台中品虹橋</h5>
+                    <div class="portfolio-main">
+                        <a class="portfolio-main__link" href="./img/2022.jpg" data-fancybox="portfolio-images" data-caption="2022年初三聚餐-台中品虹橋">
+                            <div class="portfolio-main__frame">
+                                <img class="portfolio-main__img" src="static/picture/portfolio-img-1.jpg" alt="2022年初三聚餐-台中品虹橋">
+                                <div class="portfolio-main__overlay" aria-hidden="true">
+                                    <div class="portfolio-main__icon"><i class="fa fa-plus"></i></div>
+                                    <div class="portfolio-main__hint alt-font">原圖</div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Item 2 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/2021.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-2.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2021年過年聚餐-淺田屋</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 3 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/2017.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-3.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2017過年聚餐</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 4 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="static/picture/portfolio-img-4.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-4.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2016過年聚餐</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 5 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/2015.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-5.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2015孫女婚禮</h5>
-                                </div>
-                            </div>
-                        </div>     
-                        <!-- Item 6 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="static/picture/201902.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-6.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase">201902聚餐</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 7 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="static/picture/201708.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-7.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase">201708聚餐</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 8 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="static/picture/2016.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-8.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase">2016聚餐</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 9 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="static/picture/P1030504.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-9.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase">20220711卦山月圓</h5>
-                                </div>
-                            </div>
-                        </div>                            
+                        </a>
+                        <div class="portfolio-main__caption text-yellow main-font">2022年初三聚餐-台中品虹橋</div>
                     </div>
-                    <a class="circle ini-customPrevBtn" id="team-circle-left">
-                        <i class="lni-chevron-left"></i>
+                </div>
+            </div>
+            <div class="portfolio-thumbs" aria-label="更多照片縮圖">
+                <button type="button" class="portfolio-thumbs__nav portfolio-thumbs__nav--prev" aria-label="上一張縮圖">
+                    <i class="lni-chevron-left"></i>
+                </button>
+                <div class="portfolio-thumbs__viewport">
+                    <div class="portfolio-thumbs__track">
+                    <a class="portfolio-thumbs__item is-active" href="./img/2022.jpg" data-thumb="static/picture/portfolio-img-1.jpg" data-caption="2022年初三聚餐-台中品虹橋" aria-label="2022">
+                        <img src="static/picture/portfolio-img-1.jpg" alt="2022">
                     </a>
-                    <a class="circle ini-customNextBtn" id="team-circle-right">
-                        <i class="lni-chevron-right"></i>
+                    <a class="portfolio-thumbs__item" href="./img/2021.jpg" data-thumb="static/picture/portfolio-img-2.jpg" data-caption="2021年過年聚餐-淺田屋" aria-label="2021">
+                        <img src="static/picture/portfolio-img-2.jpg" alt="2021">
                     </a>
+                    <a class="portfolio-thumbs__item" href="./img/2017.jpg" data-thumb="static/picture/portfolio-img-3.jpg" data-caption="2017年聚餐" aria-label="2017">
+                        <img src="static/picture/portfolio-img-3.jpg" alt="2017">
+                    </a>
+                    <a class="portfolio-thumbs__item" href="static/picture/portfolio-img-4.jpg" data-thumb="static/picture/portfolio-img-4.jpg" data-caption="2016聚餐" aria-label="2016">
+                        <img src="static/picture/portfolio-img-4.jpg" alt="2016">
+                    </a>
+                    <a class="portfolio-thumbs__item" href="./img/2015.jpg" data-thumb="static/picture/portfolio-img-5.jpg" data-caption="2015聚餐" aria-label="2015">
+                        <img src="static/picture/portfolio-img-5.jpg" alt="2015">
+                    </a>
+                    <a class="portfolio-thumbs__item" href="static/picture/201902.jpg" data-thumb="static/picture/portfolio-img-6.jpg" data-caption="201902聚餐" aria-label="2019-02">
+                        <img src="static/picture/portfolio-img-6.jpg" alt="2019-02">
+                    </a>
+                    <a class="portfolio-thumbs__item" href="static/picture/201708.jpg" data-thumb="static/picture/portfolio-img-7.jpg" data-caption="201708聚餐" aria-label="2017-08">
+                        <img src="static/picture/portfolio-img-7.jpg" alt="2017-08">
+                    </a>
+                    <a class="portfolio-thumbs__item" href="static/picture/2016.jpg" data-thumb="static/picture/portfolio-img-8.jpg" data-caption="2016聚餐" aria-label="2016">
+                        <img src="static/picture/portfolio-img-8.jpg" alt="2016">
+                    </a>
+                    <a class="portfolio-thumbs__item" href="static/picture/P1030504.jpg" data-thumb="static/picture/portfolio-img-9.jpg" data-caption="20220711卦山月圓" aria-label="P1030504">
+                        <img src="static/picture/portfolio-img-9.jpg" alt="P1030504">
+                    </a>
+                    </div>
+                </div>
+                <button type="button" class="portfolio-thumbs__nav portfolio-thumbs__nav--next" aria-label="下一張縮圖">
+                    <i class="lni-chevron-right"></i>
+                </button>
+            </div>
                 </div>
             </div>
         </div>
@@ -1124,36 +967,93 @@
     <section class="section slide6 blog-bg" id="blog">
         <div class="bg-overlay bg-blue opacity-8"></div>
         <div class="container expand-container">
-            <div class="row align-items-center section-heading">
-                <div class="col-12 col-md-6 main-heading section5left wow" data-wow-delay=".8s">
-                    <h2 class="main-font"><img src="static/image/title_03.png" width="250px" ><span class="d-block"></span> <span class="d-block"></span></h2>
-                </div>                
-            </div>
-            <!--Row-->
-            <div class="row">
-                <!--News Item-->
-                <div class="col-12 col-md-6 blog-left wow" data-wow-delay=".6s">
-                    <div class="news-item">
-                        <div class="image-holder-gallary">
-                        <div class="tv">
-                            <iframe src="https://www.youtube.com/embed/tcQ9CFvGI28" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
-                        </div></div>
-                        <div class="news-text-box">
-                            <a href="#"><h4 class="news-title main-font">2020日常生活</h4></a>
-                            <p class="para alt-font">Jan 27, 2020 /</p>
+            <div class="row align-items-start section-template-row">
+                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+                    <h2 class="main-font section-template-title-img">
+                        <img src="static/image/title_03.png" width="250px" alt="影片回味">
+                    </h2>
+                    <p class="section-template-subtitle alt-font">把影像收藏成記憶，回放那些當下的感動與陪伴。</p>
+                    <a href="#contact" class="btn btn-medium btn-rounded btn-trans text-capitalize section-template-btn">訴說家族故事</a>
+                </div>
+                <div class="col-12 col-lg-8 section-template-content">
+                    <div class="owl-videos owl-carousel">
+                        <div class="item">
+                            <div class="news-item">
+                                <div class="image-holder-gallary">
+                                    <div class="tv">
+                                        <iframe src="https://www.youtube.com/embed/tcQ9CFvGI28" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
+                                    </div>
+                                </div>
+                                <div class="news-text-box">
+                                    <a href="#"><h4 class="news-title main-font">2020日常生活</h4></a>
+                                    <p class="para alt-font">Jan 27, 2020 /</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>                
-                <!--News Item-->
-                <div class="col-12 col-md-6 blog-right wow" data-wow-delay=".6s">
-                    <div class="news-item">
-                        <div class="image-holder-gallary">
-                            <div class="tv">
-                            <iframe src="https://www.youtube.com/embed/Qpndaw-p8ok" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
-                        </div></div>
-                        <div class="news-text-box">
-                            <a href="#"><h4 class="news-title main-font">2015日常生活</h4></a>
-                            <p class="para alt-font">Dec 22, 2015 /</p>
+                        <div class="item">
+                            <div class="news-item">
+                                <div class="image-holder-gallary">
+                                    <div class="tv">
+                                        <iframe src="https://www.youtube.com/embed/Qpndaw-p8ok" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
+                                    </div>
+                                </div>
+                                <div class="news-text-box">
+                                    <a href="#"><h4 class="news-title main-font">2015日常生活</h4></a>
+                                    <p class="para alt-font">Dec 22, 2015 /</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="news-item">
+                                <div class="image-holder-gallary">
+                                    <div class="tv">
+                                        <iframe src="https://www.youtube.com/embed/NLC_Ojr9J_A" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
+                                    </div>
+                                </div>
+                                <div class="news-text-box">
+                                    <a href="#"><h4 class="news-title main-font">2020慶生會</h4></a>
+                                    <p class="para alt-font">Jan 27, 2020 /</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="news-item">
+                                <div class="image-holder-gallary">
+                                    <div class="tv">
+                                        <iframe src="https://www.youtube.com/embed/8hg0Rml1qmk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
+                                    </div>
+                                </div>
+                                <div class="news-text-box">
+                                    <a href="#"><h4 class="news-title main-font">舞棍阿公</h4></a>
+                                    <p class="para alt-font">Dec 22, 2015 /</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="news-item">
+                                <div class="image-holder-gallary">
+                                    <div class="tv">
+                                        <iframe src="https://www.youtube.com/embed/SNkt7GjmBEU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
+                                    </div>
+                                </div>
+                                <div class="news-text-box">
+                                    <a href="#"><h4 class="news-title main-font">家族片段</h4></a>
+                                    <p class="para alt-font">/</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="news-item">
+                                <div class="image-holder-gallary">
+                                    <div class="tv">
+                                        <iframe src="https://www.youtube.com/embed/tcQ9CFvGI28" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
+                                    </div>
+                                </div>
+                                <div class="news-text-box">
+                                    <a href="#"><h4 class="news-title main-font">日常生活（2）</h4></a>
+                                    <p class="para alt-font">/</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1165,18 +1065,17 @@
 <!-- START CONTACT -->
     <section class="section slide5 contact-sec" id="contact">
         <div class="bg-overlay bg-green opacity-9"></div>
-        
-            <div class="row">
-                <div class="col-12" data-wow-delay=".8s">
-                    <div class="container">                
-                    <div class="contact-us-contact">
-                        <div class="contact-text text-center deep-black play-fair">
-                         <div class="col-12 wow text-center text-lg-left d-flex align-items-center" data-wow-delay=".8s">
-                  <div class="contact-details wow fadeInRight">
-                         <h4 class="heading main-font">訴說家族故事</h4>
-                         <p class="text alt-font">祖父16歲那年，考上了合作金庫的職員，開始了自己的人生新篇章。他勤勤懇懇地工作，很快就成為了合作金庫的一名優秀員工。
+        <div class="container expand-container">
+            <div class="row align-items-start section-template-row">
+                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+                    <h2 class="section-template-title main-font">訴說家族故事</h2>
+                    <p class="section-template-subtitle alt-font">把記憶整理成故事，讓每一代都能讀懂家的起點。</p>                    
+                </div>
+                <div class="col-12 col-lg-8 section-template-content wow" data-wow-delay=".8s">
+                    <div class="contact-details wow fadeInRight">
+                        <p class="text alt-font">祖父16歲那年，考上了合作金庫的職員，開始了自己的人生新篇章。他勤勤懇懇地工作，很快就成為了合作金庫的一名優秀員工。
 
- 在工作之餘，祖父也努力投資理財，希望能積累財富。他買了一些房產，也購買了一些土地。祖父的努力沒有白費，他的財富逐漸累積起來。
+在工作之餘，祖父也努力投資理財，希望能積累財富。他買了一些房產，也購買了一些土地。祖父的努力沒有白費，他的財富逐漸累積起來。
 
 祖父25歲那年，娶了一個賢惠的妻子。妻子是個勤勞能幹的女人，她非常支持祖父的事業。祖父和妻子一起努力，生了四個孩子。
 
@@ -1187,47 +1086,44 @@
 如今，祖父已經年過八旬，但他仍然精神矍鑠。他很滿意自己的一生，他實現了自己的願望，不再窮困，也讓子孫後代過上了幸福的生活。
 
 祖父的故事告訴我們，只要努力奮鬥，就一定能改變命運。也讓我們更加珍惜現在的生活，努力為自己的未來打拼。</p>
-                        <div class="timeline-container">
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="circle_"><img src="static/image/01.png" alt="Event 1"></div>
-                <p>1929-定居建寶庄</p>
-            </div>
-            <div class="timeline-item">
-                <div class="circle_"><img src="static/image/02.png" alt="Event 2"></div>
-                <p>1940-購地自建祖厝</p>
-            </div>
-            <div class="timeline-item">
-                <div class="circle_"><img src="static/image/03.png" alt="Event 3"></div>
-                <p>1950-農務轉移釋出</p>
-            </div>
-            <div class="timeline-item">
-                <div class="circle_"><img src="static/image/04.png" alt="Event 4"></div>
-                <p>1973-計畫整建購地</p>
-            </div>
-            <div class="timeline-item">
-                <div class="circle_"><img src="static/image/01.png" alt="Event 5"></div>
-                <p>1998-家族返鄉祭祖</p>
-            </div>
-            <div class="timeline-item">
-                <div class="circle_"><img src="static/image/02.png" alt="Event 6"></div>
-                <p>2005-家族國外旅遊</p>
-            </div>
-            <div class="timeline-item">
-                <div class="circle_"><img src="static/image/03.png" alt="Event 7"></div>
-                <p>2025-建構數位族譜</p>
-            </div>
-        </div>
-    </div>
-                        
-                        
                     </div>
                 </div>
-                        </div>  
-                
             </div>
-                
-                
+            <div class="row">
+                <div class="col-12">
+                    <div class="timeline-container">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/01.png" alt="Event 1"></div>
+                                <p>1929-定居建寶庄</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/02.png" alt="Event 2"></div>
+                                <p>1940-購地自建祖厝</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/03.png" alt="Event 3"></div>
+                                <p>1950-農務轉移釋出</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/04.png" alt="Event 4"></div>
+                                <p>1973-計畫整建購地</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/01.png" alt="Event 5"></div>
+                                <p>1998-家族返鄉祭祖</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/02.png" alt="Event 6"></div>
+                                <p>2005-家族國外旅遊</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/03.png" alt="Event 7"></div>
+                                <p>2025-建構數位族譜</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1260,6 +1156,11 @@
 <script defer src="static/js/jquery.pagepiling.min.js"></script>
 <script defer src="static/js/TweenMax.min.js"></script>
 <script defer src="static/js/contact_us.js"></script>
+<script>
+    // Ensure callback exists before YouTube IFrame API loads.
+    window.onYouTubeIframeAPIReady = window.onYouTubeIframeAPIReady || function () {};
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
 <script defer src="static/js/script.js"></script>
 <script type="application/ld+json">
 {
