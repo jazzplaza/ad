@@ -479,6 +479,137 @@ $(".team-classic.owl-team").owlCarousel({
     }
 });
 
+/*===================================
+    Videos Carousel
+====================================== */
+
+$(".owl-videos").owlCarousel({
+    items: 2,
+    margin: 30,
+    dots: false,
+    nav: true,
+    loop: true,
+    autoplay: true,
+    autoplayHoverPause: true,
+    smartSpeed: 600,
+    responsive: {
+        992: {
+            items: 2
+        },
+        600: {
+            items: 1
+        },
+        320: {
+            items: 1
+        },
+    }
+});
+
+/*===================================
+    Portfolio thumbs (3 fixed + arrows)
+====================================== */
+
+(function () {
+    function initThumbs($root) {
+        var $track = $root.find('.portfolio-thumbs__track');
+        var $items = $track.find('.portfolio-thumbs__item');
+        var $prev = $root.find('.portfolio-thumbs__nav--prev');
+        var $next = $root.find('.portfolio-thumbs__nav--next');
+        var $portfolio = $root.closest('#portfolio');
+        var $mainLink = $portfolio.find('.portfolio-main__link').first();
+        var $mainImg = $portfolio.find('.portfolio-main__img').first();
+        var $mainCaption = $portfolio.find('.portfolio-main__caption').first();
+
+        if (!$track.length || $items.length <= 3) {
+            $prev.prop('disabled', true);
+            $next.prop('disabled', true);
+            return;
+        }
+
+        var index = 0;
+
+        function selectItem($item) {
+            if (!$item || !$item.length) {
+                return;
+            }
+
+            $items.removeClass('is-active');
+            $item.addClass('is-active');
+
+            var full = $item.attr('href') || '';
+            var thumb = $item.data('thumb') || $item.find('img').attr('src') || '';
+            var caption = $item.data('caption') || $item.attr('aria-label') || '';
+
+            if ($mainLink.length) {
+                $mainLink.attr('href', full);
+                $mainLink.attr('data-caption', caption);
+            }
+            if ($mainImg.length) {
+                $mainImg.attr('src', thumb);
+                $mainImg.attr('alt', caption);
+            }
+            if ($mainCaption.length) {
+                $mainCaption.text(caption);
+            }
+        }
+
+        function itemStepPx() {
+            var first = $items.get(0);
+            var second = $items.get(1);
+            if (!first || !second) return 0;
+            return Math.round(second.offsetLeft - first.offsetLeft);
+        }
+
+        function maxIndex() {
+            return Math.max(0, $items.length - 3);
+        }
+
+        function render() {
+            var max = maxIndex();
+            if (max === 0) {
+                index = 0;
+            } else if (index < 0) {
+                index = max;
+            } else if (index > max) {
+                index = 0;
+            }
+            var step = itemStepPx();
+            var offset = step * index;
+            $track.get(0).style.setProperty('--thumbs-offset', offset + 'px');
+            $prev.prop('disabled', false);
+            $next.prop('disabled', false);
+        }
+
+        $items.on('click', function (e) {
+            e.preventDefault();
+            selectItem($(this));
+        });
+
+        $prev.on('click', function () {
+            index -= 1;
+            render();
+        });
+
+        $next.on('click', function () {
+            index += 1;
+            render();
+        });
+
+        $(window).on('resize', function () {
+            render();
+        });
+
+        selectItem($items.filter('.is-active').first().length ? $items.filter('.is-active').first() : $items.first());
+        render();
+    }
+
+    $(function () {
+        $('.portfolio-thumbs').each(function () {
+            initThumbs($(this));
+        });
+    });
+})();
+
 // Custom Portfolio OWL
 $('.ini-customNextBtn').click(function () {
     var owl = $('.team-classic.owl-team');
@@ -490,6 +621,171 @@ $('.ini-customPrevBtn').click(function () {
     owl.owlCarousel();
     owl.trigger('prev.owl.carousel', [300]);
 });
+
+/*===================================
+    YouTube audio (contact icons)
+====================================== */
+
+(function () {
+    var VIDEO_ID = 'hI4hugkBi3o';
+    var BAR_TITLE = '音源播放中';
+
+    var player = null;
+    var tick = null;
+    var ready = false;
+
+    function formatTime(seconds) {
+        var s = Math.max(0, Math.floor(seconds || 0));
+        var m = Math.floor(s / 60);
+        var r = s % 60;
+        return m + ':' + (r < 10 ? '0' + r : r);
+    }
+
+    function showBar($bar) {
+        $bar.prop('hidden', false);
+    }
+
+    function hideBar($bar) {
+        $bar.prop('hidden', true);
+    }
+
+    function clearTick() {
+        if (tick) {
+            window.clearInterval(tick);
+            tick = null;
+        }
+    }
+
+    function startTick($range, $current, $duration) {
+        clearTick();
+        tick = window.setInterval(function () {
+            if (!player || typeof player.getDuration !== 'function') return;
+            var dur = player.getDuration() || 0;
+            var cur = player.getCurrentTime ? player.getCurrentTime() : 0;
+            if (dur > 0) {
+                var ratio = cur / dur;
+                $range.val(String(Math.round(ratio * 1000)));
+            } else {
+                $range.val('0');
+            }
+            $current.text(formatTime(cur));
+            $duration.text(formatTime(dur));
+        }, 250);
+    }
+
+    function ensurePlayer() {
+        if (player || !window.YT || !window.YT.Player) return;
+        player = new window.YT.Player('yt-audio-player', {
+            height: '0',
+            width: '0',
+            videoId: VIDEO_ID,
+            playerVars: {
+                autoplay: 0,
+                controls: 0,
+                fs: 0,
+                modestbranding: 1,
+                rel: 0,
+                playsinline: 1,
+                iv_load_policy: 3,
+            },
+            events: {
+                onReady: function () {
+                    ready = true;
+                },
+                onStateChange: function (e) {
+                    if (!e || typeof e.data === 'undefined') return;
+                    // 0 ended, 1 playing, 2 paused
+                    if (e.data === 0) {
+                        // ended => stop UI
+                        $('#yt-audio-trigger').attr('aria-pressed', 'false');
+                        hideBar($('#yt-audio-bar'));
+                        clearTick();
+                    }
+                },
+            },
+        });
+    }
+
+    // Hook YouTube IFrame API ready (chain-safe)
+    var prevReady = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () {
+        try {
+            if (typeof prevReady === 'function') prevReady();
+        } catch (e) {}
+        ensurePlayer();
+    };
+
+    $(function () {
+        var $btn = $('#yt-audio-trigger');
+        var $bar = $('#yt-audio-bar');
+        var $barToggle = $('#yt-audio-bar-toggle');
+        var $range = $('#yt-audio-bar-range');
+        var $current = $('#yt-audio-bar-current');
+        var $duration = $('#yt-audio-bar-duration');
+        var $title = $('#yt-audio-bar-title');
+
+        if ($title.length) $title.text(BAR_TITLE);
+
+        if (!$btn.length || !$bar.length || !$barToggle.length || !$range.length) return;
+
+        function isPlaying() {
+            if (!player || typeof player.getPlayerState !== 'function') return false;
+            return player.getPlayerState() === 1;
+        }
+
+        function play() {
+            ensurePlayer();
+            if (!player || !ready) return;
+            showBar($bar);
+            $btn.attr('aria-pressed', 'true');
+            player.playVideo();
+            startTick($range, $current, $duration);
+        }
+
+        function stop() {
+            if (!player || !ready) {
+                $btn.attr('aria-pressed', 'false');
+                hideBar($bar);
+                clearTick();
+                $range.val('0');
+                $current.text('0:00');
+                $duration.text('0:00');
+                return;
+            }
+            player.stopVideo();
+            $btn.attr('aria-pressed', 'false');
+            hideBar($bar);
+            clearTick();
+            $range.val('0');
+            $current.text('0:00');
+            $duration.text('0:00');
+        }
+
+        $btn.on('click', function () {
+            if (isPlaying()) {
+                stop();
+            } else {
+                play();
+            }
+        });
+
+        $barToggle.on('click', function () {
+            stop();
+        });
+
+        $range.on('input', function () {
+            if (!player || !ready) return;
+            var dur = player.getDuration ? player.getDuration() : 0;
+            if (!dur) return;
+            var value = parseInt($range.val(), 10) || 0;
+            var t = (value / 1000) * dur;
+            player.seekTo(t, true);
+        });
+
+        // If API already loaded before this script ran
+        ensurePlayer();
+    });
+})();
 
 /* ===================================
         Mouse parallax
