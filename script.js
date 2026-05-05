@@ -1,4 +1,4 @@
-$(function () {
+﻿$(function () {
     var $infoModal = $('#genealogy-info-modal');
     var $infoTrigger = $('#genealogy-info-trigger');
 
@@ -172,7 +172,6 @@ $(function () {
 
         return $content;
     }
-
     function formatAncestorCouples($root) {
         $root.find('.member-details h3').each(function () {
             var $title = $(this);
@@ -182,11 +181,16 @@ $(function () {
                 return;
             }
 
+            // Support both half-width & and full-width ＆
             if (rawText.indexOf('&') === -1 && rawText.indexOf('＆') === -1) {
                 return;
             }
 
-            var parts = rawText.split(/[&＆]/).map(function (p) { return p.trim(); }).filter(Boolean);
+            var parts = rawText
+                .split(/[&＆]/)
+                .map(function (p) { return p.trim(); })
+                .filter(Boolean);
+
             if (parts.length !== 2) {
                 return;
             }
@@ -300,3 +304,4 @@ $(function () {
         }
     });
 });
+
