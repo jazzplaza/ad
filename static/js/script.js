@@ -518,6 +518,12 @@ if ($(".owl-videos").length) {
         frame.src = 'https://www.youtube.com/embed/' + videoId;
     }
 
+    function setMainTitle(title) {
+        var el = document.getElementById('video-review-title');
+        if (!el) return;
+        el.textContent = title || '';
+    }
+
     $(function () {
         var $root = $('.video-review');
         if (!$root.length) return;
@@ -525,11 +531,13 @@ if ($(".owl-videos").length) {
         $root.on('click', '.video-review__item', function () {
             var $item = $(this);
             var id = $item.data('videoId');
+            var title = $.trim($item.find('.video-review__label').first().text());
             if (!id) return;
 
             $root.find('.video-review__item').removeClass('is-active');
             $item.addClass('is-active');
             setMainVideo(id);
+            setMainTitle(title);
         });
     });
 })();
