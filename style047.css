@@ -765,6 +765,54 @@
     overflow: hidden;
 }
 
+/* Banner image orbiting dot */
+#home-banner .banner-image {
+    position: relative;
+}
+
+#home-banner .banner-orbit {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 104%;
+    height: 104%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 4;
+    animation: banner-orbit-rotate 18s linear infinite;
+}
+
+#home-banner .banner-orbit::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.18), 0 10px 20px rgba(0, 0, 0, 0.18);
+}
+
+#home-banner .banner-orbit::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 12px;
+    height: 12px;
+    transform: translate(-50%, 50%);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.18), 0 10px 20px rgba(0, 0, 0, 0.18);
+}
+
+@keyframes banner-orbit-rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
 #home-banner .slider-area::before,
 #home-banner .slider-area::after {
     content: "";
