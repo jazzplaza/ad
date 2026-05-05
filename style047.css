@@ -701,7 +701,7 @@
 .portfolio-thumbs__nav {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: 0%;
     border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgba(0, 0, 0, 0.35);
     color: #fff;
@@ -946,8 +946,8 @@
 #home-banner .slider-area::after {
     content: "";
     position: absolute;
-    top: 5%;
-    bottom: 35%;
+    top: 20%;
+    bottom: 50%;
     width: 45vw;
     max-width: 520px;
     pointer-events: none;
@@ -1030,8 +1030,8 @@
 #home-banner .banner-fog::after {
     content: "";
     position: absolute;
-    top: 5%;
-    bottom: 35%;
+    top: 20%;
+    bottom: 50%;
     width: 45vw;
     max-width: 520px;
     pointer-events: none;
