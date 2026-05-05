@@ -483,27 +483,56 @@ $(".team-classic.owl-team").owlCarousel({
     Videos Carousel
 ====================================== */
 
-$(".owl-videos").owlCarousel({
-    items: 2,
-    margin: 30,
-    dots: false,
-    nav: true,
-    loop: true,
-    autoplay: true,
-    autoplayHoverPause: true,
-    smartSpeed: 600,
-    responsive: {
-        992: {
-            items: 2
-        },
-        600: {
-            items: 1
-        },
-        320: {
-            items: 1
-        },
+if ($(".owl-videos").length) {
+    $(".owl-videos").owlCarousel({
+        items: 2,
+        margin: 30,
+        dots: false,
+        nav: true,
+        loop: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        smartSpeed: 600,
+        responsive: {
+            992: {
+                items: 2
+            },
+            600: {
+                items: 1
+            },
+            320: {
+                items: 1
+            },
+        }
+    });
+}
+
+/*===================================
+    Video review (main + right list)
+====================================== */
+
+(function () {
+    function setMainVideo(videoId) {
+        var frame = document.getElementById('video-review-main');
+        if (!frame || !videoId) return;
+        frame.src = 'https://www.youtube.com/embed/' + videoId;
     }
-});
+
+    $(function () {
+        var $root = $('.video-review');
+        if (!$root.length) return;
+
+        $root.on('click', '.video-review__item', function () {
+            var $item = $(this);
+            var id = $item.data('videoId');
+            if (!id) return;
+
+            $root.find('.video-review__item').removeClass('is-active');
+            $item.addClass('is-active');
+            setMainVideo(id);
+        });
+    });
+})();
 
 /*===================================
     Portfolio thumbs (3 fixed + arrows)
