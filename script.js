@@ -49,7 +49,7 @@ $(function () {
             .removeClass('active');
     }
 
-    function keepGenealogyNodeCentered($node) {
+    function keepGenealogyNodeCentered($node, opts) {
         var nodeEl = $node && $node.length ? $node.get(0) : null;
         if (!nodeEl) {
             return;
@@ -61,7 +61,15 @@ $(function () {
             return;
         }
 
-        function centerOnce() {
+        opts = opts || {};
+        var mobileView = window.matchMedia && window.matchMedia('(max-width: 991.98px)').matches;
+        var activeAnim = bodyEl.__genealogyCenterAnim || null;
+        if (activeAnim && typeof cancelAnimationFrame === 'function') {
+            cancelAnimationFrame(activeAnim);
+            bodyEl.__genealogyCenterAnim = null;
+        }
+
+        function computeTargetScrollLeft() {
             var bodyRect = bodyEl.getBoundingClientRect();
             var nodeRect = nodeEl.getBoundingClientRect();
 
@@ -70,18 +78,75 @@ $(function () {
             var delta = nodeCenter - bodyCenter;
 
             if (!Number.isFinite(delta) || Math.abs(delta) < 1) {
+                return null;
+            }
+
+            var maxScroll = Math.max(0, bodyEl.scrollWidth - bodyEl.clientWidth);
+            var next = bodyEl.scrollLeft + delta;
+            return Math.max(0, Math.min(maxScroll, next));
+        }
+
+        function animateScrollTo(target, duration) {
+            if (target == null) {
                 return;
             }
 
-            bodyEl.scrollLeft += delta;
+            if (!mobileView) {
+                bodyEl.scrollLeft = target;
+                return;
+            }
+
+            var start = bodyEl.scrollLeft;
+            var delta = target - start;
+            if (!Number.isFinite(delta) || Math.abs(delta) < 1) {
+                bodyEl.scrollLeft = target;
+                return;
+            }
+
+            duration = duration || 260;
+            var startTs = null;
+
+            function easeInOutCubic(t) {
+                return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            }
+
+            function step(ts) {
+                if (startTs == null) {
+                    startTs = ts;
+                }
+
+                var p = Math.min(1, (ts - startTs) / duration);
+                var eased = easeInOutCubic(p);
+                bodyEl.scrollLeft = start + delta * eased;
+
+                if (p < 1) {
+                    bodyEl.__genealogyCenterAnim = requestAnimationFrame(step);
+                } else {
+                    bodyEl.__genealogyCenterAnim = null;
+                }
+            }
+
+            bodyEl.__genealogyCenterAnim = requestAnimationFrame(step);
         }
 
-        requestAnimationFrame(function () {
-            centerOnce();
-            setTimeout(function () {
-                requestAnimationFrame(centerOnce);
-            }, 220);
-        });
+        function runCentering(retriesLeft) {
+            var target = computeTargetScrollLeft();
+            if (target == null) {
+                if (retriesLeft > 0) {
+                    setTimeout(function () { runCentering(retriesLeft - 1); }, 60);
+                }
+                return;
+            }
+
+            animateScrollTo(target);
+        }
+
+        // Wait until slide animation settles, then center (mobile animates; desktop snaps).
+        setTimeout(function () {
+            requestAnimationFrame(function () {
+                runCentering(8);
+            });
+        }, mobileView ? 220 : 0);
     }
 
     function showAllTreeDescendants($node) {
