@@ -770,8 +770,8 @@
 
 #home-banner .section1left .btn.btn-trans:hover,
 #home-banner .section1left .btn.btn-trans:focus {
-    color: #000 !important;
-    background: #e0b414 !important;
+    color: #ffffff !important;
+    background: #f1c51c !important;
 }
 
 /* Home banner fog (left/right loop horizontal move) */
