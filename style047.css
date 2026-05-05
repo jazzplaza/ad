@@ -776,6 +776,12 @@
     height: 100%;
 }
 
+.video-review__title {
+    margin-top: 10px;
+    font-size: 18px;
+    line-height: 1.25;
+}
+
 .video-review__side {
     display: grid;
     gap: 12px;
