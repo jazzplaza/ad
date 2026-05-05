@@ -318,6 +318,21 @@
     display: none;
 }
 
+/* Contact intro tree image - slow vertical float */
+#contact .story-tree-float {
+    display: block;
+    margin: 25px auto 0 auto;
+    width: 90%;
+    max-width: 420px;
+    animation: story-tree-float 6s ease-in-out infinite;
+    will-change: transform;
+}
+
+@keyframes story-tree-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
 /* Comic speech bubble (testimonials) */
 .speech-bubble {
     position: relative;
