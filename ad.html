@@ -979,84 +979,43 @@
                     <a href="#contact" class="btn btn-medium btn-rounded btn-trans text-capitalize section-template-btn">訴說家族故事</a>
                 </div>
                 <div class="col-12 col-lg-8 section-template-content">
-                    <div class="owl-videos owl-carousel">
-                        <div class="item">
-                            <div class="news-item">
-                                <div class="image-holder-gallary">
-                                    <div class="tv">
-                                        <iframe src="https://www.youtube.com/embed/tcQ9CFvGI28" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
-                                    </div>
-                                </div>
-                                <div class="news-text-box">
-                                    <a href="#"><h4 class="news-title main-font">2020日常生活</h4></a>
-                                    <p class="para alt-font">Jan 27, 2020 /</p>
-                                </div>
+                    <div class="video-review" aria-label="影片回顧">
+                        <div class="video-review__main">
+                            <div class="tv video-review__tv">
+                                <iframe
+                                    class="video video-review__iframe"
+                                    id="video-review-main"
+                                    src="https://www.youtube.com/embed/tcQ9CFvGI28"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="news-item">
-                                <div class="image-holder-gallary">
-                                    <div class="tv">
-                                        <iframe src="https://www.youtube.com/embed/Qpndaw-p8ok" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
-                                    </div>
-                                </div>
-                                <div class="news-text-box">
-                                    <a href="#"><h4 class="news-title main-font">2015日常生活</h4></a>
-                                    <p class="para alt-font">Dec 22, 2015 /</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="news-item">
-                                <div class="image-holder-gallary">
-                                    <div class="tv">
-                                        <iframe src="https://www.youtube.com/embed/NLC_Ojr9J_A" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
-                                    </div>
-                                </div>
-                                <div class="news-text-box">
-                                    <a href="#"><h4 class="news-title main-font">2020慶生會</h4></a>
-                                    <p class="para alt-font">Jan 27, 2020 /</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="news-item">
-                                <div class="image-holder-gallary">
-                                    <div class="tv">
-                                        <iframe src="https://www.youtube.com/embed/8hg0Rml1qmk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
-                                    </div>
-                                </div>
-                                <div class="news-text-box">
-                                    <a href="#"><h4 class="news-title main-font">舞棍阿公</h4></a>
-                                    <p class="para alt-font">Dec 22, 2015 /</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="news-item">
-                                <div class="image-holder-gallary">
-                                    <div class="tv">
-                                        <iframe src="https://www.youtube.com/embed/SNkt7GjmBEU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
-                                    </div>
-                                </div>
-                                <div class="news-text-box">
-                                    <a href="#"><h4 class="news-title main-font">家族片段</h4></a>
-                                    <p class="para alt-font">/</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="news-item">
-                                <div class="image-holder-gallary">
-                                    <div class="tv">
-                                        <iframe src="https://www.youtube.com/embed/tcQ9CFvGI28" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video"></iframe>
-                                    </div>
-                                </div>
-                                <div class="news-text-box">
-                                    <a href="#"><h4 class="news-title main-font">日常生活（2）</h4></a>
-                                    <p class="para alt-font">/</p>
-                                </div>
-                            </div>
+                        <div class="video-review__side" aria-label="其他影片">
+                            <button type="button" class="video-review__item is-active" data-video-id="tcQ9CFvGI28" aria-label="2020日常生活">
+                                <span class="video-review__thumb" style="background-image:url('https://i.ytimg.com/vi/tcQ9CFvGI28/hqdefault.jpg');"></span>
+                                <span class="video-review__label main-font">2020日常生活</span>
+                            </button>
+                            <button type="button" class="video-review__item" data-video-id="Qpndaw-p8ok" aria-label="2015日常生活">
+                                <span class="video-review__thumb" style="background-image:url('https://i.ytimg.com/vi/Qpndaw-p8ok/hqdefault.jpg');"></span>
+                                <span class="video-review__label main-font">2015日常生活</span>
+                            </button>
+                            <button type="button" class="video-review__item" data-video-id="NLC_Ojr9J_A" aria-label="2020慶生會">
+                                <span class="video-review__thumb" style="background-image:url('https://i.ytimg.com/vi/NLC_Ojr9J_A/hqdefault.jpg');"></span>
+                                <span class="video-review__label main-font">2020慶生會</span>
+                            </button>
+                            <button type="button" class="video-review__item" data-video-id="8hg0Rml1qmk" aria-label="舞棍阿公">
+                                <span class="video-review__thumb" style="background-image:url('https://i.ytimg.com/vi/8hg0Rml1qmk/hqdefault.jpg');"></span>
+                                <span class="video-review__label main-font">舞棍阿公</span>
+                            </button>
+                            <button type="button" class="video-review__item" data-video-id="SNkt7GjmBEU" aria-label="家族片段">
+                                <span class="video-review__thumb" style="background-image:url('https://i.ytimg.com/vi/SNkt7GjmBEU/hqdefault.jpg');"></span>
+                                <span class="video-review__label main-font">家族片段</span>
+                            </button>
+                            <button type="button" class="video-review__item" data-video-id="tcQ9CFvGI28" aria-label="日常生活（2）">
+                                <span class="video-review__thumb" style="background-image:url('https://i.ytimg.com/vi/tcQ9CFvGI28/hqdefault.jpg');"></span>
+                                <span class="video-review__label main-font">日常生活（2）</span>
+                            </button>
                         </div>
                     </div>
                 </div>
