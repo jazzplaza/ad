@@ -563,25 +563,65 @@ if ($(".owl-videos").length) {
         var $mainImg = $portfolio.find('.portfolio-main__img').first();
         var $mainCaption = $portfolio.find('.portfolio-main__caption').first();
 
-        if (!$track.length || $items.length <= 3) {
+        var visibleCount = 3;
+
+        if (!$track.length || $items.length <= visibleCount) {
             $prev.prop('disabled', true);
             $next.prop('disabled', true);
             return;
         }
 
-        var index = 0;
+        // Build loop by cloning head/tail items once.
+        if (!$track.data('thumbsLoopReady')) {
+            var originals = $items.toArray();
+            originals.forEach(function (el, i) {
+                el.dataset.originalIndex = String(i);
+            });
 
-        function selectItem($item) {
-            if (!$item || !$item.length) {
-                return;
-            }
+            var cloneCount = Math.min(visibleCount, originals.length);
+            var head = originals.slice(0, cloneCount).map(function (el) {
+                var c = el.cloneNode(true);
+                c.classList.add('is-clone');
+                c.setAttribute('aria-hidden', 'true');
+                c.dataset.originalIndex = el.dataset.originalIndex;
+                return c;
+            });
 
+            var tail = originals.slice(originals.length - cloneCount).map(function (el) {
+                var c = el.cloneNode(true);
+                c.classList.add('is-clone');
+                c.setAttribute('aria-hidden', 'true');
+                c.dataset.originalIndex = el.dataset.originalIndex;
+                return c;
+            });
+
+            // Prepend tail clones, append head clones.
+            tail.forEach(function (c) { $track.get(0).insertBefore(c, $track.get(0).firstChild); });
+            head.forEach(function (c) { $track.get(0).appendChild(c); });
+
+            $track.data('thumbsLoopReady', true);
+        }
+
+        $items = $track.find('.portfolio-thumbs__item');
+        var originalCount = $items.not('.is-clone').length;
+        var cloneCount = Math.min(visibleCount, originalCount);
+
+        // Start at the first original item (after prepended clones).
+        var index = cloneCount;
+
+        function selectOriginal(originalIndex) {
+            if (originalIndex == null) return;
+
+            // Highlight all items (original + clones) that point to the same original index.
             $items.removeClass('is-active');
-            $item.addClass('is-active');
+            $items.filter('[data-original-index="' + originalIndex + '"]').addClass('is-active');
 
-            var full = $item.attr('href') || '';
-            var thumb = $item.data('thumb') || $item.find('img').attr('src') || '';
-            var caption = $item.data('caption') || $item.attr('aria-label') || '';
+            var $original = $items.not('.is-clone').filter('[data-original-index="' + originalIndex + '"]').first();
+            if (!$original.length) return;
+
+            var full = $original.attr('href') || '';
+            var thumb = $original.data('thumb') || $original.find('img').attr('src') || '';
+            var caption = $original.data('caption') || $original.attr('aria-label') || '';
 
             if ($mainLink.length) {
                 $mainLink.attr('href', full);
@@ -603,47 +643,65 @@ if ($(".owl-videos").length) {
             return Math.round(second.offsetLeft - first.offsetLeft);
         }
 
-        function maxIndex() {
-            return Math.max(0, $items.length - 3);
+        function setTransition(enabled) {
+            var el = $track.get(0);
+            if (!el) return;
+            el.style.transition = enabled ? 'transform 350ms ease' : 'none';
         }
 
-        function render() {
-            var max = maxIndex();
-            if (max === 0) {
-                index = 0;
-            } else if (index < 0) {
-                index = max;
-            } else if (index > max) {
-                index = 0;
-            }
+        function render(animate) {
+            setTransition(animate !== false);
             var step = itemStepPx();
             var offset = step * index;
             $track.get(0).style.setProperty('--thumbs-offset', offset + 'px');
             $prev.prop('disabled', false);
             $next.prop('disabled', false);
+
+            // Seamless jump when reaching clone zones.
+            if (index < cloneCount) {
+                setTimeout(function () {
+                    index += originalCount;
+                    render(false);
+                }, 360);
+            } else if (index >= cloneCount + originalCount) {
+                setTimeout(function () {
+                    index -= originalCount;
+                    render(false);
+                }, 360);
+            }
         }
 
         $items.on('click', function (e) {
             e.preventDefault();
-            selectItem($(this));
+            var originalIndex = this.dataset.originalIndex;
+            if (typeof originalIndex === 'undefined') return;
+            selectOriginal(originalIndex);
+            index = cloneCount + (parseInt(originalIndex, 10) || 0);
+            render(true);
         });
 
         $prev.on('click', function () {
             index -= 1;
-            render();
+            render(true);
         });
 
         $next.on('click', function () {
             index += 1;
-            render();
+            render(true);
         });
 
         $(window).on('resize', function () {
-            render();
+            render(false);
         });
 
-        selectItem($items.filter('.is-active').first().length ? $items.filter('.is-active').first() : $items.first());
-        render();
+        var $initial = $items.not('.is-clone').filter('.is-active').first();
+        if (!$initial.length) {
+            $initial = $items.not('.is-clone').first();
+        }
+        var initIdx = $initial.get(0) ? ($initial.get(0).dataset.originalIndex || '0') : '0';
+        selectOriginal(initIdx);
+        index = cloneCount + (parseInt(initIdx, 10) || 0);
+        render(false);
     }
 
     $(function () {
