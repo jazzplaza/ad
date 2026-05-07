@@ -660,6 +660,7 @@
     padding: 10px 2px;
     will-change: transform;
     transform: translateX(calc(var(--thumbs-offset, 0px) * -1));
+    transition: transform 350ms ease;
 }
 
 .portfolio-thumbs__item {
