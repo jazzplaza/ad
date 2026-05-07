@@ -524,20 +524,35 @@ if ($(".owl-videos").length) {
         el.textContent = title || '';
     }
 
+    function setMainComments(text) {
+        var el = document.getElementById('video-review-comments');
+        if (!el) return;
+        el.textContent = text && String(text).trim() ? String(text).trim() : '（尚無留言）';
+    }
+
     $(function () {
         var $root = $('.video-review');
         if (!$root.length) return;
+
+        // Init from active item
+        var $active = $root.find('.video-review__item.is-active').first();
+        if ($active.length) {
+            setMainTitle($.trim($active.find('.video-review__label').first().text()));
+            setMainComments($active.data('comment'));
+        }
 
         $root.on('click', '.video-review__item', function () {
             var $item = $(this);
             var id = $item.data('videoId');
             var title = $.trim($item.find('.video-review__label').first().text());
+            var comment = $item.data('comment');
             if (!id) return;
 
             $root.find('.video-review__item').removeClass('is-active');
             $item.addClass('is-active');
             setMainVideo(id);
             setMainTitle(title);
+            setMainComments(comment);
         });
     });
 })();
