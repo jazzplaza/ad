@@ -758,6 +758,7 @@
     grid-template-columns: 1fr 240px;
     gap: 18px;
     align-items: stretch;
+    position: relative;
 }
 
 .video-review__tv {
@@ -780,6 +781,14 @@
     margin-top: 10px;
     font-size: 18px;
     line-height: 1.25;
+}
+
+.video-review__comments {
+    margin-top: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-line;
 }
 
 .video-review__side {
