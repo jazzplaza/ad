@@ -579,6 +579,32 @@
     height: auto;
 }
 
+.title-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.title-img--banner {
+    max-width: clamp(220px, 34vw, 370px);
+}
+
+.title-img--section {
+    max-width: clamp(144px, 19.2vw, 208px);
+}
+
+@media (min-width: 992px) {
+    .title-img--banner {
+        transform: scale(1.1);
+        transform-origin: left top;
+    }
+
+    .title-img--section {
+        transform: scale(0.8);
+        transform-origin: left top;
+    }
+}
+
 .section-template-subtitle {
     font-size: 16px;
     line-height: 1.6;
