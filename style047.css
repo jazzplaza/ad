@@ -591,6 +591,21 @@
     margin-top: 4px;
 }
 
+.btn.section-template-btn.btn-trans {
+    color: #ffffff !important;
+    border-color: #fff !important;
+    background-color: transparent !important;
+    background-image: url("static/image/bbg.jpg") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+.btn.section-template-btn.btn-trans:hover,
+.btn.section-template-btn.btn-trans:focus {
+    filter: brightness(1.05);
+}
+
 .section-template-content {
     padding-top: 6px;
 }
@@ -883,13 +898,17 @@
 #home-banner .section1left .btn.btn-trans {
     color: #ffffff !important;
     border-color: #fff !important;
-    background: #c7841f !important;
+    background-color: transparent !important;
+    background-image: url("static/image/bbg.jpg") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
 }
 
 #home-banner .section1left .btn.btn-trans:hover,
 #home-banner .section1left .btn.btn-trans:focus {
     color: #ffffff !important;
-    background: #f1c51c !important;
+    filter: brightness(1.05);
 }
 
 /* Home banner fog (left/right loop horizontal move) */
