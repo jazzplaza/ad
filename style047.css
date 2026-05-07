@@ -595,8 +595,7 @@
 
 @media (min-width: 992px) {
     .title-img--banner {
-        transform: scale(1.1);
-        transform-origin: left top;
+        max-width: clamp(293px, 45.2vw, 493px);
     }
 
     .title-img--section {
