@@ -250,7 +250,57 @@
         var $rootChildren = $rootLi.children('ul');
         var expanded = $rootChildren.length ? $rootChildren.is(':visible') : false;
         $hint.toggleClass('is-hidden', expanded);
+
+        // Position hint midway between the root node (e.g. 邱阿公&黃阿嬤) and the viewport bottom (desktop + iPad only).
+        var hintEl = $hint.get(0);
+        if (!hintEl) return;
+
+        if (expanded) {
+            hintEl.style.removeProperty('--tree-open-hint-top');
+            hintEl.style.top = '';
+            hintEl.style.bottom = '10px';
+            return;
+        }
+
+        if (window.matchMedia && window.matchMedia('(min-width: 768px)').matches) {
+            var wrapEl = document.querySelector('#about .genealogy-panel-wrap');
+            var firstNodeEl = $rootLi.find('> a').get(0) || $rootLi.get(0);
+            if (!wrapEl || !firstNodeEl) return;
+
+            var wrapRect = wrapEl.getBoundingClientRect();
+            var firstRect = firstNodeEl.getBoundingClientRect();
+
+            // Convert viewport Y to wrap-local Y by subtracting wrapRect.top.
+            var start = Math.max(0, firstRect.bottom - wrapRect.top);
+            var viewportBottomLocal = Math.max(start, window.innerHeight - wrapRect.top);
+            var mid = start + (viewportBottomLocal - start) / 2;
+
+            // Clamp so the hint is fully visible inside the wrap (wrap has overflow hidden).
+            var hintRect = hintEl.getBoundingClientRect();
+            var hintHeight = hintRect && hintRect.height ? hintRect.height : 0;
+            if (hintHeight > 0) {
+                var half = hintHeight / 2;
+                var maxY = Math.max(half, wrapRect.height - half);
+                mid = Math.max(half, Math.min(maxY, mid));
+            }
+
+            hintEl.style.setProperty('--tree-open-hint-top', mid + 'px');
+            hintEl.style.top = 'var(--tree-open-hint-top)';
+            hintEl.style.bottom = 'auto';
+        }
     }
+
+    // Expose for pagepiling navigation callbacks
+    window.updateTreeOpenHint = updateTreeOpenHint;
+    window.resetActiveGenealogyTree = function () {
+        var $activePanel = $('[data-genealogy-panel].is-active').first();
+        var $tree = $activePanel.find('.genealogy-tree').first();
+        if (!$tree.length) return;
+
+        $tree.find('ul').hide().removeClass('active');
+        $tree.children('ul').show();
+        updateTreeOpenHint();
+    };
 
     function setGenealogyPanel(panelName) {
         $('[data-genealogy-tab]').each(function () {
@@ -277,6 +327,12 @@
     renderFamilyTree();
     renderAncestorTree();
     updateTreeOpenHint();
+
+    $(window).on('resize', function () {
+        // Recompute position when viewport changes
+        updateTreeOpenHint();
+        setTimeout(updateTreeOpenHint, 120);
+    });
 
     $(document).on('click', '.genealogy-tree li > a', function (event) {
         var $node = $(this).closest('li');

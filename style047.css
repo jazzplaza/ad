@@ -708,10 +708,11 @@
     display: none;
     position: absolute;
     left: 50%;
-    bottom: 18px;
-    transform: translateX(-50%);
+    top: var(--tree-open-hint-top, auto);
+    bottom: 10px;
+    transform: translate(-50%, -50%);
     pointer-events: none;
-    z-index: 3;
+    z-index: 9999;
 }
 
 .tree-open-hint img {
@@ -726,10 +727,10 @@
 @media (min-width: 768px) {
     #about .genealogy-panel-wrap {
         position: relative;
-        padding-bottom: 140px;
+        padding-bottom: 140px; /* reserve space so hint doesn't overlap the tree */
     }
 
-    .tree-open-hint {
+    #about.pp-section.pp-table.active .tree-open-hint {
         display: block;
     }
 
