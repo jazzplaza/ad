@@ -401,9 +401,9 @@ $("#team-slider").owlCarousel({
     center:true,
     autoplay: true,
     autoplayHoverPause:true,
-    slideSpeed: 3000,
-    paginationSpeed: 5000,
-    smartSpeed:1000,
+    slideSpeed: 900,
+    paginationSpeed: 1500,
+    smartSpeed: 250,
     responsive: {
         992: {
             items: 3
@@ -459,8 +459,8 @@ $(".team-classic.owl-team").owlCarousel({
     nav: false,
     loop:true,
     autoplay: true,
-    smartSpeed:500,
-    navSpeed: true,
+    smartSpeed: 150,
+    navSpeed: 150,
     autoplayHoverPause:true,
     responsiveClass:true,
     responsive: {
@@ -492,7 +492,7 @@ if ($(".owl-videos").length) {
         loop: true,
         autoplay: true,
         autoplayHoverPause: true,
-        smartSpeed: 600,
+        smartSpeed: 180,
         responsive: {
             992: {
                 items: 2
