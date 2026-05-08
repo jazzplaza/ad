@@ -1008,3 +1008,40 @@ if ($(window).width() > 991) {
         animatedCursor();
     }, 1000);
 }
+
+/*===================================
+    Home banner image loop (SVG image)
+====================================== */
+
+(function () {
+    var paths = [
+        'static/image/slider-img.png',
+        'static/image/slider-img01.png',
+        'static/image/slider-img02.png',
+    ];
+
+    function setSvgImageHref(el, href) {
+        if (!el) return;
+        // Modern browsers
+        el.setAttribute('href', href);
+        // Back-compat for xlink
+        el.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', href);
+    }
+
+    $(function () {
+        var el = document.getElementById('banner-slider-img');
+        if (!el) return;
+
+        var index = 0;
+        var intervalMs = 4200;
+
+        function next() {
+            index = (index + 1) % paths.length;
+            setSvgImageHref(el, paths[index]);
+        }
+
+        // Ensure initial href is consistent
+        setSvgImageHref(el, paths[0]);
+        setInterval(next, intervalMs);
+    });
+})();
