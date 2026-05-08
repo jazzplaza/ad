@@ -318,6 +318,82 @@
     display: none;
 }
 
+/* Side nav mini tagline under hamburger */
+.side-brand-tagline {
+    margin: 12px 0 10px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.14em;
+    user-select: none;
+}
+
+/* Align logo + tagline center */
+.side_menu {
+    text-align: left;
+}
+
+.side_menu .brand-logo {
+    padding-left: 0;
+}
+
+.side_menu .brand-logo img {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Expanded: keep logo + tagline left aligned */
+.side_nav.expand_nav .side_menu > a.brand-logo.link {
+    display: inline-block;
+    padding-left: 35px !important;
+}
+
+.side_nav.expand_nav .side-brand-tagline {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 35px;
+}
+
+.side-brand-tagline__small {
+    font-size: 10px;
+    opacity: 0.85;
+}
+
+.side-brand-tagline__big {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.side-brand-tagline__spacer {
+    height: 8px;
+}
+
+/* Show tagline also when sidenav is collapsed (only a small strip is visible) */
+.side_nav:not(.expand_nav) .side-brand-tagline {
+    position: absolute;
+    right: 10px;
+    top: 120px;
+    margin: 0;
+    text-align: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    letter-spacing: 0.22em;
+}
+
+.side_nav:not(.expand_nav) .side-brand-tagline__small {
+    font-size: 9px;
+}
+
+.side_nav:not(.expand_nav) .side-brand-tagline__big {
+    font-size: 11px;
+}
+
+.side_nav:not(.expand_nav) .side-brand-tagline__spacer {
+    height: 10px;
+}
+
 /* Contact intro tree image - slow vertical float */
 #contact .story-tree-float {
     display: block;
