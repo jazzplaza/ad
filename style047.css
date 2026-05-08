@@ -590,17 +590,23 @@
 }
 
 .title-img--section {
-    max-width: clamp(144px, 19.2vw, 208px);
+    width: auto;
+    height: clamp(44px, 8vw, 60px);
+    max-width: 100%;
 }
 
 @media (min-width: 992px) {
+    #home-banner .banner-row-scale {
+        transform: scale(1);
+        transform-origin: center top;
+    }
+
     .title-img--banner {
         max-width: clamp(293px, 45.2vw, 493px);
     }
 
     .title-img--section {
-        transform: scale(0.8);
-        transform-origin: left top;
+        height: 48px; /* desktop: ~80% */
     }
 }
 
@@ -995,8 +1001,8 @@
 #home-banner .slider-area::after {
     content: "";
     position: absolute;
-    top: 20%;
-    bottom: 50%;
+    top: 18%;
+    bottom: 52%;
     width: 45vw;
     max-width: 520px;
     pointer-events: none;
@@ -1030,6 +1036,10 @@
     }
 
     #home-banner .banner-fog {
+        display: none;
+    }
+
+    #home-banner .banner-fog-top {
         display: none;
     }
 }
@@ -1079,12 +1089,12 @@
 #home-banner .banner-fog::after {
     content: "";
     position: absolute;
-    top: 20%;
-    bottom: 50%;
+    top: 28%;
+    bottom: 42%;
     width: 45vw;
     max-width: 520px;
     pointer-events: none;
-    opacity: 0.7;
+    opacity: 0.9;
     filter: blur(12px);
     border-radius: 58% 42% 62% 38% / 50% 45% 58% 42%;
     border: 0;
@@ -1123,6 +1133,62 @@
 @keyframes fog-drift-d {
     0% { transform: translateX(0) scale(1.02) rotate(-3deg); }
     100% { transform: translateX(-26vw) scale(1.12) rotate(-7deg); }
+}
+
+/* Top fog (two clouds at the very top) */
+#home-banner .banner-fog-top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 30%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+#home-banner .banner-fog-top::before,
+#home-banner .banner-fog-top::after {
+    content: "";
+    position: absolute;
+    top: -25%;
+    bottom: -25%;
+    width: 63vw;
+    max-width: 780px;
+    pointer-events: none;
+    opacity: 0.9;
+    filter: blur(12px);
+    border-radius: 60% 40% 64% 36% / 55% 45% 58% 42%;
+    border: 0;
+    outline: 0;
+    -webkit-mask-image: radial-gradient(closest-side, rgba(0,0,0,1) 68%, rgba(0,0,0,0) 100%);
+    mask-image: radial-gradient(closest-side, rgba(0,0,0,1) 68%, rgba(0,0,0,0) 100%);
+    background:
+        radial-gradient(ellipse 55% 40% at 30% 55%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 72%),
+        radial-gradient(ellipse 40% 32% at 62% 44%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 74%),
+        radial-gradient(ellipse 34% 28% at 72% 68%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 76%);
+    mix-blend-mode: screen;
+}
+
+#home-banner .banner-fog-top::before {
+    left: -18vw;
+    animation: fog-drift-top-a 6s ease-in-out infinite alternate;
+}
+
+#home-banner .banner-fog-top::after {
+    right: -18vw;
+    animation: fog-drift-top-b 7.5s ease-in-out infinite alternate;
+    animation-delay: -3.75s;
+}
+
+@keyframes fog-drift-top-a {
+    0% { transform: translateX(0) scale(0.98) rotate(-4deg); }
+    100% { transform: translateX(22vw) scale(1.06) rotate(-1deg); }
+}
+
+@keyframes fog-drift-top-b {
+    0% { transform: translateX(0) scale(1.02) rotate(5deg); }
+    100% { transform: translateX(-22vw) scale(1.08) rotate(2deg); }
 }
 
 /* Contact icons - YouTube audio */
