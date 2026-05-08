@@ -112,6 +112,25 @@ $(window).on("load", function () {
                     });
                 }
 
+                // About section: ensure tree_open hint is positioned correctly after pagepiling transition
+                if (nextIndex == 2) {
+                    setTimeout(function () {
+                        if (window.updateTreeOpenHint) {
+                            window.updateTreeOpenHint();
+                            setTimeout(window.updateTreeOpenHint, 180);
+                        }
+                    }, 650);
+                }
+
+                // Leaving About -> collapse genealogy so upper area doesn't "stick" into next section
+                if (index == 2 && nextIndex != 2) {
+                    try {
+                        if (window.resetActiveGenealogyTree) {
+                            window.resetActiveGenealogyTree();
+                        }
+                    } catch (e) {}
+                }
+
                 if(nextIndex == 1) {
                     $('.section1left').addClass('slideInLeft');
                     setTimeout(function(){
