@@ -1001,6 +1001,12 @@
     box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.18), 0 10px 20px rgba(0, 0, 0, 0.18);
 }
 
+/* Banner slider image loop */
+#home-banner #banner-slider-img {
+    opacity: 1;
+    transition: none;
+}
+
 @keyframes banner-orbit-rotate {
     from { transform: translate(-50%, -50%) rotate(0deg); }
     to { transform: translate(-50%, -50%) rotate(360deg); }
