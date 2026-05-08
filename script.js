@@ -233,6 +233,25 @@
         centerGenealogyBody($panel.find('.genealogy-body').first());
     }
 
+    function updateTreeOpenHint() {
+        var $hint = $('#tree-open-hint');
+        if (!$hint.length) return;
+
+        var $activePanel = $('[data-genealogy-panel].is-active').first();
+        var $tree = $activePanel.find('.genealogy-tree').first();
+        if (!$tree.length) {
+            $hint.removeClass('is-hidden');
+            return;
+        }
+
+        // Use the root node's direct children visibility as the source of truth.
+        // This avoids timing issues with slideUp/slideDown animations.
+        var $rootLi = $tree.children('ul').children('li').first();
+        var $rootChildren = $rootLi.children('ul');
+        var expanded = $rootChildren.length ? $rootChildren.is(':visible') : false;
+        $hint.toggleClass('is-hidden', expanded);
+    }
+
     function setGenealogyPanel(panelName) {
         $('[data-genealogy-tab]').each(function () {
             var isActive = $(this).data('genealogyTab') === panelName;
@@ -257,6 +276,7 @@
 
     renderFamilyTree();
     renderAncestorTree();
+    updateTreeOpenHint();
 
     $(document).on('click', '.genealogy-tree li > a', function (event) {
         var $node = $(this).closest('li');
@@ -282,12 +302,16 @@
         }
 
         keepGenealogyNodeCentered($node);
+        updateTreeOpenHint();
+        // Re-check after slide animations settle.
+        setTimeout(updateTreeOpenHint, 260);
         event.preventDefault();
         event.stopPropagation();
     });
 
     $('[data-genealogy-tab]').on('click', function () {
         setGenealogyPanel($(this).data('genealogyTab'));
+        updateTreeOpenHint();
     });
 
     $infoTrigger.on('click', function () {

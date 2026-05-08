@@ -703,6 +703,46 @@
     backdrop-filter: blur(3px);
 }
 
+/* About - tree open hint (desktop + iPad only) */
+.tree-open-hint {
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.tree-open-hint img {
+    width: min(360px, 60vw);
+    max-width: 360px;
+    height: auto;
+    display: block;
+    animation: tree-open-float 2.8s ease-in-out infinite;
+    will-change: transform;
+}
+
+@media (min-width: 768px) {
+    #about .genealogy-panel-wrap {
+        position: relative;
+        padding-bottom: 140px;
+    }
+
+    .tree-open-hint {
+        display: block;
+    }
+
+    .tree-open-hint.is-hidden {
+        display: none !important;
+    }
+}
+
+@keyframes tree-open-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
 .section-template-btn {
     margin-top: 4px;
 }
