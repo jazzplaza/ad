@@ -1199,6 +1199,17 @@
     }
 }
 
+/* Extra-safe offset for very small devices (e.g. iPhone SE) */
+@media (max-width: 389.98px) {
+    #home-banner .section1left {
+        padding-top: calc(env(safe-area-inset-top, 0px) + 44px);
+    }
+
+    #home-banner .title-img--banner {
+        margin-top: 14px;
+    }
+}
+
 #home-banner .slider-area .container {
     position: relative;
     z-index: 3;
