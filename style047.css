@@ -1197,6 +1197,11 @@
     #home-banner .title-img--banner {
         margin-top: 10px;
     }
+
+    /* Mobile: show full banner slider image (no circular clip) */
+    #home-banner #banner-slider-img {
+        clip-path: none !important;
+    }
 }
 
 /* Extra-safe offset for very small devices (e.g. iPhone SE) */
