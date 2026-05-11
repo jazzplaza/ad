@@ -1190,6 +1190,12 @@
     /* Mobile: hero(first section) text left aligned */
     #home-banner .section1left {
         text-align: left !important;
+        padding-top: 18px;
+    }
+
+    /* Mobile: prevent title.png being clipped by top UI (e.g. some devices/browsers) */
+    #home-banner .title-img--banner {
+        margin-top: 10px;
     }
 }
 
