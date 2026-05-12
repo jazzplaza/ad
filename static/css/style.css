@@ -1937,7 +1937,7 @@ svg.slider-shape{
 
     body {text-align: center;overflow-y: hidden!important;}
     html {scroll-behavior: smooth;}
-    section {padding: 5rem 0;}
+    section {padding: 0rem 0;}
     .h1, h1 {font-size: 36px;}
     .h2, h2 {font-size: 36px;}
     .h3, h3 {font-size: 24px;}
