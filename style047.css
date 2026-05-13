@@ -400,7 +400,7 @@
     margin: 25px auto 0 auto;
     width: 90%;
     max-width: 420px;
-    animation: story-tree-float 4.8s ease-in-out infinite;
+    animation: story-tree-float 1.2s ease-in-out infinite;
     will-change: transform;
 }
 
@@ -720,7 +720,7 @@
     max-width: 360px;
     height: auto;
     display: block;
-    animation: tree-open-float 2.8s ease-in-out infinite;
+    animation: tree-open-float 1.2s ease-in-out infinite;
     will-change: transform;
 }
 
