@@ -191,6 +191,8 @@
     writing-mode: vertical-rl;
     text-orientation: upright;
     white-space: nowrap;
+    border: 0;
+    padding: 0;
 }
 
 #genealogy-panel-maternal .member-details h3.ancestor-pair {
@@ -206,6 +208,19 @@
 #genealogy-panel-maternal .member-details h3.ancestor-pair .ancestor-vertical-name {
     writing-mode: vertical-rl;
     text-orientation: upright;
+    border: 0;
+    padding: 0;
+}
+
+/* Family tree (族譜) - name with black rounded border */
+#genealogy-panel-paternal .member-details h3 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;    
+    border-radius: 999px;
+    margin-top: 5px;
+    background: rgba(255, 255, 255, 0.65);
 }
 
 #genealogy-panel-maternal .ancestor-arrow-inside {
@@ -1730,12 +1745,13 @@
     }
 
     #genealogy-panel-maternal .member-details {
-        min-width: 96px;
+        min-width: 56px;
         padding: 9px 12px;
     }
 
     #genealogy-panel-maternal .member-details h3 {
-        font-size: 13px;
+        font-size: 14px;
+        line-height: 1.35;
     }
 
     .timeline {
