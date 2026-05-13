@@ -2,6 +2,17 @@ $(window).on("load", function () {
 
     "use strict";
 
+    // Mobile: show slider-img.png fully (remove circular clip-path on small screens)
+    (function () {
+        try {
+            if (!window.matchMedia || !window.matchMedia('(max-width: 767.98px)').matches) return;
+            var imgEl = document.getElementById('banner-slider-img');
+            if (imgEl && imgEl.hasAttribute('clip-path')) {
+                imgEl.removeAttribute('clip-path');
+            }
+        } catch (e) {}
+    })();
+
     //Clear URL On Page Refresh
     var loc = window.location.href,
         index = loc.indexOf('#');
