@@ -1205,6 +1205,30 @@
     #home-banner #banner-slider-img {
         clip-path: none !important;
     }
+
+    /* Mobile: ensure slider image area renders as a full square (e.g. Galaxy S8) */
+    #home-banner .slider-area {
+        height: 100svh;
+        min-height: 100svh;
+    }
+
+    #home-banner .section1right {
+        display: flex;
+        justify-content: center;
+    }
+
+    #home-banner .banner-image {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    #home-banner svg.slider-shape {
+        width: min(460px, 88vw);
+        height: 80%;
+        aspect-ratio: 1 / 1;
+        display: block;
+    }
 }
 
 /* Extra-safe offset for very small devices (e.g. iPhone SE) */
