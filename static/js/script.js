@@ -758,7 +758,7 @@ $('.ini-customPrevBtn').click(function () {
 ====================================== */
 
 (function () {
-    var VIDEO_ID = 'hI4hugkBi3o';
+    var VIDEO_ID = 'SNkt7GjmBEU';
     var BAR_TITLE = '音源播放中';
 
     var player = null;
