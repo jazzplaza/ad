@@ -1248,12 +1248,26 @@
 
 /* Extra-safe offset for very small devices (e.g. iPhone SE) */
 @media (max-width: 389.98px) {
+    /* Allow stacked content (text + image) to be fully visible */
+    #home-banner .slider-area {
+        height: auto;
+        min-height: 100svh;
+        overflow: visible;
+        padding-top: calc(env(safe-area-inset-top, 0px) + 56px);
+        padding-bottom: 22px;
+    }
+
     #home-banner .section1left {
-        padding-top: calc(env(safe-area-inset-top, 0px) + 44px);
+        padding-top: 0;
     }
 
     #home-banner .title-img--banner {
-        margin-top: 14px;
+        margin-top: 18px;
+    }
+
+    /* Fit banner-image fully on small height screens */
+    #home-banner svg.slider-shape {
+        width: min(340px, 86vw);
     }
 }
 
