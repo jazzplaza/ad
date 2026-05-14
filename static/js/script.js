@@ -24,14 +24,55 @@ $(window).on("load", function () {
     /* ===================================
         Page Piling
     ====================================== */
-    if($(window).width() < 1280) {
-        $('.pagedata').removeAttr('id');
-        $('html, body').css('overflow-y', 'scroll');
-        //Team Counter
-        $('.count').each(function () {
-            $(this).appear(function () {
-                $(this).prop('Counter', 0).animate({
-                    Counter: $(this).text()
+	    if($(window).width() < 1280) {
+	        $('.pagedata').removeAttr('id');
+	        $('html, body').css('overflow-y', 'scroll');
+
+	        // Scroll mode: if ancestor tree is expanded and About scrolls out (downwards),
+	        // collapse ancestor tree so it won't overlap the next section.
+	        (function () {
+	            var aboutEl = document.getElementById('about');
+	            if (!aboutEl) return;
+
+	            var collapsedOnce = false;
+	            function isAncestorExpanded() {
+	                try {
+	                    var panel = document.getElementById('genealogy-panel-maternal');
+	                    if (!panel) return false;
+	                    var rootChildren = panel.querySelector('.genealogy-tree > ul > li > ul');
+	                    if (!rootChildren) return false;
+	                    return rootChildren.offsetParent !== null;
+	                } catch (e) {
+	                    return false;
+	                }
+	            }
+
+	            $(window).on('scroll', function () {
+	                if (!isAncestorExpanded()) {
+	                    collapsedOnce = false;
+	                    return;
+	                }
+
+	                var rect = aboutEl.getBoundingClientRect();
+	                if (rect.bottom < 0) {
+	                    if (collapsedOnce) return;
+	                    collapsedOnce = true;
+	                    try {
+	                        if (window.collapseAncestorGenealogyTree) {
+	                            window.collapseAncestorGenealogyTree();
+	                        }
+	                    } catch (e) {}
+	                } else {
+	                    collapsedOnce = false;
+	                }
+	            });
+	        })();
+
+	        //Team Counter
+	        $('.count').each(function () {
+	            $(this).appear(function () {
+	                $(this).prop('Counter', 0).animate({
+	                    Counter: $(this).text()
                 }, {
                     duration: 3000,
                     easing: 'swing',
@@ -124,28 +165,31 @@ $(window).on("load", function () {
                 }
 
                 // About section: ensure tree_open hint is positioned correctly after pagepiling transition
-                if (nextIndex == 2) {
-                    setTimeout(function () {
-                        if (window.updateTreeOpenHint) {
-                            window.updateTreeOpenHint();
-                            setTimeout(window.updateTreeOpenHint, 180);
-                        }
-                    }, 650);
-                }
+	                if (nextIndex == 2) {
+	                    setTimeout(function () {
+	                        if (window.updateTreeOpenHint) {
+	                            window.updateTreeOpenHint();
+	                            setTimeout(window.updateTreeOpenHint, 180);
+	                        }
+	                    }, 650);
+	                }
 
-                // Leaving About -> collapse genealogy so upper area doesn't "stick" into next section
-                if (index == 2 && nextIndex != 2) {
-                    try {
-                        if (window.resetActiveGenealogyTree) {
-                            window.resetActiveGenealogyTree();
-                        }
-                    } catch (e) {}
-                }
+	                // Leaving About downward: collapse ancestor tree so it won't cover the Team section
+	                if (index == 2 && direction === 'down') {
+	                    try {
+	                        var panel = document.getElementById('genealogy-panel-maternal');
+	                        var rootChildren = panel ? panel.querySelector('.genealogy-tree > ul > li > ul') : null;
+	                        var expanded = !!(rootChildren && rootChildren.offsetParent !== null);
+	                        if (expanded && window.collapseAncestorGenealogyTree) {
+	                            window.collapseAncestorGenealogyTree();
+	                        }
+	                    } catch (e) {}
+	                }
 
-                if(nextIndex == 1) {
-                    $('.section1left').addClass('slideInLeft');
-                    setTimeout(function(){
-                        $('.section1left').removeClass('slideInLeft');
+	                if(nextIndex == 1) {
+	                    $('.section1left').addClass('slideInLeft');
+	                    setTimeout(function(){
+	                        $('.section1left').removeClass('slideInLeft');
                     }, 1800);
 
                     $('.section1right').addClass('slideInRight');
