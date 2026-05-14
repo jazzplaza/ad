@@ -302,6 +302,27 @@
         updateTreeOpenHint();
     };
 
+    // Collapse only ancestor (maternal) genealogy when leaving About.
+    window.collapseAncestorGenealogyTree = function () {
+        var $panel = $('#genealogy-panel-maternal');
+        if (!$panel.length) return;
+
+        var $tree = $panel.find('.genealogy-tree').first();
+        if (!$tree.length) return;
+
+        $tree.find('ul').hide().removeClass('active');
+        $tree.children('ul').show();
+
+        // Ensure the ancestor container is scrolled back to the top.
+        var $body = $panel.find('.genealogy-body').first();
+        if ($body.length) {
+            $body.scrollTop(0);
+            $body.get(0).scrollLeft = 0;
+        }
+
+        updateTreeOpenHint();
+    };
+
     function setGenealogyPanel(panelName) {
         $('[data-genealogy-tab]').each(function () {
             var isActive = $(this).data('genealogyTab') === panelName;
