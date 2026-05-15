@@ -702,11 +702,12 @@
 }
 
 .section-template-subtitle {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.6;
     opacity: 0.95;
     margin-bottom: 18px;
     text-align: left;
+    font-weight: 500;
 }
 
 .subtitle-frame {
@@ -1201,8 +1202,9 @@
     .para.alt-font,
     .text.alt-font,
     .section-template-subtitle.alt-font {
-        font-size: 15px !important;
+        font-size: 18px !important;
         line-height: 1.75 !important;
+        font-weight: 500;
     }
 
     /* Mobile: hero(first section) text left aligned */
