@@ -1558,17 +1558,6 @@
 }
 
 @media (min-width: 992px) {
-    /* Pagepiling: keep non-active sections behind the active one
-       (pagepiling sets inline z-index per section; override to prevent
-       previous sections (e.g. expanded genealogy) from overlaying the next section). */
-    #pagepiling .pp-section {
-        z-index: 1 !important;
-    }
-
-    #pagepiling .pp-section.active {
-        z-index: 2 !important;
-    }
-
     #about.section {
         padding-top: 0;
     }
