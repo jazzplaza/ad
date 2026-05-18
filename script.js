@@ -239,14 +239,12 @@
 
         var aboutEl = document.getElementById('about');
 
-        function isMobileView() {
-            return window.matchMedia && window.matchMedia('(max-width: 991.98px)').matches;
-        }
-
         function isAboutActive() {
-            // Pagepiling adds pp-viewing-<anchor> to body.
-            if (document.body && typeof document.body.className === 'string') {
-                if (/\bpp-viewing-about\b/.test(document.body.className)) return true;
+            var bodyClass = (document.body && typeof document.body.className === 'string') ? document.body.className : '';
+
+            // Pagepiling mode: rely on body class only (sections are absolutely positioned and can "intersect" even when not visible).
+            if (document.querySelector('.pp-section')) {
+                return /\bpp-viewing-about\b/.test(bodyClass);
             }
 
             // Scroll mode: check viewport intersection.
@@ -256,8 +254,8 @@
         }
 
         function updateControlsVisibility() {
-            // Show on mobile + About (both genealogy views)
-            $controls.prop('hidden', !(isMobileView() && isAboutActive()));
+            // Show on all viewports when About is visible/active
+            $controls.prop('hidden', !isAboutActive());
         }
 
         updateControlsVisibility();
@@ -322,6 +320,16 @@
             $(window).on('scroll', function () {
                 updateControlsVisibility();
             });
+        }
+
+        // Pagepiling mode: observe body class changes (pp-viewing-*) to toggle controls immediately.
+        if ('MutationObserver' in window && document.body) {
+            try {
+                var bodyObs = new MutationObserver(function () {
+                    updateControlsVisibility();
+                });
+                bodyObs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+            } catch (e) {}
         }
 
         $controls.off('click.genealogyZoom').on('click.genealogyZoom', '[data-zoom-action]', function () {

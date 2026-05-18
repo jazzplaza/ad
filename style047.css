@@ -1474,12 +1474,6 @@
     outline-offset: 2px;
 }
 
-@media (min-width: 992px) {
-    .genealogy-zoom-controls {
-        display: none !important;
-    }
-}
-
 .yt-audio-player {
     position: fixed;
     left: 0;
