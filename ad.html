@@ -41,7 +41,7 @@
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T7QMD26F" height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
-<div class="contact-icons">
+    <div class="contact-icons">
     <!-- Facebook 訊息 -->
     <a href="https://m.me/awesomebobi" target="_blank" class="icon fb-icon" data-tooltip="透過FB聯繫">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png" alt="Facebook Message">
@@ -59,12 +59,19 @@
     <button type="button" class="icon yt-audio-icon" id="yt-audio-trigger" aria-pressed="false" aria-label="播放音效" data-tooltip="聽咱的故事">
         <i class="lab la-youtube" aria-hidden="true"></i>
     </button>
-</div>
+    </div>
 
-<!-- Hidden YouTube audio player (for sound only) -->
-<div class="yt-audio-player" aria-hidden="true">
-    <div id="yt-audio-player"></div>
-</div>
+    <!-- Mobile genealogy zoom controls -->
+    <div class="genealogy-zoom-controls" id="genealogy-zoom-controls" aria-label="樹狀圖縮放控制" hidden>
+        <button type="button" class="genealogy-zoom-btn" data-zoom-action="out" aria-label="縮小">−</button>
+        <button type="button" class="genealogy-zoom-btn" data-zoom-action="reset" aria-label="重置">1×</button>
+        <button type="button" class="genealogy-zoom-btn" data-zoom-action="in" aria-label="放大">＋</button>
+    </div>
+
+    <!-- Hidden YouTube audio player (for sound only) -->
+    <div class="yt-audio-player" aria-hidden="true">
+        <div id="yt-audio-player"></div>
+    </div>
 
 <!-- Bottom audio timeline (shows only while playing) -->
 <div class="yt-audio-bar" id="yt-audio-bar" hidden>

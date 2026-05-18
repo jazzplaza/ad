@@ -233,6 +233,107 @@
         centerGenealogyBody($panel.find('.genealogy-body').first());
     }
 
+    function setupGenealogyZoom() {
+        var $controls = $('#genealogy-zoom-controls');
+        if (!$controls.length) return;
+
+        var aboutEl = document.getElementById('about');
+
+        function isMobileView() {
+            return window.matchMedia && window.matchMedia('(max-width: 991.98px)').matches;
+        }
+
+        function isAboutActive() {
+            // Pagepiling adds pp-viewing-<anchor> to body.
+            if (document.body && typeof document.body.className === 'string') {
+                if (/\bpp-viewing-about\b/.test(document.body.className)) return true;
+            }
+
+            // Scroll mode: check viewport intersection.
+            if (!aboutEl) return false;
+            var rect = aboutEl.getBoundingClientRect();
+            return rect.bottom > 0 && rect.top < window.innerHeight;
+        }
+
+        function updateControlsVisibility() {
+            $controls.prop('hidden', !(isMobileView() && isAboutActive()));
+        }
+
+        updateControlsVisibility();
+
+        function getActivePanel() {
+            return $('[data-genealogy-panel].is-active').first();
+        }
+
+        function clamp(v, min, max) {
+            return Math.max(min, Math.min(max, v));
+        }
+
+        function applyScale($panel, scale) {
+            if (!$panel || !$panel.length) return;
+            var $tree = $panel.find('.genealogy-tree').first();
+            if (!$tree.length) return;
+
+            // Store per-panel scale
+            $panel.attr('data-zoom', String(scale));
+
+            // Prefer CSS zoom (affects layout/scroll); fallback to transform for browsers that don't support it.
+            var treeEl = $tree.get(0);
+            var supportsZoom = treeEl && typeof treeEl.style.zoom !== 'undefined';
+            if (supportsZoom) {
+                treeEl.style.zoom = String(scale);
+                treeEl.style.transform = '';
+                treeEl.style.transformOrigin = '';
+            } else {
+                treeEl.style.zoom = '';
+                treeEl.style.transformOrigin = '0 0';
+                treeEl.style.transform = 'scale(' + scale + ')';
+            }
+
+            // Keep the current node view stable after scaling
+            centerGenealogyBody($panel.find('.genealogy-body').first());
+        }
+
+        function getScale($panel) {
+            var raw = $panel && $panel.length ? parseFloat($panel.attr('data-zoom')) : NaN;
+            return Number.isFinite(raw) ? raw : 1;
+        }
+
+        $(window).on('resize', function () {
+            updateControlsVisibility();
+        });
+
+        // Keep controls hidden when user scrolls away from About on mobile.
+        if (aboutEl && 'IntersectionObserver' in window) {
+            try {
+                var obs = new IntersectionObserver(function () {
+                    updateControlsVisibility();
+                }, { root: null, threshold: 0.01 });
+                obs.observe(aboutEl);
+            } catch (e) {}
+        } else {
+            $(window).on('scroll', function () {
+                updateControlsVisibility();
+            });
+        }
+
+        $controls.off('click.genealogyZoom').on('click.genealogyZoom', '[data-zoom-action]', function () {
+            var $panel = getActivePanel();
+            if (!$panel.length) return;
+
+            var action = $(this).data('zoomAction');
+            var scale = getScale($panel);
+            var next = scale;
+
+            if (action === 'in') next = scale + 0.1;
+            if (action === 'out') next = scale - 0.1;
+            if (action === 'reset') next = 1;
+
+            next = Math.round(clamp(next, 0.4, 1.6) * 10) / 10;
+            applyScale($panel, next);
+        });
+    }
+
     function updateTreeOpenHint() {
         var $hint = $('#tree-open-hint');
         if (!$hint.length) return;
@@ -348,6 +449,7 @@
     renderFamilyTree();
     renderAncestorTree();
     updateTreeOpenHint();
+    setupGenealogyZoom();
 
     $(window).on('resize', function () {
         // Recompute position when viewport changes
