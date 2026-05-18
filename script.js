@@ -256,6 +256,7 @@
         }
 
         function updateControlsVisibility() {
+            // Show on mobile + About (both genealogy views)
             $controls.prop('hidden', !(isMobileView() && isAboutActive()));
         }
 
@@ -301,6 +302,12 @@
 
         $(window).on('resize', function () {
             updateControlsVisibility();
+        });
+
+        // Tab switching should also toggle controls visibility.
+        $(document).on('click', '[data-genealogy-tab]', function () {
+            // allow DOM state to update
+            setTimeout(updateControlsVisibility, 0);
         });
 
         // Keep controls hidden when user scrolls away from About on mobile.
