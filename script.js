@@ -273,6 +273,11 @@
             var $tree = $panel.find('.genealogy-tree').first();
             if (!$tree.length) return;
 
+            var $body = $panel.find('.genealogy-body').first();
+            var bodyEl = $body.length ? $body.get(0) : null;
+            var beforeMaxScroll = bodyEl ? Math.max(0, bodyEl.scrollWidth - bodyEl.clientWidth) : 0;
+            var beforeRatio = bodyEl && beforeMaxScroll > 0 ? (bodyEl.scrollLeft / beforeMaxScroll) : null;
+
             // Store per-panel scale
             $panel.attr('data-zoom', String(scale));
 
@@ -289,8 +294,15 @@
                 treeEl.style.transform = 'scale(' + scale + ')';
             }
 
-            // Keep the current node view stable after scaling
-            centerGenealogyBody($panel.find('.genealogy-body').first());
+            // Preserve horizontal scroll position proportionally (avoid jumping during pinch/zoom)
+            if (bodyEl && beforeRatio != null) {
+                requestAnimationFrame(function () {
+                    var afterMax = Math.max(0, bodyEl.scrollWidth - bodyEl.clientWidth);
+                    bodyEl.scrollLeft = afterMax > 0 ? Math.round(afterMax * beforeRatio) : 0;
+                });
+            } else {
+                centerGenealogyBody($body);
+            }
         }
 
         function getScale($panel) {
@@ -347,6 +359,65 @@
             next = Math.round(clamp(next, 0.4, 1.6) * 10) / 10;
             applyScale($panel, next);
         });
+
+        // Pinch-to-zoom (two-finger) on mobile/iPad, synced with the same scale state.
+        (function () {
+            var pinchActive = false;
+            var startDist = 0;
+            var startScale = 1;
+            var $pinchPanel = null;
+
+            function dist(t1, t2) {
+                var dx = (t2.clientX - t1.clientX);
+                var dy = (t2.clientY - t1.clientY);
+                return Math.sqrt(dx * dx + dy * dy);
+            }
+
+            function panelFromEventTarget(target) {
+                if (!target) return null;
+                var el = target.closest ? target.closest('[data-genealogy-panel]') : null;
+                return el ? $(el) : getActivePanel();
+            }
+
+            function onTouchStart(e) {
+                if (!e || !e.touches || e.touches.length !== 2) return;
+                $pinchPanel = panelFromEventTarget(e.target);
+                if (!$pinchPanel || !$pinchPanel.length) return;
+
+                pinchActive = true;
+                startDist = dist(e.touches[0], e.touches[1]);
+                startScale = getScale($pinchPanel);
+            }
+
+            function onTouchMove(e) {
+                if (!pinchActive || !$pinchPanel || !$pinchPanel.length) return;
+                if (!e || !e.touches || e.touches.length !== 2) return;
+
+                // Prevent page scroll while pinching
+                if (typeof e.preventDefault === 'function') e.preventDefault();
+
+                var d = dist(e.touches[0], e.touches[1]);
+                if (!d || !startDist) return;
+
+                var next = startScale * (d / startDist);
+                next = Math.round(clamp(next, 0.4, 1.6) * 100) / 100;
+                applyScale($pinchPanel, next);
+            }
+
+            function onTouchEnd() {
+                pinchActive = false;
+                $pinchPanel = null;
+            }
+
+            // Attach to About only (both panels live inside)
+            if (aboutEl && aboutEl.addEventListener) {
+                // Need passive:false to allow preventDefault() on iOS
+                aboutEl.addEventListener('touchstart', onTouchStart, { passive: true });
+                aboutEl.addEventListener('touchmove', onTouchMove, { passive: false });
+                aboutEl.addEventListener('touchend', onTouchEnd, { passive: true });
+                aboutEl.addEventListener('touchcancel', onTouchEnd, { passive: true });
+            }
+        })();
     }
 
     function updateTreeOpenHint() {
