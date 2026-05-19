@@ -1645,6 +1645,88 @@
     -webkit-overflow-scrolling: touch;
 }
 
+/* Story tabs (Contact section) */
+.story-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.story-tab {
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.story-tab:hover,
+.story-tab:focus-visible {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.65);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+.story-tab.is-active {
+    background: #f1c51c;
+    border-color: #f1c51c;
+    color: #232323;
+}
+
+.story-panel[hidden] {
+    display: none !important;
+}
+
+/* Story/Info content background */
+.story-panels .story-panel .text.alt-font {
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    border-radius: 14px;
+    padding: 14px 16px;
+    backdrop-filter: blur(2px);
+}
+
+/* Keep story/info panels same size; overflow scroll for long content */
+.story-panels {
+    height: clamp(260px, 42vh, 520px);
+}
+
+.story-panels .story-panel {
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 6px; /* keep text away from scrollbar */
+}
+
+.story-panels .story-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.story-panels .story-panel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+}
+
+.story-panels .story-panel::-webkit-scrollbar-thumb {
+    background: rgba(241, 197, 28, 0.55);
+    border-radius: 999px;
+}
+
+.memorial-block p {
+    margin: 0;
+    padding: 10px 0;
+}
+
+.memorial-block p + p {
+    border-top: 1px dashed rgba(255, 255, 255, 0.85);
+}
+
 
 .timeline {
     display: flex;

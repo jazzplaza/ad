@@ -601,5 +601,24 @@
             closeInfoModal();
         }
     });
+
+    // Contact story tabs (故事內容 / 祭拜資訊)
+    $(document).on('click', '.story-tab[data-story-tab]', function () {
+        var $btn = $(this);
+        var tab = $btn.data('storyTab');
+        var $wrap = $btn.closest('.contact-details');
+        if (!$wrap.length) return;
+
+        $wrap.find('.story-tab').each(function () {
+            var isActive = $(this).data('storyTab') === tab;
+            $(this).toggleClass('is-active', isActive).attr('aria-selected', String(isActive));
+        });
+
+        $wrap.find('.story-panel').each(function () {
+            var panelId = $(this).attr('id') || '';
+            var isActive = panelId === ('story-panel-' + tab);
+            $(this).toggleClass('is-active', isActive).prop('hidden', !isActive);
+        });
+    });
 });
 
