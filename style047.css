@@ -1718,13 +1718,30 @@
     border-radius: 999px;
 }
 
-.memorial-block p {
-    margin: 0;
+.memorial-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     padding: 10px 0;
 }
 
-.memorial-block p + p {
+.memorial-row + .memorial-row {
     border-top: 1px dashed rgba(255, 255, 255, 0.85);
+}
+
+.memorial-label {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: left;
+}
+
+.memorial-coord {
+    flex: 0 0 auto;
+    color: #f1c51c;
+    font-weight: 700;
+    text-align: right;
+    white-space: nowrap;
 }
 
 
