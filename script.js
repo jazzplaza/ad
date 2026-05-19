@@ -454,13 +454,22 @@
             var firstNodeEl = $rootLi.find('> a').get(0) || $rootLi.get(0);
             if (!wrapEl || !firstNodeEl) return;
 
-            var wrapRect = wrapEl.getBoundingClientRect();
-            var firstRect = firstNodeEl.getBoundingClientRect();
+        var wrapRect = wrapEl.getBoundingClientRect();
+        var firstRect = firstNodeEl.getBoundingClientRect();
 
-            // Convert viewport Y to wrap-local Y by subtracting wrapRect.top.
-            var start = Math.max(0, firstRect.bottom - wrapRect.top);
-            var viewportBottomLocal = Math.max(start, window.innerHeight - wrapRect.top);
-            var mid = start + (viewportBottomLocal - start) / 2;
+        // Convert viewport Y to wrap-local Y by subtracting wrapRect.top.
+        // Use the visible part of the wrap for iPad sizes so the hint stays centered in the section.
+        var visibleBottomViewportY = Math.min(window.innerHeight, wrapRect.bottom);
+
+        var start = Math.max(0, firstRect.bottom - wrapRect.top);
+        var viewportBottomLocal = Math.max(start, visibleBottomViewportY - wrapRect.top);
+        var mid = start + (viewportBottomLocal - start) / 2;
+
+        var isIpadLike = window.matchMedia && window.matchMedia('(min-width: 768px) and (max-width: 1279.98px)').matches;
+        if (isIpadLike) {
+            // iPad (both orientations): keep the hint centered within the about wrap.
+            mid = wrapRect.height / 2;
+        }
 
             // Clamp so the hint is fully visible inside the wrap (wrap has overflow hidden).
             var hintRect = hintEl.getBoundingClientRect();
