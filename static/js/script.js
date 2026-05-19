@@ -1103,19 +1103,62 @@ if ($(window).width() > 991) {
     }
 
     $(function () {
-        var el = document.getElementById('banner-slider-img');
-        if (!el) return;
+        var elA = document.getElementById('banner-slider-img');
+        if (!elA) return;
+
+        // Create a second <image> stacked on top for crossfade overlap.
+        var elB = document.getElementById('banner-slider-img-2');
+        if (!elB) {
+            try {
+                elB = elA.cloneNode(true);
+                elB.setAttribute('id', 'banner-slider-img-2');
+                // Ensure it is painted above the first image.
+                if (elA.parentNode) {
+                    elA.parentNode.appendChild(elB);
+                }
+            } catch (e) {
+                elB = null;
+            }
+        }
+
+        var front = elA;
+        var back = elB || elA;
 
         var index = 0;
-        var intervalMs = 4200;
+        var intervalMs = 2800; // faster cycle
+        var fadeMs = 450; // faster crossfade
+        var isAnimating = false;
 
         function next() {
+            if (isAnimating) return;
+            isAnimating = true;
             index = (index + 1) % paths.length;
-            setSvgImageHref(el, paths[index]);
+
+            // Crossfade overlap: back fades in while front fades out.
+            try { back.style.opacity = '0'; } catch (e) {}
+            setSvgImageHref(back, paths[index]);
+
+            // Next frame: trigger transition
+            requestAnimationFrame(function () {
+                try { front.style.opacity = '0'; } catch (e) {}
+                try { back.style.opacity = '1'; } catch (e) {}
+
+                setTimeout(function () {
+                    // Swap roles
+                    var tmp = front;
+                    front = back;
+                    back = tmp;
+                    isAnimating = false;
+                }, Math.max(0, fadeMs + 30));
+            });
         }
 
         // Ensure initial href is consistent
-        setSvgImageHref(el, paths[0]);
+        setSvgImageHref(front, paths[0]);
+        try { front.style.opacity = '1'; } catch (e) {}
+        if (back && back !== front) {
+            try { back.style.opacity = '0'; } catch (e) {}
+        }
         setInterval(next, intervalMs);
     });
 })();
