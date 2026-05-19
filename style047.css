@@ -1138,9 +1138,11 @@
 }
 
 /* Banner slider image loop */
-#home-banner #banner-slider-img {
+#home-banner #banner-slider-img,
+#home-banner #banner-slider-img-2 {
     opacity: 1;
-    transition: none;
+    transition: opacity 450ms ease;
+    will-change: opacity;
 }
 
 @keyframes banner-orbit-rotate {
