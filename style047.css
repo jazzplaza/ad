@@ -1641,7 +1641,7 @@
     position: relative;
     overflow-x: auto;
     overflow-y: hidden;
-    color: #f1c51c;
+    color: #4f4f4f;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -1685,7 +1685,7 @@
 
 /* Story/Info content background */
 .story-panels .story-panel .text.alt-font {
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 14px;
     padding: 14px 16px;
@@ -1802,6 +1802,7 @@
     font-size: 14px;
     line-height: 1.4;
     transform: translateX(-50%);
+    font-weight: 500;
 }
 
 .timeline-item:nth-child(1) { left: 0%; }
