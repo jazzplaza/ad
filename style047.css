@@ -960,11 +960,54 @@
 
 .video-review__tv {
     width: 100%;
-    padding-bottom: 56.25%;
     position: relative;
-    border-radius: 12px;
+    /* Match tv.png aspect ratio (837x521) */
+    padding-bottom: 62.25%;
+    overflow: visible;    
+}
+
+.video-review__tv::after {
+    content: none;
+}
+
+.video-review__tv-media {
+    position: absolute;
+    /* Screen opening bbox (measured from tv.png transparency hole) */
+    left: 7.29%;
+    top: 11.13%;
+    width: 63.56%;
+    height: 71.40%;
     overflow: hidden;
-    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+    border-radius: 16px;
+    background: #000;
+    z-index: 1;
+}
+
+.video-review__tv-media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 55%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.video-review__tv-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Legacy CSS-drawn TV parts (disabled while using tv.png frame) */
+.video-review__tv-screen,
+.video-review__tv-screen--content,
+.video-review__tv-controls,
+.video-review__tv-knob {
+    display: none !important;
 }
 
 .video-review__iframe {
@@ -972,6 +1015,7 @@
     inset: 0;
     width: 100%;
     height: 100%;
+    z-index: 1;
 }
 
 .video-review__title {
