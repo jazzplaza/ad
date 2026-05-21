@@ -115,7 +115,7 @@ $(window).on("load", function () {
             },
 
             //events
-            onLeave: function (index, nextIndex, direction) {
+	            onLeave: function (index, nextIndex, direction) {
                 //reaching our First section? The one with our normal site?
 
                 $('.navbar-top-default').fadeOut();
@@ -164,27 +164,24 @@ $(window).on("load", function () {
                     });
                 }
 
-                // About section: ensure tree_open hint is positioned correctly after pagepiling transition
-	                if (nextIndex == 2) {
-	                    setTimeout(function () {
-	                        if (window.updateTreeOpenHint) {
-	                            window.updateTreeOpenHint();
-	                            setTimeout(window.updateTreeOpenHint, 180);
-	                        }
-	                    }, 650);
-	                }
+	                // About section: ensure tree_open hint is positioned correctly after pagepiling transition
+		                if (nextIndex == 2) {
+		                    setTimeout(function () {
+		                        if (window.updateTreeOpenHint) {
+		                            window.updateTreeOpenHint();
+		                            setTimeout(window.updateTreeOpenHint, 180);
+		                        }
+		                    }, 650);
+		                }
 
-	                // Leaving About downward: collapse ancestor tree so it won't cover the Team section
-	                if (index == 2 && direction === 'down') {
-	                    try {
-	                        var panel = document.getElementById('genealogy-panel-maternal');
-	                        var rootChildren = panel ? panel.querySelector('.genealogy-tree > ul > li > ul') : null;
-	                        var expanded = !!(rootChildren && rootChildren.offsetParent !== null);
-	                        if (expanded && window.collapseAncestorGenealogyTree) {
-	                            window.collapseAncestorGenealogyTree();
-	                        }
-	                    } catch (e) {}
-	                }
+		                // Leaving About downward: collapse expanded genealogy so it won't visually leak into the next section
+		                if (index == 2 && direction === 'down') {
+		                    try {
+		                        if (window.resetActiveGenealogyTree) {
+		                            window.resetActiveGenealogyTree();
+		                        }
+		                    } catch (e) {}
+		                }
 
 	                if(nextIndex == 1) {
 	                    $('.section1left').addClass('slideInLeft');
