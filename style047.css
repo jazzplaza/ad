@@ -1734,6 +1734,19 @@
     border-radius: 14px;
     padding: 14px 16px;
     backdrop-filter: blur(2px);
+    line-height: 1.9;
+    background-image: none;
+}
+
+/* Story panel: ruled lines at each line bottom */
+#story-panel-story .text.alt-font {
+    /* Keep this in sync with line-height below */
+    --story-line-height: 1.9;
+    position: relative;
+}
+
+#story-panel-story .text.alt-font::before {
+    content: none;
 }
 
 /* Keep story/info panels same size; overflow scroll for long content */
