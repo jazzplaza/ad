@@ -1697,6 +1697,14 @@
     margin-bottom: 14px;
 }
 
+.story-title-divider {
+    width: 72px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.85);
+    margin: 10px 0 14px;
+    border-radius: 999px;
+}
+
 .story-tab {
     border: 1px solid rgba(255, 255, 255, 0.35);
     background: rgba(255, 255, 255, 0.08);
