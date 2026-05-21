@@ -1233,8 +1233,7 @@
 }
 
 #home-banner .slider-area::before,
-#home-banner .slider-area::after {
-    content: "";
+#home-banner .slider-area::after {    
     position: absolute;
     top: 18%;
     bottom: 52%;
