@@ -1657,6 +1657,12 @@
         overflow: hidden !important;
     }
 
+    /* Pagepiling: keep About content from leaking into next section */
+    #about.pp-section,
+    #about.pp-section .pp-tableCell {
+        overflow: hidden !important;
+    }
+
     #about.pp-section.pp-table.active .pp-tableCell {
         vertical-align: top !important;
         padding-top: 0 !important;
