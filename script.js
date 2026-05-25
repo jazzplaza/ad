@@ -24,12 +24,20 @@
         }
 
         requestAnimationFrame(function () {
-            var maxScrollLeft = el.scrollWidth - el.clientWidth;
+            // Prefer centering the actual horizontal scroller.
+            // Ancestor view uses a wrapper (.ancestor-scroll) as the overflow-x container.
+            var scroller = el;
+            var maxScrollLeft = scroller.scrollWidth - scroller.clientWidth;
             if (maxScrollLeft <= 0) {
-                return;
+                var wrapper = el.closest ? el.closest('.ancestor-scroll') : null;
+                if (wrapper) {
+                    scroller = wrapper;
+                    maxScrollLeft = scroller.scrollWidth - scroller.clientWidth;
+                }
             }
 
-            el.scrollLeft = Math.max(0, Math.floor(maxScrollLeft / 2));
+            if (maxScrollLeft <= 0) return;
+            scroller.scrollLeft = Math.max(0, Math.floor(maxScrollLeft / 2));
         });
     }
 
@@ -228,8 +236,18 @@
         $content.find('.genealogy-tree').addClass('genealogy-tree--ancestor');
         formatAncestorCouples($content);
 
+        // Highlight specific ancestor nodes (requested custom background colors)
+        $content.find('.member-details h3').each(function () {
+            var text = ($(this).text() || '').replace(/\s+/g, '');
+            if (text.indexOf('邱阿公') !== -1 || text.indexOf('黃阿嬤') !== -1) {
+                $(this).closest('.member-details').addClass('ancestor-highlight-bg');
+            }
+        });
+
         $panel.empty().append($content);
-        initGenealogyTree($panel.find('.genealogy-tree').first());
+        $panel.find('.genealogy-tree').each(function () {
+            initGenealogyTree($(this));
+        });
         centerGenealogyBody($panel.find('.genealogy-body').first());
     }
 
@@ -270,11 +288,14 @@
 
         function applyScale($panel, scale) {
             if (!$panel || !$panel.length) return;
-            var $tree = $panel.find('.genealogy-tree').first();
-            if (!$tree.length) return;
+            var $trees = $panel.find('.genealogy-tree');
+            if (!$trees.length) return;
 
-            var $body = $panel.find('.genealogy-body').first();
-            var bodyEl = $body.length ? $body.get(0) : null;
+            // Use the actual horizontal scroller for ratio preservation.
+            var $scroller = $panel.is('#genealogy-panel-maternal')
+                ? $panel.find('.ancestor-scroll').first()
+                : $panel.find('.genealogy-body').first();
+            var bodyEl = $scroller.length ? $scroller.get(0) : null;
             var beforeMaxScroll = bodyEl ? Math.max(0, bodyEl.scrollWidth - bodyEl.clientWidth) : 0;
             var beforeRatio = bodyEl && beforeMaxScroll > 0 ? (bodyEl.scrollLeft / beforeMaxScroll) : null;
 
@@ -282,17 +303,21 @@
             $panel.attr('data-zoom', String(scale));
 
             // Prefer CSS zoom (affects layout/scroll); fallback to transform for browsers that don't support it.
-            var treeEl = $tree.get(0);
-            var supportsZoom = treeEl && typeof treeEl.style.zoom !== 'undefined';
-            if (supportsZoom) {
-                treeEl.style.zoom = String(scale);
-                treeEl.style.transform = '';
-                treeEl.style.transformOrigin = '';
-            } else {
-                treeEl.style.zoom = '';
-                treeEl.style.transformOrigin = '0 0';
-                treeEl.style.transform = 'scale(' + scale + ')';
-            }
+            var firstTreeEl = $trees.first().get(0);
+            var supportsZoom = firstTreeEl && typeof firstTreeEl.style.zoom !== 'undefined';
+            $trees.each(function () {
+                var treeEl = this;
+                if (!treeEl || !treeEl.style) return;
+                if (supportsZoom) {
+                    treeEl.style.zoom = String(scale);
+                    treeEl.style.transform = '';
+                    treeEl.style.transformOrigin = '';
+                } else {
+                    treeEl.style.zoom = '';
+                    treeEl.style.transformOrigin = '0 0';
+                    treeEl.style.transform = 'scale(' + scale + ')';
+                }
+            });
 
             // Preserve horizontal scroll position proportionally (avoid jumping during pinch/zoom)
             if (bodyEl && beforeRatio != null) {
@@ -301,7 +326,7 @@
                     bodyEl.scrollLeft = afterMax > 0 ? Math.round(afterMax * beforeRatio) : 0;
                 });
             } else {
-                centerGenealogyBody($body);
+                centerGenealogyBody($panel.find('.genealogy-body').first());
             }
         }
 
@@ -433,9 +458,22 @@
 
         // Use the root node's direct children visibility as the source of truth.
         // This avoids timing issues with slideUp/slideDown animations.
+        // Maternal split: if either side is expanded, hide the hint.
         var $rootLi = $tree.children('ul').children('li').first();
         var $rootChildren = $rootLi.children('ul');
-        var expanded = $rootChildren.length ? $rootChildren.is(':visible') : false;
+        var expanded = false;
+        if ($activePanel.is('#genealogy-panel-maternal')) {
+            $activePanel.find('.genealogy-tree').each(function () {
+                var $rt = $(this);
+                var $rtRoot = $rt.children('ul').children('li').first();
+                var $rtChildren = $rtRoot.children('ul');
+                if ($rtChildren.length && $rtChildren.is(':visible')) {
+                    expanded = true;
+                }
+            });
+        } else {
+            expanded = $rootChildren.length ? $rootChildren.is(':visible') : false;
+        }
         $hint.toggleClass('is-hidden', expanded);
 
         // Position hint midway between the root node (e.g. 邱阿公&黃阿嬤) and the viewport bottom (desktop + iPad only).
@@ -490,11 +528,14 @@
     window.updateTreeOpenHint = updateTreeOpenHint;
     window.resetActiveGenealogyTree = function () {
         var $activePanel = $('[data-genealogy-panel].is-active').first();
-        var $tree = $activePanel.find('.genealogy-tree').first();
-        if (!$tree.length) return;
+        var $trees = $activePanel.find('.genealogy-tree');
+        if (!$trees.length) return;
 
-        $tree.find('ul').hide().removeClass('active');
-        $tree.children('ul').show();
+        $trees.each(function () {
+            var $tree = $(this);
+            $tree.find('ul').hide().removeClass('active');
+            $tree.children('ul').show();
+        });
         updateTreeOpenHint();
     };
 
@@ -503,11 +544,14 @@
         var $panel = $('#genealogy-panel-maternal');
         if (!$panel.length) return;
 
-        var $tree = $panel.find('.genealogy-tree').first();
-        if (!$tree.length) return;
+        var $trees = $panel.find('.genealogy-tree');
+        if (!$trees.length) return;
 
-        $tree.find('ul').hide().removeClass('active');
-        $tree.children('ul').show();
+        $trees.each(function () {
+            var $tree = $(this);
+            $tree.find('ul').hide().removeClass('active');
+            $tree.children('ul').show();
+        });
 
         // Ensure the ancestor container is scrolled back to the top.
         var $body = $panel.find('.genealogy-body').first();
@@ -529,6 +573,11 @@
             var isActive = $(this).data('genealogyPanel') === panelName;
             $(this).toggleClass('is-active', isActive).prop('hidden', !isActive);
         });
+
+        // Keep ancestor view centered when switching tabs.
+        if (panelName === 'maternal') {
+            centerGenealogyBody($('#genealogy-panel-maternal').find('.genealogy-body').first());
+        }
     }
 
     function openInfoModal() {
@@ -561,6 +610,41 @@
             return;
         }
 
+        // Ancestor (maternal) split: clicking either root toggles both sides together,
+        // and hides the tree_open.png hint while expanded.
+        (function () {
+            var $panel = $node.closest('[data-genealogy-panel]');
+            if (!$panel.is('#genealogy-panel-maternal')) return;
+            if (!isTopLevelNode) return;
+
+            var $tree = $node.closest('.genealogy-tree');
+            var $rootLi = $tree.children('ul').children('li').first();
+            if (!$rootLi.is($node)) return;
+
+            var shouldExpand = !$children.is(':visible');
+
+            $panel.find('.genealogy-tree').each(function () {
+                var $rt = $(this);
+                var $rtRoot = $rt.children('ul').children('li').first();
+                if (!$rtRoot.length) return;
+                if (shouldExpand) showAllTreeDescendants($rtRoot);
+                else hideAllTreeDescendants($rtRoot);
+            });
+
+            centerGenealogyBody($panel.find('.genealogy-body').first());
+            updateTreeOpenHint();
+            setTimeout(updateTreeOpenHint, 260);
+            event.preventDefault();
+            event.stopPropagation();
+        })();
+
+        // If maternal root handled above, stop here.
+        if ($node.closest('#genealogy-panel-maternal').length && isTopLevelNode) {
+            var $tree2 = $node.closest('.genealogy-tree');
+            var $rootLi2 = $tree2.children('ul').children('li').first();
+            if ($rootLi2.is($node)) return;
+        }
+
         if (isTopLevelNode) {
             if ($children.is(':visible')) {
                 hideAllTreeDescendants($node);
@@ -575,7 +659,12 @@
             }
         }
 
-        keepGenealogyNodeCentered($node);
+        var $panel = $node.closest('[data-genealogy-panel]');
+        if ($panel.is('#genealogy-panel-maternal')) {
+            centerGenealogyBody($panel.find('.genealogy-body').first());
+        } else {
+            keepGenealogyNodeCentered($node);
+        }
         updateTreeOpenHint();
         // Re-check after slide animations settle.
         setTimeout(updateTreeOpenHint, 260);

@@ -179,12 +179,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+}
+
+#genealogy-panel-maternal .member-details.ancestor-highlight-bg {
+    background: #a3a3a3bf;
 }
 
 #genealogy-panel-maternal .member-details h3 {
     margin: 0;
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     line-height: 1.25;
     letter-spacing: 0.02em;
@@ -193,6 +198,30 @@
     white-space: nowrap;
     border: 0;
     padding: 0;
+}
+
+/* Ancestor view: show horizontal scrollbar like family tree */
+#genealogy-panel-maternal .ancestor-scroll {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding-bottom: 18px;
+    text-align: center;
+}
+
+#genealogy-panel-maternal .genealogy-body {
+    overflow: visible;
+    padding-bottom: 0;
+}
+
+/* Ancestor tree: hide connector lines between nodes */
+#genealogy-panel-maternal .genealogy-tree li::before,
+#genealogy-panel-maternal .genealogy-tree li::after,
+#genealogy-panel-maternal .genealogy-tree ul ul::before {
+    display: none !important;
+    border: 0 !important;
 }
 
 #genealogy-panel-maternal .member-details h3.ancestor-pair {
@@ -231,6 +260,180 @@
     color: #fff;
     text-align: center;
     width: 100%;
+}
+
+/* Ancestor age label (horizontal, near bottom of the name box) */
+#genealogy-panel-maternal .ancestor-age {
+    margin-top: auto;
+    padding-top: 6px;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.75);
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    white-space: nowrap;
+}
+
+/* Ancestor note bubble (vertical, pulled to the left of the root couple) */
+#genealogy-panel-maternal .ancestor-note {
+    position: absolute;
+    top: 0;
+    transform: none;
+    z-index: 30;
+    pointer-events: none;
+}
+
+#genealogy-panel-maternal .ancestor-note--left {
+    right: calc(100% + 18px);
+}
+
+#genealogy-panel-maternal .ancestor-note--right {
+    left: calc(100% + 18px);
+}
+
+
+#genealogy-panel-maternal .ancestor-note__bubble {
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    white-space: normal;
+    height: calc(7 * 1.25em + 24px);
+    padding: 12px 10px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    background: rgba(0, 0, 0, 0.38);
+    color: #f1c51c;
+    font-size: 13px;
+    line-height: 1.25;
+    word-break: break-all;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: start;
+    max-width: 180px;
+}
+
+#genealogy-panel-maternal .ancestor-note__bubble::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translateY(-50%);
+    border-width: 8px 0 8px 10px;
+    border-style: solid;
+    border-color: transparent transparent transparent rgba(0, 0, 0, 0.38);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.18));
+}
+
+
+/* Border triangle for the speech-bubble pointer (keeps outline continuous) */
+#genealogy-panel-maternal .ancestor-note__bubble::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -11px;
+    transform: translateY(-50%);
+    border-width: 9px 0 9px 11px;
+    border-style: solid;
+    border-color: transparent transparent transparent rgba(255, 255, 255, 0.55);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.12));
+}
+
+/* Right-side note: mirror the pointer to the left edge */
+#genealogy-panel-maternal .ancestor-note--right .ancestor-note__bubble::after {
+    right: auto;
+    left: -10px;
+    border-width: 8px 10px 8px 0;
+    border-color: transparent rgba(0, 0, 0, 0.38) transparent transparent;
+}
+
+#genealogy-panel-maternal .ancestor-note--right .ancestor-note__bubble::before {
+    right: auto;
+    left: -11px;
+    border-width: 9px 11px 9px 0;
+    border-color: transparent rgba(255, 255, 255, 0.55) transparent transparent;
+}
+
+
+/* Ancestor tree split (two columns) */
+#genealogy-panel-maternal .genealogy-body--ancestor-split {
+    display: inline-flex;
+    gap: 28px;
+    align-items: flex-start;
+    justify-content: center;
+    width: max-content;
+    min-width: max-content;
+}
+
+#genealogy-panel-maternal .genealogy-body--ancestor-split .genealogy-tree {
+    flex: 0 0 auto;
+}
+
+/* Reserve space so the left-side note won't overlap the downward branch */
+#genealogy-panel-maternal .genealogy-tree--ancestor-left {
+    padding-left: 200px;    
+}
+
+/* Reserve space on the left of the right tree for any left-side notes so the two trees never overlap */
+#genealogy-panel-maternal .genealogy-tree--ancestor-right {
+    padding-left: 260px;
+    padding-right: 40px;
+}
+
+/* Ancestor left tree: keep root/child vertically centered with a tighter gap (10% of 140px ~= 14px) */
+#genealogy-panel-maternal .genealogy-tree--ancestor-left > ul > li > ul > li {
+    padding-top: 14px;
+}
+
+#genealogy-panel-maternal .genealogy-tree--ancestor-left > ul > li > ul > li::before,
+#genealogy-panel-maternal .genealogy-tree--ancestor-left > ul > li > ul > li::after {
+    height: 14px;
+}
+
+/* Ancestor right tree: add vertical spacing between 鄭阿扁&鄭賴阿金 and 邱溪&邱陳阿麵 */
+#genealogy-panel-maternal .genealogy-tree--ancestor-right > ul > li > ul > li {
+    padding-top: 14px;
+}
+
+/* Ancestor right tree: add vertical spacing between 卓泉&卓梁蔥 and 卓錦&卓英 */
+#genealogy-panel-maternal .genealogy-tree--ancestor-right > ul > li > ul > li > ul > li {
+    padding-top: 14px;
+}
+
+/* Match spacing between 黃溪&黃陳阿麵 -> 黃大成 (same as above) */
+#genealogy-panel-maternal .genealogy-tree--ancestor-left > ul > li > ul > li > ul > li {
+    padding-top: 14px;
+}
+
+#genealogy-panel-maternal .genealogy-tree--ancestor-left > ul > li > ul > li > ul > li::before,
+#genealogy-panel-maternal .genealogy-tree--ancestor-left > ul > li > ul > li > ul > li::after {
+    height: 14px;
+}
+
+/* Ancestor siblings row (邱大哥 / 邱二哥 / 邱阿公): spacing = 1.5x box width */
+#genealogy-panel-maternal .ancestor-siblings-3 {
+    --ancestor-sibling-width: 76px;
+    gap: calc(var(--ancestor-sibling-width) * 0.5);
+}
+
+@media (max-width: 767.98px) {
+    /* Mobile: keep two ancestor trees parallel (side-by-side) and scroll horizontally like family tree */
+    #genealogy-panel-maternal .genealogy-body--ancestor-split {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 18px;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    #genealogy-panel-maternal .genealogy-tree--ancestor-left {
+        padding-left: 180px;
+        padding-right: 220px;
+    }
+
+    #genealogy-panel-maternal .genealogy-tree--ancestor-right {
+        padding-left: 220px;
+        padding-right: 30px;
+    }
 }
 .tv {
     position: relative;
