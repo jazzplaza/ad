@@ -2047,6 +2047,18 @@
     white-space: nowrap;
 }
 
+.memorial-coord--map {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+}
+
+.memorial-coord--map:hover,
+.memorial-coord--map:focus {
+    text-decoration: underline;
+}
+
 
 .timeline {
     display: flex;
