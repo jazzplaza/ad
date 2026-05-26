@@ -24,6 +24,15 @@
         }
 
         requestAnimationFrame(function () {
+            var isMobile = window.matchMedia && window.matchMedia('(max-width: 767.98px)').matches;
+            var $panel = $body.closest('[data-genealogy-panel]');
+            // Mobile UX: when viewing ancestor tree and it's collapsed, stay at the far-left (root) instead of centering.
+            if (isMobile && $panel.is('#genealogy-panel-maternal') && !$panel.hasClass('is-expanded')) {
+                var wrapper0 = el.closest ? el.closest('.ancestor-scroll') : null;
+                (wrapper0 || el).scrollLeft = 0;
+                return;
+            }
+
             // Prefer centering the actual horizontal scroller.
             // Ancestor view uses a wrapper (.ancestor-scroll) as the overflow-x container.
             var scroller = el;
@@ -234,7 +243,7 @@
 
         $content.find('img').remove();
         $content.find('.genealogy-tree').addClass('genealogy-tree--ancestor');
-        formatAncestorCouples($content);
+        // Ancestor view is horizontal (left-to-right), so do not apply vertical couple formatting.
 
         // Highlight specific ancestor nodes (requested custom background colors)
         $content.find('.member-details h3').each(function () {
@@ -242,6 +251,129 @@
             if (text.indexOf('邱阿公') !== -1 || text.indexOf('黃阿嬤') !== -1) {
                 $(this).closest('.member-details').addClass('ancestor-highlight-bg');
             }
+        });
+
+        var lifeKeySeq = 0;
+
+        // Merge note bubble text into fields under the name, and remove the bubble UI.
+        $content.find('.member-details').each(function () {
+            var $details = $(this);
+            var $h3 = $details.find('h3').first();
+            if (!$h3.length) return;
+            var $arrow = $details.find('.ancestor-arrow-inside').first();
+
+            var rawName = ($h3.text() || '').trim();
+            var parts = rawName.split(/[&＆]/).map(function (s) { return (s || '').trim(); }).filter(Boolean);
+            var nameOnly = parts.length ? parts[0] : rawName;
+            var spouse = parts.length > 1 ? parts.slice(1).join('＆') : '';
+            $h3.text(nameOnly);
+            $h3.toggleClass('ancestor-name-nowrap', nameOnly === '鄭賴阿金');
+
+            var noteText = $details.find('.ancestor-note__bubble').first().text();
+            noteText = (noteText || '').replace(/\s+/g, ' ').trim();
+
+            var origin = '';
+            var life = noteText;
+            if (noteText) {
+                // Try to extract the first "X籍" as 籍貫.
+                var m = noteText.match(/^(.{1,12}?籍)/);
+                if (m && m[1]) {
+                    origin = m[1];
+                    life = noteText.slice(m[1].length);
+                    life = life.replace(/^[，,;；、\s]+/, '').trim();
+                }
+            }
+
+            // Normalize 籍貫 wording for display (e.g., 福建籍 -> 福建省)
+            var originDisplay = origin;
+            if (originDisplay && /籍$/.test(originDisplay)) {
+                var base = originDisplay.replace(/籍$/, '');
+                if (base && !/(省|市|縣|區|鄉|鎮|里)$/.test(base)) {
+                    originDisplay = base + '省';
+                } else {
+                    originDisplay = base;
+                }
+            }
+
+            // Rebuild inline info block (順序：配偶、籍貫、生平；生平需點選▼展開)
+            $details.find('.ancestor-note-inline').remove();
+            $details.find('.ancestor-life-toggle, .ancestor-life-content').remove();
+
+            var wrap = document.createElement('div');
+            wrap.className = 'ancestor-note-inline';
+
+            function addRow(label, value, extraClass) {
+                if (!value) return;
+                var row = document.createElement('div');
+                row.className = 'ancestor-note-row';
+                if (extraClass) row.className += ' ' + extraClass;
+                var k = document.createElement('span');
+                k.className = 'k';
+                k.textContent = label;
+                var v = document.createElement('span');
+                v.className = 'v';
+                v.textContent = String(value);
+                row.appendChild(k);
+                row.appendChild(v);
+                wrap.appendChild(row);
+                return { row: row, k: k, v: v };
+            }
+
+            addRow('配偶：', spouse, 'ancestor-note-row--spouse');
+            var originRow = addRow('籍貫：', originDisplay, 'ancestor-note-row--origin');
+
+            if (life) {
+                lifeKeySeq += 1;
+                $details.attr('data-life-key', String(lifeKeySeq));
+                if (originRow && originRow.v) {
+                    var btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'ancestor-life-toggle';
+                    btn.setAttribute('aria-expanded', 'false');
+                    btn.setAttribute('aria-label', '展開生平');
+                    btn.setAttribute('data-life-key', String(lifeKeySeq));
+                    btn.textContent = '▼';
+                    originRow.v.appendChild(document.createTextNode(' '));
+                    originRow.v.appendChild(btn);
+                }
+
+                var lifeBlock = document.createElement('div');
+                lifeBlock.className = 'ancestor-life-block';
+
+                var rowLife = document.createElement('div');
+                rowLife.className = 'ancestor-note-row ancestor-note-row--life';
+                var kLife = document.createElement('span');
+                kLife.className = 'k';
+                kLife.textContent = '生平：';
+                var vLife = document.createElement('span');
+                vLife.className = 'v';
+                rowLife.appendChild(kLife);
+                rowLife.appendChild(vLife);
+                lifeBlock.appendChild(rowLife);
+
+                var lifeEl = document.createElement('div');
+                lifeEl.className = 'ancestor-life-content';
+                if (window.matchMedia && window.matchMedia('(max-width: 767.98px)').matches) {
+                    var chars = Array.from(String(life));
+                    for (var i = 0; i < chars.length; i++) {
+                        if (i > 0 && i % 8 === 0) {
+                            lifeEl.appendChild(document.createElement('br'));
+                        }
+                        lifeEl.appendChild(document.createTextNode(chars[i]));
+                    }
+                } else {
+                    lifeEl.textContent = life;
+                }
+                lifeBlock.appendChild(lifeEl);
+
+                wrap.appendChild(lifeBlock);
+            }
+
+            if (wrap.childNodes.length) {
+                $details.append(wrap);
+            }
+
+            $details.find('.ancestor-note').remove();
         });
 
         $panel.empty().append($content);
@@ -476,6 +608,14 @@
         }
         $hint.toggleClass('is-hidden', expanded);
 
+        // Mark panel expanded/collapsed (used by desktop drag scroll + ancestor note visibility).
+        $activePanel.toggleClass('is-expanded', expanded);
+        if ($activePanel.is('#genealogy-panel-maternal')) {
+            setupAncestorDragScroll();
+        } else if ($activePanel.is('#genealogy-panel-paternal')) {
+            setupPaternalDragScroll();
+        }
+
         // Position hint midway between the root node (e.g. 邱阿公&黃阿嬤) and the viewport bottom (desktop + iPad only).
         var hintEl = $hint.get(0);
         if (!hintEl) return;
@@ -524,6 +664,157 @@
         }
     }
 
+    function setupAncestorDragScroll() {
+        var isDesktop = window.matchMedia && window.matchMedia('(min-width: 992px)').matches;
+        if (!isDesktop) return;
+
+        var panel = document.getElementById('genealogy-panel-maternal');
+        if (!panel) return;
+        if (!panel.classList.contains('is-expanded')) return;
+
+        var scroller = panel.querySelector('.ancestor-scroll');
+        if (!scroller || scroller.__ancestorDragBound) return;
+        scroller.__ancestorDragBound = true;
+
+        var isDown = false;
+        var startX = 0;
+        var startY = 0;
+        var startLeft = 0;
+        var startTop = 0;
+        var dragged = false;
+        var suppressNextClick = false;
+
+        function isInteractiveTarget(target) {
+            if (!target) return false;
+            return !!(target.closest && target.closest('a, button, input, textarea, select, label'));
+        }
+
+        scroller.addEventListener('mousedown', function (e) {
+            if (e.button !== 0) return;
+            if (isInteractiveTarget(e.target)) return;
+
+            var canScrollX = scroller.scrollWidth > scroller.clientWidth + 1;
+            var canScrollY = scroller.scrollHeight > scroller.clientHeight + 1;
+            if (!canScrollX && !canScrollY) return;
+
+            e.preventDefault();
+            isDown = true;
+            dragged = false;
+            suppressNextClick = false;
+            startX = e.pageX;
+            startY = e.pageY;
+            startLeft = scroller.scrollLeft;
+            startTop = scroller.scrollTop;
+            scroller.classList.add('is-dragging');
+        });
+
+        window.addEventListener('mousemove', function (e) {
+            if (!isDown) return;
+            var dx = e.pageX - startX;
+            var dy = e.pageY - startY;
+            if (!dragged && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+                dragged = true;
+            }
+            scroller.scrollLeft = startLeft - dx;
+            scroller.scrollTop = startTop - dy;
+        });
+
+        window.addEventListener('mouseup', function () {
+            if (!isDown) return;
+            isDown = false;
+            scroller.classList.remove('is-dragging');
+            if (dragged) {
+                suppressNextClick = true;
+                // Clear on next tick (after click fires)
+                setTimeout(function () { suppressNextClick = false; }, 0);
+            }
+            dragged = false;
+        });
+
+        // Prevent accidental click after drag (so nodes don't toggle)
+        scroller.addEventListener('click', function (e) {
+            if (isInteractiveTarget(e.target)) return;
+            if (!suppressNextClick) return;
+            e.preventDefault();
+            e.stopPropagation();
+        }, true);
+    }
+
+    function setupPaternalDragScroll() {
+        var isDesktop = window.matchMedia && window.matchMedia('(min-width: 992px)').matches;
+        if (!isDesktop) return;
+
+        var panel = document.getElementById('genealogy-panel-paternal');
+        if (!panel || !panel.classList.contains('is-expanded')) return;
+
+        var scroller = panel.querySelector('.genealogy-body');
+        if (!scroller || scroller.__paternalDragBound) return;
+        scroller.__paternalDragBound = true;
+
+        var isDown = false;
+        var startX = 0;
+        var startY = 0;
+        var startLeft = 0;
+        var startTop = 0;
+        var dragged = false;
+        var suppressNextClick = false;
+
+        function isInteractiveTarget(target) {
+            if (!target) return false;
+            return !!(target.closest && target.closest('a, button, input, textarea, select, label'));
+        }
+
+        scroller.classList.add('is-dragscroll');
+
+        scroller.addEventListener('mousedown', function (e) {
+            if (e.button !== 0) return;
+            if (isInteractiveTarget(e.target)) return;
+
+            var canScrollX = scroller.scrollWidth > scroller.clientWidth + 1;
+            var canScrollY = scroller.scrollHeight > scroller.clientHeight + 1;
+            if (!canScrollX && !canScrollY) return;
+
+            e.preventDefault();
+            isDown = true;
+            dragged = false;
+            suppressNextClick = false;
+            startX = e.pageX;
+            startY = e.pageY;
+            startLeft = scroller.scrollLeft;
+            startTop = scroller.scrollTop;
+            scroller.classList.add('is-dragging');
+        });
+
+        window.addEventListener('mousemove', function (e) {
+            if (!isDown) return;
+            var dx = e.pageX - startX;
+            var dy = e.pageY - startY;
+            if (!dragged && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+                dragged = true;
+            }
+            scroller.scrollLeft = startLeft - dx;
+            scroller.scrollTop = startTop - dy;
+        });
+
+        window.addEventListener('mouseup', function () {
+            if (!isDown) return;
+            isDown = false;
+            scroller.classList.remove('is-dragging');
+            if (dragged) {
+                suppressNextClick = true;
+                setTimeout(function () { suppressNextClick = false; }, 0);
+            }
+            dragged = false;
+        });
+
+        scroller.addEventListener('click', function (e) {
+            if (isInteractiveTarget(e.target)) return;
+            if (!suppressNextClick) return;
+            e.preventDefault();
+            e.stopPropagation();
+        }, true);
+    }
+
     // Expose for pagepiling navigation callbacks
     window.updateTreeOpenHint = updateTreeOpenHint;
     window.resetActiveGenealogyTree = function () {
@@ -560,6 +851,11 @@
             $body.get(0).scrollLeft = 0;
         }
 
+        // Reset life open state when collapsing the tree
+        $panel.removeAttr('data-life-open-all');
+        $panel.find('.member-details').removeClass('is-life-open');
+        $panel.find('.ancestor-life-toggle').attr('aria-expanded', 'false');
+
         updateTreeOpenHint();
     };
 
@@ -594,14 +890,67 @@
     renderAncestorTree();
     updateTreeOpenHint();
     setupGenealogyZoom();
+    setupAncestorDragScroll();
+    setupPaternalDragScroll();
 
     $(window).on('resize', function () {
         // Recompute position when viewport changes
         updateTreeOpenHint();
         setTimeout(updateTreeOpenHint, 120);
+        setupAncestorDragScroll();
+        setupPaternalDragScroll();
+    });
+
+    // Ancestor life-toggle must be handled before tree toggle (to avoid accidental expand/collapse).
+    $(document).on('click', '#genealogy-panel-maternal .ancestor-life-toggle', function (event) {
+        var $btn = $(this);
+        var $panel = $btn.closest('#genealogy-panel-maternal');
+        if (!$panel.length) return;
+
+        // Global toggle: click any ▼ to open/close ALL ancestor life blocks together.
+        // Use a panel flag as the source of truth (more robust than relying on transient classes).
+        var isOpenAll = $panel.attr('data-life-open-all') === '1';
+        var willOpenAll = !isOpenAll;
+
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+
+        // Reset everything first
+        $panel.find('.member-details').removeClass('is-life-open');
+        $panel.find('.ancestor-life-toggle').attr('aria-expanded', 'false');
+        $panel.find('.ancestor-arrow-inside').each(function () {
+            var $a = $(this);
+            var $d = $a.closest('.member-details');
+            if ($d.length) $a.appendTo($d.first());
+        });
+
+        if (willOpenAll) {
+            $panel.attr('data-life-open-all', '1');
+            $panel.find('.member-details').each(function () {
+                var $d = $(this);
+                var $lifeBlock = $d.find('.ancestor-life-block').first();
+                if (!$lifeBlock.length) return;
+
+                $d.addClass('is-life-open');
+                $d.find('.ancestor-life-toggle').attr('aria-expanded', 'true');
+
+                var $arrow = $d.find('.ancestor-arrow-inside').first();
+                if ($arrow.length) $arrow.appendTo($lifeBlock);
+            });
+        } else {
+            $panel.removeAttr('data-life-open-all');
+        }
     });
 
     $(document).on('click', '.genealogy-tree li > a', function (event) {
+        // Clicking the life toggle (▼) should not toggle the tree node itself.
+        if ($(event.target).closest('.ancestor-life-toggle').length) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
+
         var $node = $(this).closest('li');
         var $children = $node.children('ul');
         var isTopLevelNode = $node.parent('ul').parent('.genealogy-tree').length > 0;
@@ -671,6 +1020,8 @@
         event.preventDefault();
         event.stopPropagation();
     });
+
+    // (ancestor-life-toggle handler moved above tree handler)
 
     $('[data-genealogy-tab]').on('click', function () {
         setGenealogyPanel($(this).data('genealogyTab'));

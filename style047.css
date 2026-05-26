@@ -125,6 +125,17 @@
     border-color:  #fbba00;
 }
 
+/* Unified node width (all genealogy boxes use the same width) */
+.genealogy-panel {
+    --genealogy-node-width: clamp(120px, 17vw, 160px);
+}
+
+.genealogy-panel .member-details {
+    box-sizing: border-box;
+    width: var(--genealogy-node-width);
+    max-width: var(--genealogy-node-width);
+}
+
 /*--------------memeber-card-design----------*/
 .member-view-box{
     padding: 0 20px;
@@ -150,6 +161,41 @@
     z-index: 1;
 }
 
+/* iPad: center paternal title text on top of the image */
+@media (min-width: 768px) and (max-width: 1279.98px) {
+    #genealogy-panel-paternal .member-image,
+    #genealogy-panel-paternal .member-image2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 6px;
+    }
+
+    #genealogy-panel-paternal .member-image .member-details,
+    #genealogy-panel-paternal .member-image2 .member-details {
+        position: static;
+        width: auto;
+        max-width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    #genealogy-panel-paternal .member-image .member-details h3,
+    #genealogy-panel-paternal .member-image2 .member-details h3 {
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.65);
+        color: rgba(0, 0, 0, 0.88);
+    }
+}
+
 #genealogy-panel-maternal .member-view-box {
     padding: 0 12px;
 }
@@ -171,19 +217,66 @@
 #genealogy-panel-maternal .member-details {
     min-width: 56px;
     min-height: 140px;
-    padding: 14px 10px;
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    border-radius: 12px;
-    background: rgba(12, 18, 21, 0.52);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+    padding: 14px 0px 10px 52px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 0;
+    background: linear-gradient(180deg, rgba(45, 62, 55, 0.92), rgba(32, 45, 40, 0.92));
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     position: relative;
+    overflow: hidden;
+    width: var(--genealogy-node-width);
+    max-width: var(--genealogy-node-width);
+}
+
+/* Ancestor panel: shrink node width to 80% (requested) */
+#genealogy-panel-maternal {
+    --genealogy-node-width: clamp(96px, 13.6vw, 128px);
+}
+
+/* (legacy) initial tag rules removed; see override below */
+
+/* Override tag to match reference card (orange vertical label) */
+#genealogy-panel-maternal .member-details::before {
+    content: "\5148\7956";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 44px;
+    background: url("static/image/bbg.jpg") center / cover no-repeat;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    color: rgba(255, 255, 255, 0.96);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    border-radius: 0;
+    box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.18);
+    /* bottom triangle tail */
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), 50% 100%, 0 calc(100% - 10px));
+}
+
+#genealogy-panel-maternal .member-details::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 44px;
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.10);
+    /* keep top-left fold highlight, within the tag area */
+    clip-path: polygon(0 0, 55% 0, 0 55%);
 }
 
 #genealogy-panel-maternal .member-details.ancestor-highlight-bg {
-    background: #a3a3a3bf;
+    background: #406760;
 }
 
 #genealogy-panel-maternal .member-details h3 {
@@ -193,11 +286,140 @@
     font-weight: 500;
     line-height: 1.25;
     letter-spacing: 0.02em;
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    white-space: nowrap;
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    white-space: normal;
     border: 0;
     padding: 0;
+    text-align: left;
+    width: 100%;
+    padding-left: 0;
+}
+
+/* Ancestor: inline note merged into name */
+#genealogy-panel-maternal .ancestor-note-inline {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(241, 197, 28, 0.98);
+    line-height: 1.6;
+    text-align: left;
+    width: 100%;
+    align-self: stretch;
+    /* Align the info block to the left edge of the card (fill the blank area under the left tag). */
+    margin-left: -52px;
+    width: calc(100% + 52px);
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+/* Ensure inline note stays above the ▼ */
+#genealogy-panel-maternal .ancestor-note-inline {
+    order: 10;
+}
+
+/* Ancestor: when tree is collapsed, show names only (hide merged notes) */
+#genealogy-panel-maternal:not(.is-expanded) .ancestor-note-inline {
+    display: none;
+}
+
+/* Collapsed: keep the very first (left) ancestor note visible */
+#genealogy-panel-maternal:not(.is-expanded) .genealogy-tree--ancestor-left > ul > li > a .ancestor-note-inline {
+    display: block;
+}
+
+/* Collapsed: also keep the right root (黃守) note visible, matching the left root layout */
+#genealogy-panel-maternal:not(.is-expanded) .genealogy-tree--ancestor-right > ul > li > a .ancestor-note-inline {
+    display: block;
+}
+
+#genealogy-panel-maternal .ancestor-note-row {
+    display: flex;
+    gap: 6px;
+}
+
+#genealogy-panel-maternal .ancestor-note-row + .ancestor-note-row {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(241, 197, 28, 0.55);
+}
+
+#genealogy-panel-maternal .ancestor-life-content {
+    border-top: 0;
+    padding-top: 0;
+}
+
+#genealogy-panel-maternal .ancestor-note-row .k {
+    flex: 0 0 auto;
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 700;
+}
+
+#genealogy-panel-maternal .ancestor-note-row .v {
+    flex: 1 1 auto;
+    min-width: 0;
+    word-break: break-word;
+    white-space: normal;
+    text-align: left;
+}
+
+/* Spouse name color (配偶) */
+#genealogy-panel-maternal .ancestor-note-row--spouse .v {
+    color: rgba(255, 255, 255, 0.96);
+}
+
+/* Ancestor life (生平): click to expand inside the box */
+#genealogy-panel-maternal .ancestor-life-content {
+    display: none;
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(241, 197, 28, 0.98);
+    line-height: 1.6;
+    text-align: left;
+    width: 100%;
+    word-break: break-word;
+    white-space: normal;
+}
+
+#genealogy-panel-maternal .ancestor-life-toggle {
+    padding: 0 6px;
+    border: 0;
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(241, 197, 28, 0.98);
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 18px;
+    height: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#genealogy-panel-maternal .ancestor-life-block {
+    display: none;
+    margin-top: 6px;
+}
+
+#genealogy-panel-maternal .member-details.is-life-open .ancestor-life-toggle {
+    transform: rotate(180deg);
+    color: rgba(241, 197, 28, 0.98);
+}
+
+#genealogy-panel-maternal .member-details.is-life-open .ancestor-life-block {
+    display: block;
+}
+
+#genealogy-panel-maternal .member-details.is-life-open .ancestor-life-block .ancestor-life-content {
+    display: block;
+}
+
+/* Ancestor tree: hide connector lines (requested) */
+#genealogy-panel-maternal .genealogy-tree li::before,
+#genealogy-panel-maternal .genealogy-tree li::after,
+#genealogy-panel-maternal .genealogy-tree ul ul::before {
+    display: none !important;
+    border: 0 !important;
 }
 
 /* Ancestor view: show horizontal scrollbar like family tree */
@@ -211,34 +433,26 @@
     text-align: center;
 }
 
+/* Desktop: when ancestor tree is expanded, allow vertical + horizontal panning inside the block */
+@media (min-width: 992px) {
+    #genealogy-panel-maternal.is-expanded .ancestor-scroll {
+        /* overridden below in shared desktop rules */
+    }
+}
+
+/* Show horizontal scrollbar primarily when expanded */
+#genealogy-panel-maternal:not(.is-expanded) .ancestor-scroll {
+    overflow-x: hidden;
+}
+
 #genealogy-panel-maternal .genealogy-body {
     overflow: visible;
     padding-bottom: 0;
 }
 
-/* Ancestor tree: hide connector lines between nodes */
-#genealogy-panel-maternal .genealogy-tree li::before,
-#genealogy-panel-maternal .genealogy-tree li::after,
-#genealogy-panel-maternal .genealogy-tree ul ul::before {
-    display: none !important;
-    border: 0 !important;
-}
-
+/* (legacy) ancestor-pair vertical formatting intentionally disabled in horizontal mode */
 #genealogy-panel-maternal .member-details h3.ancestor-pair {
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
-    align-items: start;
-    column-gap: 10px;
-    writing-mode: horizontal-tb;
-    text-orientation: mixed;
-}
-
-#genealogy-panel-maternal .member-details h3.ancestor-pair .ancestor-vertical-name {
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    border: 0;
-    padding: 0;
+    display: inline;
 }
 
 /* Family tree (族譜) - name with black rounded border */
@@ -253,18 +467,36 @@
 }
 
 #genealogy-panel-maternal .ancestor-arrow-inside {
-    margin-top: auto;
+    /* Visually center within the whole card (not affected by left padding tag area) */
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%);
     line-height: 1;
     font-size: 16px;
     opacity: 0.9;
     color: #fff;
     text-align: center;
+    width: auto;
+    margin-top: 0;
+    pointer-events: none;
+}
+
+/* When life (生平) is expanded, place the arrow after the text (flow layout). */
+#genealogy-panel-maternal .member-details.is-life-open .ancestor-arrow-inside {
+    position: static;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    margin-top: 10px;
     width: 100%;
+    text-align: center;
+    order: 200;
 }
 
 /* Ancestor age label (horizontal, near bottom of the name box) */
 #genealogy-panel-maternal .ancestor-age {
-    margin-top: auto;
+    margin-top: 8px;
     padding-top: 6px;
     font-size: 16px;
     line-height: 1;
@@ -840,6 +1072,38 @@
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 40px;
+}
+
+@media (min-width: 992px) {
+    /* Desktop: family tree drag-to-pan (both axes) */
+    #genealogy-panel-paternal.is-expanded .genealogy-body {
+        overflow-y: auto;
+        max-height: min(72vh, 680px);
+        cursor: grab;
+    }
+
+    #genealogy-panel-paternal.is-expanded .genealogy-body.is-dragging {
+        cursor: grabbing;
+        user-select: none;
+    }
+
+    /* Desktop: ancestor tree drag-to-pan; hide vertical scrollbar (still scrollable) */
+    #genealogy-panel-maternal.is-expanded .ancestor-scroll {
+        overflow-y: auto;
+        max-height: min(72vh, 680px);
+        cursor: grab;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* old Edge/IE */
+    }
+
+    #genealogy-panel-maternal.is-expanded .ancestor-scroll::-webkit-scrollbar {
+        width: 0;
+    }
+
+    #genealogy-panel-maternal.is-expanded .ancestor-scroll.is-dragging {
+        cursor: grabbing;
+        user-select: none;
+    }
 }
 
 .genealogy-panel[hidden] {
@@ -2225,12 +2489,56 @@
 
     #genealogy-panel-maternal .member-details {
         min-width: 56px;
-        padding: 9px 12px;
+        /* Reserve space for the left tag so it doesn't cover the name */
+        padding: 9px 12px 12px 52px;
+        overflow: hidden;
     }
 
     #genealogy-panel-maternal .member-details h3 {
         font-size: 14px;
         line-height: 1.35;
+    }
+
+    /* Mobile: keep specific ancestor names on one line (e.g., 鄭賴阿金) */
+    #genealogy-panel-maternal .member-details h3.ancestor-name-nowrap {
+        white-space: nowrap;
+    }
+
+    /* Mobile: show ancestor name + notes fully (no forced hiding when collapsed) */
+    #genealogy-panel-maternal .ancestor-note-inline {
+        display: block !important;
+        /* Mobile: align the info block to the left edge of the card */
+        margin-left: -52px;
+        width: calc(100% + 52px);
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    /* Mobile: keep the node arrow from covering text */
+    #genealogy-panel-maternal .ancestor-arrow-inside {
+        position: static;
+        transform: none;
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Mobile: minimize right spacing for life content */
+    #genealogy-panel-maternal .ancestor-life-block {
+        padding-right: 0;
+        margin-right: -4px;
+        width: calc(100% + 4px);
+    }
+
+    #genealogy-panel-maternal .ancestor-life-content {
+        padding-right: 0 !important;
+        margin-right: -4px;
+    }
+
+    /* Mobile: when life (生平) is expanded, nudge spouse row down 3px */
+    #genealogy-panel-maternal .member-details.is-life-open .ancestor-note-row--spouse {
+        position: relative;
+        top: 3px;
     }
 
     .timeline {
