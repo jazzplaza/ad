@@ -299,8 +299,8 @@
 /* Ancestor: inline note merged into name */
 #genealogy-panel-maternal .ancestor-note-inline {
     margin-top: 10px;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 400;
     color: rgba(241, 197, 28, 0.98);
     line-height: 1.6;
     text-align: left;
@@ -372,8 +372,8 @@
 #genealogy-panel-maternal .ancestor-life-content {
     display: none;
     margin-top: 6px;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 400;
     color: rgba(241, 197, 28, 0.98);
     line-height: 1.6;
     text-align: left;
@@ -2490,7 +2490,7 @@
     #genealogy-panel-maternal .member-details {
         min-width: 56px;
         /* Reserve space for the left tag so it doesn't cover the name */
-        padding: 9px 12px 12px 52px;
+        padding: 9px 2px 12px 52px;
         overflow: hidden;
     }
 
