@@ -466,6 +466,7 @@
     background: rgba(255, 255, 255, 0.65);
 }
 
+
 #genealogy-panel-maternal .ancestor-arrow-inside {
     /* Visually center within the whole card (not affected by left padding tag area) */
     position: absolute;
@@ -602,13 +603,18 @@
 
 /* Reserve space so the left-side note won't overlap the downward branch */
 #genealogy-panel-maternal .genealogy-tree--ancestor-left {
-    padding-left: 200px;    
+    padding-left: 120px;
 }
 
 /* Reserve space on the left of the right tree for any left-side notes so the two trees never overlap */
 #genealogy-panel-maternal .genealogy-tree--ancestor-right {
-    padding-left: 260px;
-    padding-right: 40px;
+    padding-left: 150px;
+    padding-right: 20px;
+}
+
+/* Ancestor tree: tighten horizontal spacing between sibling columns (avoid overlap) */
+#genealogy-panel-maternal .genealogy-tree--ancestor ul {
+    gap: 4px;
 }
 
 /* Ancestor left tree: keep root/child vertically centered with a tighter gap (10% of 140px ~= 14px) */
@@ -652,19 +658,19 @@
     #genealogy-panel-maternal .genealogy-body--ancestor-split {
         flex-direction: row;
         flex-wrap: nowrap;
-        gap: 18px;
+        gap: 6px;
         justify-content: flex-start;
         align-items: flex-start;
     }
 
     #genealogy-panel-maternal .genealogy-tree--ancestor-left {
-        padding-left: 180px;
-        padding-right: 220px;
+        padding-left: 90px;
+        padding-right: 110px;
     }
 
     #genealogy-panel-maternal .genealogy-tree--ancestor-right {
-        padding-left: 220px;
-        padding-right: 30px;
+        padding-left: 110px;
+        padding-right: 12px;
     }
 }
 .tv {
