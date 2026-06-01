@@ -4,6 +4,28 @@
     width: 5px;
     height: 8px;
 }
+
+/* Ancestor prestack custom rows (gen3/gen4 extensions) */
+#genealogy-panel-maternal .ancestor-prestack-row__sib-right,
+#genealogy-panel-maternal .ancestor-prestack-row__main-left {
+    width: var(--genealogy-node-width);
+    box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Gen3: [left1][left2][main][right1][right2] */
+#genealogy-panel-maternal .ancestor-prestack-row--gen3 > .ancestor-prestack-row__sib-right:nth-child(4) { grid-column: 4; }
+#genealogy-panel-maternal .ancestor-prestack-row--gen3 > .ancestor-prestack-row__sib-right:nth-child(5) { grid-column: 5; }
+
+/* Gen4-right4: [main][right1][right2][right3][right4] */
+/* Align gen4 main under gen3 main (col 3), then extend right to cols 4–7 */
+#genealogy-panel-maternal .ancestor-prestack-row--gen4-right4 > .ancestor-prestack-row__main-left:nth-child(1) { grid-column: 3; }
+#genealogy-panel-maternal .ancestor-prestack-row--gen4-right4 > .ancestor-prestack-row__sib-right:nth-child(2) { grid-column: 4; }
+#genealogy-panel-maternal .ancestor-prestack-row--gen4-right4 > .ancestor-prestack-row__sib-right:nth-child(3) { grid-column: 5; }
+#genealogy-panel-maternal .ancestor-prestack-row--gen4-right4 > .ancestor-prestack-row__sib-right:nth-child(4) { grid-column: 6; }
+#genealogy-panel-maternal .ancestor-prestack-row--gen4-right4 > .ancestor-prestack-row__sib-right:nth-child(5) { grid-column: 7; }
+
 .genealogy-scroll::-webkit-scrollbar-track {
     border-radius: 10px;
     background-color: #e4e4e4;
@@ -197,7 +219,7 @@
 }
 
 #genealogy-panel-maternal .member-view-box {
-    padding: 0 12px;
+    padding: 0 0px;
 }
 
 #genealogy-panel-maternal .member-image,
@@ -234,6 +256,7 @@
 /* Ancestor panel: shrink node width to 80% (requested) */
 #genealogy-panel-maternal {
     --genealogy-node-width: clamp(96px, 13.6vw, 128px);
+    --ancestor-siblings-gap: 38px;
 }
 
 /* (legacy) initial tag rules removed; see override below */
@@ -260,6 +283,74 @@
     box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.18);
     /* bottom triangle tail */
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), 50% 100%, 0 calc(100% - 10px));
+}
+
+/* Ancestor generation tag text (top-to-bottom) */
+#genealogy-panel-maternal .member-details[data-ancestor-gen="1"]::before {
+    content: "\4E00\4E16"; /* 一世 */
+}
+
+#genealogy-panel-maternal .member-details[data-ancestor-gen="2"]::before {
+    content: "\4E8C\4E16"; /* 二世 */
+}
+
+#genealogy-panel-maternal .member-details[data-ancestor-gen="3"]::before {
+    content: "\4E09\4E16"; /* 三世 */
+}
+
+#genealogy-panel-maternal .member-details[data-ancestor-gen="4"]::before {
+    content: "\56DB\4E16"; /* 四世 */
+}
+
+#genealogy-panel-maternal .member-details[data-ancestor-gen="5"]::before {
+    content: "\4E94\4E16"; /* 五世 */
+}
+
+#genealogy-panel-maternal .member-details[data-ancestor-gen="6"]::before {
+    content: "\5148\7956"; /* 先祖 */
+}
+
+#genealogy-panel-maternal .member-details.has-html-gen-label::before,
+#genealogy-panel-maternal .member-details.has-html-gen-label::after {
+    content: none;
+    display: none;
+}
+
+#genealogy-panel-maternal .member-details .ancestor-gen-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 44px;
+    background: url("static/image/bbg.jpg") center / cover no-repeat;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    color: rgba(255, 255, 255, 0.96);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    border-radius: 0;
+    box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.18);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), 50% 100%, 0 calc(100% - 10px));
+    pointer-events: none;
+}
+
+#genealogy-panel-maternal .member-details .ancestor-gen-label::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.10);
+    clip-path: polygon(0 0, 55% 0, 0 55%);
+}
+
+#genealogy-panel-maternal .member-details.ancestor-gen-main {
+    background: #406760;
 }
 
 #genealogy-panel-maternal .member-details::after {
@@ -331,6 +422,32 @@
 /* Collapsed: also keep the right root (黃守) note visible, matching the left root layout */
 #genealogy-panel-maternal:not(.is-expanded) .genealogy-tree--ancestor-right > ul > li > a .ancestor-note-inline {
     display: block;
+}
+
+/* Collapsed: keep the stacked ancestors (above 鄭阿扁) notes visible as well */
+#genealogy-panel-maternal:not(.is-expanded) .ancestor-prestack .ancestor-note-inline {
+    display: block;
+}
+
+/* Collapsed ancestor view: show only 一世 (first prestack card) + its ▼ indicator */
+#genealogy-panel-maternal:not(.is-expanded) .ancestor-prestack > :not(:first-child) {
+    display: none;
+}
+
+#genealogy-panel-maternal:not(.is-expanded):not(.is-expanding) .genealogy-tree--ancestor-left > ul > li > a,
+#genealogy-panel-maternal:not(.is-expanded):not(.is-expanding) .genealogy-tree--ancestor-left > ul > li > ul {
+    display: none !important;
+}
+
+/* Prestack arrow indicator should sit under the 一世 card content */
+#genealogy-panel-maternal .ancestor-prestack .ancestor-arrow-inside {
+    position: static;
+    transform: none;
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 #genealogy-panel-maternal .ancestor-note-row {
@@ -597,13 +714,80 @@
     min-width: max-content;
 }
 
+/* Ancestor: stacked ancestors above the root */
+#genealogy-panel-maternal .ancestor-prestack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+#genealogy-panel-maternal.is-expanded .ancestor-prestack {
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+/* Keep prestack centered; sibling-row column placement controls axis alignment */
+#genealogy-panel-maternal .ancestor-prestack {
+    transform: none;
+}
+
+/* Align single-card generations (gen1/gen5) with the shared main column (col 3) */
+#genealogy-panel-maternal .ancestor-prestack > .member-view-box {
+    transform: translateX(calc(-1 * (var(--genealogy-node-width) + var(--ancestor-prestack-gap, 12px))));
+}
+
+#genealogy-panel-maternal .ancestor-prestack .member-details[data-ancestor-gen="1"] {
+    cursor: pointer;
+}
+
+#genealogy-panel-maternal .ancestor-prestack-row {
+    /* Layout: 2 siblings on the left, main (二世) centered under 一世, and 2 empty spacers on the right
+       to keep the main column centered and avoid overlap with the next row. */
+    --ancestor-prestack-gap: 12px;
+    display: grid;
+    grid-template-columns:
+        var(--genealogy-node-width)
+        var(--genealogy-node-width)
+        var(--genealogy-node-width)
+        var(--genealogy-node-width)
+        var(--genealogy-node-width)
+        var(--genealogy-node-width)
+        var(--genealogy-node-width);
+    column-gap: var(--ancestor-prestack-gap);
+    justify-content: center;
+    align-items: start;
+    margin: 0 auto;
+}
+
+/* Keep 鄭二世 aligned under the centered 一世; siblings extend to the left */
+#genealogy-panel-maternal .ancestor-prestack-row__sib {
+    width: var(--genealogy-node-width);
+    box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#genealogy-panel-maternal .ancestor-prestack-row__main {
+    width: var(--genealogy-node-width);
+    box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Place items into grid columns: [大姐][長男][二世][spacer][spacer] */
+#genealogy-panel-maternal .ancestor-prestack-row__sib:nth-child(1) { grid-column: 1; }
+#genealogy-panel-maternal .ancestor-prestack-row__sib:nth-child(2) { grid-column: 2; }
+#genealogy-panel-maternal .ancestor-prestack-row__main { grid-column: 3; }
+
 #genealogy-panel-maternal .genealogy-body--ancestor-split .genealogy-tree {
     flex: 0 0 auto;
 }
 
 /* Reserve space so the left-side note won't overlap the downward branch */
 #genealogy-panel-maternal .genealogy-tree--ancestor-left {
-    padding-left: 120px;
+    padding-left: 0px;
 }
 
 /* Reserve space on the left of the right tree for any left-side notes so the two trees never overlap */
@@ -649,9 +833,38 @@
 
 /* Ancestor siblings row (邱大哥 / 邱二哥 / 邱阿公): spacing = 1.5x box width */
 #genealogy-panel-maternal .ancestor-siblings-3 {
-    --ancestor-sibling-width: 76px;
-    gap: calc(var(--ancestor-sibling-width) * 0.5);
+    /* Keep this as a named variable so prestack generations (鄭一世～鄭五世) can align with the first sibling row box */
+    display: grid;
+    grid-template-columns:
+        var(--genealogy-node-width)
+        var(--genealogy-node-width)
+        var(--genealogy-node-width)
+        var(--genealogy-node-width)
+        var(--genealogy-node-width)
+        var(--genealogy-node-width)
+        var(--genealogy-node-width);
+    justify-content: center;
+    align-items: start;
+    column-gap: var(--ancestor-siblings-gap);
+    row-gap: 0;
 }
+
+/* Make sibling boxes true node width so their columns line up with prestack grid columns */
+#genealogy-panel-maternal .ancestor-siblings-3 .member-view-box {
+    padding-left: 0;
+    padding-right: 0;
+    width: var(--genealogy-node-width);
+    box-sizing: border-box;
+}
+
+/* Center the 3 siblings on the shared main axis (col 3) */
+#genealogy-panel-maternal .ancestor-siblings-3 > li {
+    padding-left: 0;
+    padding-right: 0;
+}
+#genealogy-panel-maternal .ancestor-siblings-3 > li:nth-child(1) { grid-column: 3; } /* first sibling aligns to main axis */
+#genealogy-panel-maternal .ancestor-siblings-3 > li:nth-child(2) { grid-column: 4; }
+#genealogy-panel-maternal .ancestor-siblings-3 > li:nth-child(3) { grid-column: 5; }
 
 @media (max-width: 767.98px) {
     /* Mobile: keep two ancestor trees parallel (side-by-side) and scroll horizontally like family tree */
@@ -661,6 +874,20 @@
         gap: 6px;
         justify-content: flex-start;
         align-items: flex-start;
+    }
+
+    /* Mobile: align 鄭一世～鄭五世 main-axis vertically */
+    #genealogy-panel-maternal .ancestor-prestack {
+        align-items: flex-start;
+    }
+
+    #genealogy-panel-maternal .ancestor-prestack-row {
+        justify-content: flex-start;
+    }
+
+    #genealogy-panel-maternal .ancestor-prestack > .member-view-box {
+        transform: none;
+        margin-left: calc(2 * (var(--genealogy-node-width) + var(--ancestor-prestack-gap, 12px)));
     }
 
     #genealogy-panel-maternal .genealogy-tree--ancestor-left {
@@ -1200,7 +1427,7 @@
     left: 50%;
     top: var(--tree-open-hint-top, auto);
     bottom: 10px;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) translateY(var(--tree-open-hint-shift, 0px));
     pointer-events: none;
     z-index: 9999;
 }

@@ -26,10 +26,27 @@
         requestAnimationFrame(function () {
             var isMobile = window.matchMedia && window.matchMedia('(max-width: 767.98px)').matches;
             var $panel = $body.closest('[data-genealogy-panel]');
-            // Mobile UX: when viewing ancestor tree and it's collapsed, stay at the far-left (root) instead of centering.
+            // Mobile UX: when viewing ancestor tree and it's collapsed, center the first prestack card (一世).
             if (isMobile && $panel.is('#genealogy-panel-maternal') && !$panel.hasClass('is-expanded')) {
                 var wrapper0 = el.closest ? el.closest('.ancestor-scroll') : null;
-                (wrapper0 || el).scrollLeft = 0;
+                var scroller0 = wrapper0 || el;
+                var target0 = $panel.find('.ancestor-prestack .member-details[data-ancestor-gen="1"]').get(0);
+                if (!target0) {
+                    scroller0.scrollLeft = 0;
+                    return;
+                }
+
+                var scRect = scroller0.getBoundingClientRect ? scroller0.getBoundingClientRect() : null;
+                var tRect = target0.getBoundingClientRect ? target0.getBoundingClientRect() : null;
+                var max0 = scroller0.scrollWidth - scroller0.clientWidth;
+                if (!scRect || !tRect || max0 <= 0) {
+                    scroller0.scrollLeft = 0;
+                    return;
+                }
+
+                var targetCenter = (tRect.left - scRect.left) + (tRect.width / 2);
+                var desired = scroller0.scrollLeft + targetCenter - (scroller0.clientWidth / 2);
+                scroller0.scrollLeft = Math.max(0, Math.min(max0, Math.floor(desired)));
                 return;
             }
 
@@ -261,6 +278,13 @@
             var $h3 = $details.find('h3').first();
             if (!$h3.length) return;
             var $arrow = $details.find('.ancestor-arrow-inside').first();
+
+            // Generation tag:
+            // - Pre-stacked ancestors (above 鄭阿扁) are authored in the template with data-ancestor-gen="1..5"
+            // - All actual tree nodes (including 鄭阿扁/邱溪/邱大哥/邱二哥/邱阿公) default to data-ancestor-gen="6"
+            if (!$details.attr('data-ancestor-gen')) {
+                $details.attr('data-ancestor-gen', '6');
+            }
 
             var rawName = ($h3.text() || '').trim();
             var parts = rawName.split(/[&＆]/).map(function (s) { return (s || '').trim(); }).filter(Boolean);
@@ -619,6 +643,12 @@
         // Position hint midway between the root node (e.g. 邱阿公&黃阿嬤) and the viewport bottom (desktop + iPad only).
         var hintEl = $hint.get(0);
         if (!hintEl) return;
+        // Avoid overlapping the stacked "一世" card in ancestor view (desktop/iPad only).
+        if ($activePanel.is('#genealogy-panel-maternal')) {
+            hintEl.style.setProperty('--tree-open-hint-shift', '56px');
+        } else {
+            hintEl.style.setProperty('--tree-open-hint-shift', '0px');
+        }
 
         if (expanded) {
             hintEl.style.removeProperty('--tree-open-hint-top');
@@ -686,7 +716,7 @@
 
         function isInteractiveTarget(target) {
             if (!target) return false;
-            return !!(target.closest && target.closest('a, button, input, textarea, select, label'));
+            return !!(target.closest && target.closest('a, button, input, textarea, select, label, .ancestor-arrow-inside, .ancestor-life-toggle'));
         }
 
         scroller.addEventListener('mousedown', function (e) {
@@ -761,7 +791,7 @@
 
         function isInteractiveTarget(target) {
             if (!target) return false;
-            return !!(target.closest && target.closest('a, button, input, textarea, select, label'));
+            return !!(target.closest && target.closest('a, button, input, textarea, select, label, .ancestor-arrow-inside, .ancestor-life-toggle'));
         }
 
         scroller.classList.add('is-dragscroll');
@@ -943,6 +973,49 @@
         }
     });
 
+    // Ancestor tree: use the "一世" card (in the prestack above 鄭阿扁) as the expand/collapse trigger.
+    $(document).on('click', '#genealogy-panel-maternal .ancestor-prestack .member-details[data-ancestor-gen="1"]', function (event) {
+        var $panel = $(this).closest('#genealogy-panel-maternal');
+        if (!$panel.length) return;
+
+        $panel.addClass('is-expanding');
+        var expanded = false;
+        $panel.find('.genealogy-tree').each(function () {
+            var $tree = $(this);
+            var $rootLi = $tree.children('ul').children('li').first();
+            var $rootChildren = $rootLi.children('ul');
+            if ($rootChildren.length && $rootChildren.is(':visible')) {
+                expanded = true;
+            }
+        });
+
+        var shouldExpand = !expanded;
+        $panel.find('.genealogy-tree').each(function () {
+            var $tree = $(this);
+            var $rootLi = $tree.children('ul').children('li').first();
+            if (!$rootLi.length) return;
+            if (shouldExpand) showAllTreeDescendants($rootLi);
+            else hideAllTreeDescendants($rootLi);
+        });
+
+        centerGenealogyBody($panel.find('.genealogy-body').first());
+        updateTreeOpenHint();
+        setTimeout(updateTreeOpenHint, 260);
+        setTimeout(function () { $panel.removeClass('is-expanding'); }, 320);
+
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+    });
+
+    // Clicking the ▼ inside 一世 should also trigger expand/collapse.
+    $(document).on('click', '#genealogy-panel-maternal .ancestor-prestack .member-details[data-ancestor-gen="1"] .ancestor-arrow-inside', function (event) {
+        $(this).closest('.member-details[data-ancestor-gen="1"]').trigger('click');
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+    });
+
     $(document).on('click', '.genealogy-tree li > a', function (event) {
         // Clicking the life toggle (▼) should not toggle the tree node itself.
         if ($(event.target).closest('.ancestor-life-toggle').length) {
@@ -970,19 +1043,7 @@
             var $rootLi = $tree.children('ul').children('li').first();
             if (!$rootLi.is($node)) return;
 
-            var shouldExpand = !$children.is(':visible');
-
-            $panel.find('.genealogy-tree').each(function () {
-                var $rt = $(this);
-                var $rtRoot = $rt.children('ul').children('li').first();
-                if (!$rtRoot.length) return;
-                if (shouldExpand) showAllTreeDescendants($rtRoot);
-                else hideAllTreeDescendants($rtRoot);
-            });
-
-            centerGenealogyBody($panel.find('.genealogy-body').first());
-            updateTreeOpenHint();
-            setTimeout(updateTreeOpenHint, 260);
+            // Root expand/collapse is handled by clicking the "一世" card above 鄭阿扁.
             event.preventDefault();
             event.stopPropagation();
         })();
@@ -1022,6 +1083,7 @@
     });
 
     // (ancestor-life-toggle handler moved above tree handler)
+
 
     $('[data-genealogy-tab]').on('click', function () {
         setGenealogyPanel($(this).data('genealogyTab'));

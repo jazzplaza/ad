@@ -206,12 +206,12 @@
 	                <div class="col-12 col-md-8 col-lg-9 text-left">
 	                    <h2 class="main-font">全員&泉源 | 家族樹狀圖</h2>
 	                    <div class="story-title-divider" aria-hidden="true"></div>
-	                    <p class="py-4 py-md-0">點擊姓名即可展開，族譜與祖先族譜分別檢視，畫面右下角有放大縮小控制功能方便觀看。</p>
+	                    <p class="py-4 py-md-0">點擊姓名即可展開，族譜與長輩族譜分別檢視，畫面右下角有放大縮小控制功能方便觀看。</p>
 	                </div>
                 <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center">
                     <div class="genealogy-tablist" role="tablist" aria-label="家族樹切換">
                         <button type="button" class="genealogy-tab is-active" data-genealogy-tab="paternal" role="tab" aria-selected="true" aria-controls="genealogy-panel-paternal" id="genealogy-tab-paternal">族譜</button>
-                        <button type="button" class="genealogy-tab" data-genealogy-tab="maternal" role="tab" aria-selected="false" aria-controls="genealogy-panel-maternal" id="genealogy-tab-maternal">祖先族譜</button>
+                        <button type="button" class="genealogy-tab" data-genealogy-tab="maternal" role="tab" aria-selected="false" aria-controls="genealogy-panel-maternal" id="genealogy-tab-maternal">長輩族譜</button>
                     </div>
                 </div>
             </div>
@@ -525,10 +525,12 @@
     <div class="genealogy-tree genealogy-tree--ancestor genealogy-tree--ancestor-left">
         <ul>
             <li>
-                <a href="javascript:void(0);">
+                <!-- Three vertical ancestors above 鄭阿扁 (content copied from 鄭阿扁) -->
+                <div class="ancestor-prestack" aria-hidden="true">
                     <div class="member-view-box">
-                        <div class="member-details">
-                            <h3>鄭阿扁 &鄭賴阿金 </h3>
+                        <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="1">
+                            <div class="ancestor-gen-label" aria-hidden="true">一世</div>
+                            <h3>邱一世 &許氏 </h3>
                             <div class="ancestor-note ancestor-note--left" aria-label="註解">
                                 <div class="ancestor-note__bubble">
                                     福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
@@ -537,159 +539,187 @@
                             <div class="ancestor-arrow-inside" aria-hidden="true">▼</div>
                         </div>
                     </div>
-                </a>
-                <ul class="active">
-                    <li>
-                        <a href="javascript:void(0);">
-                            <div class="member-view-box">
-                                <div class="member-details">
-                                    <h3>邱溪 &邱陳阿麵  </h3>
-                                    <div class="ancestor-note ancestor-note--right" aria-label="註解">
-                                <div class="ancestor-note__bubble">
-                                    福建籍，養父養母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
-                                </div>
-                            </div>
-                                                                       
-                                </div>
-                            </div>
-                        </a>
-                        <ul class="ancestor-siblings-3">
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <div class="member-view-box">
-                                        <div class="member-details">
-                                            <h3>邱大哥 &邱大嫂  </h3>
-                                            <div class="ancestor-note ancestor-note--right" aria-label="註解">
-                                <div class="ancestor-note__bubble">
-                                    福建籍，養父養母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
-                                </div>
-                            </div>
-                                    
-                                        </div>
+                    <div class="ancestor-prestack-row">
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="2">
+                                <h3>邱大姐 &張懷生</h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
                                     </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <div class="member-view-box">
-                                        <div class="member-details">
-                                            <h3>邱二哥 &邱二嫂  </h3>
-                                            <div class="ancestor-note ancestor-note--right" aria-label="註解">
-                                <div class="ancestor-note__bubble">
-                                    福建籍，養父養母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
                                 </div>
                             </div>
-                                    
-                                        </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="2">
+                                <h3>邱長男 &潘氏</h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
                                     </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <div class="member-view-box">
-                                        <div class="member-details">
-                                            <h3>邱阿公 &黃阿嬤  </h3>                                            
-                                            <div class="ancestor-note ancestor-note--right" aria-label="註解">
-                                <div class="ancestor-note__bubble">
-                                    福建籍，養父養母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
                                 </div>
                             </div>
-                                            
-                                        </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__main">
+                            <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="2">
+                                <div class="ancestor-gen-label" aria-hidden="true">二世</div>
+                                <h3>邱二世 &賴氏 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
                                     </div>
-                                </a>                                
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-
-    <div class="genealogy-tree genealogy-tree--ancestor genealogy-tree--ancestor-right">
-        <ul>
-            <li>
-                <a href="javascript:void(0);">
-                    <div class="member-view-box">
-                        <div class="member-details">
-                            <h3>黃守 &黃氏卜 </h3>
-                            <div class="ancestor-note ancestor-note--left" aria-label="註解">
-                                <div class="ancestor-note__bubble">
-                                    福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
                                 </div>
                             </div>
-                            <div class="ancestor-arrow-inside" aria-hidden="true">▼</div>
                         </div>
                     </div>
-                </a>
+                    <div class="ancestor-prestack-row ancestor-prestack-row--gen3">
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="3">
+                                <h3>邱長女 &林平 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="3">
+                                <h3>邱長子 &許阿嬌 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__main">
+                            <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="3">
+                                <div class="ancestor-gen-label" aria-hidden="true">三世</div>
+                                <h3>邱三世 &高氏 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="3">
+                                <h3>邱次子 &林子敏 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="3">
+                                <h3>邱三子 &陳珠 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ancestor-prestack-row ancestor-prestack-row--gen4-right4">
+                        <div class="member-view-box ancestor-prestack-row__main-left">
+                            <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="4">
+                                <div class="ancestor-gen-label" aria-hidden="true">四世</div>
+                                <h3>邱四世 &彭氏 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="4">
+                                <h3>邱長女 &李懷民 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="4">
+                                <h3>邱次子 &李阿嫂 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="4">
+                                <h3>邱三子 &管姨 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="4">
+                                <h3>邱次女 &吳忠憲 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ancestor-prestack-row ancestor-prestack-row--gen5">
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="5">
+                                <h3>邱長男 &許氏 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="5">
+                                <h3>邱次男 &李氏 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__main">
+                            <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="5">
+                                <div class="ancestor-gen-label" aria-hidden="true">五世</div>
+                                <h3>邱阿公 &黃阿嬤 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，生父生母來自臺中州彰化郡大竹庄牛稠子字山腳-現今位於彰化縣彰化市的福山里
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <ul class="active">
                     <li>
-                        <a href="javascript:void(0);">
-                            <div class="member-view-box">
-                                <div class="member-details">
-                                    <h3>黃泉 &黃梁蔥  </h3>
-                                    <div class="ancestor-note ancestor-note--right" aria-label="註解">
-                                <div class="ancestor-note__bubble">
-                                    福建籍，理髮職 阿片吸食
-                                </div>
-                            </div>
-                                                                        
-                                </div>
-                            </div>
-                        </a>
-                <ul class="active">
-                    <li>
-                        <a href="javascript:void(0);">
-                            <div class="member-view-box">
-                                <div class="member-details">
-                                    <h3>黃錦 &黃英  </h3>
-                                    <div class="ancestor-note ancestor-note--right" aria-label="註解">
-                                <div class="ancestor-note__bubble">
-                                    福建籍，理髮職
-                                </div>
-                            </div>
-                                                                        
-                                </div>
-                            </div>
-                        </a>        
-                        <ul class="ancestor-siblings-2">                            
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <div class="member-view-box">
-                                        <div class="member-details">
-                                            <h3>黃長男 &黃嫂  </h3>
-                                            <div class="ancestor-note ancestor-note--right" aria-label="註解">
-                                <div class="ancestor-note__bubble">
-                                    福建籍，排行家中次女，大正十五年貳月七日出生
-                                </div>
-                            </div>
-                                            <div class="ancestor-arrow-inside" aria-hidden="true"></div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <div class="member-view-box">
-                                        <div class="member-details">
-                                            <h3>黃阿嬤 &邱阿公  </h3>                                            
-                                            <div class="ancestor-note ancestor-note--right" aria-label="註解">
-                                <div class="ancestor-note__bubble">
-                                    福建籍，排行家中次女，大正十五年貳月七日出生
-                                </div>
-                            </div>
-                                            <div class="ancestor-arrow-inside" aria-hidden="true"></div>
-                                        </div>
-                                    </div>
-                                </a>                                
-                            </li>
-                        </ul>
+                        
                     </li>
                 </ul>
             </li>
         </ul>
-    </li>
-</ul>
     </div>
 </div>
 </div>
