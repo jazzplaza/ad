@@ -2474,12 +2474,17 @@
 }
 
 /* Story tabs (Contact section) */
-.story-tabs {
+.contact-details .story-tabs {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 14px;
+    margin-bottom: 0;
+    padding: 8px 10px;
+    border-radius: 14px 14px 0 0;
+    background: rgb(154 191 152);
 }
+
+/* (removed) old green strip pseudo-element; background now sits directly behind the buttons */
 
 .story-title-divider {
     width: 72px;
@@ -2520,14 +2525,16 @@
 }
 
 /* Story/Info content background */
-.story-panels .story-panel .text.alt-font {
+.contact-details .story-panels .story-panel .text.alt-font {
     background: rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.20);
-    border-radius: 14px;
+    border-radius: 0 0 14px 14px;
     padding: 14px 16px;
     backdrop-filter: blur(2px);
     line-height: 1.9;
     background-image: none;
+    position: relative;
+    z-index: 1;
 }
 
 /* Story panel: ruled lines at each line bottom */
