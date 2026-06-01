@@ -140,6 +140,55 @@
     -moz-border-radius: 5px;
 }
 
+/* Family tree root annotation: left line + "邱家第五世" */
+.member-details--qiu-gen5 {
+    overflow: visible;
+}
+
+.member-details--qiu-gen5 .gen-left-annot {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(-100%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.member-details--qiu-gen5 .gen-left-annot::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* Mobile (collapsed): show only the text, hide the white line */
+@media (max-width: 767.98px) {
+    #genealogy-panel-paternal:not(.is-expanded) .member-details--qiu-gen5 .gen-left-annot::after {
+        display: none;
+    }
+
+    /* Keep the label fully visible (avoid being clipped by horizontal overflow) */
+    #genealogy-panel-paternal:not(.is-expanded) .member-details--qiu-gen5 .gen-left-annot {
+        left: 0;
+        transform: translate(-100%, -50%);
+        white-space: nowrap;
+        max-width: none;
+    }
+
+    /* Reserve left space so the outside-left label is not clipped */
+    #genealogy-panel-paternal:not(.is-expanded) .genealogy-body {
+        padding-left: 140px;
+    }
+}
+
+
 .genealogy-tree li a:hover+ul li::after, 
 .genealogy-tree li a:hover+ul li::before, 
 .genealogy-tree li a:hover+ul::before, 
