@@ -624,6 +624,165 @@ if ($(".owl-videos").length) {
 ====================================== */
 
 (function () {
+    var PORTFOLIO_PHOTOS = [
+        {
+            key: '2022',
+            full: 'img/2022.jpg',
+            thumb: 'img/2022.jpg',
+            caption: '溫泉飯店好讚~雖然路程很遠... / 20220502 南投溫泉會館',
+            alt: '溫泉飯店好讚~雖然路程很遠... / 20220502 南投溫泉會館'
+        },
+        {
+            key: '2021',
+            full: 'img/2021.jpg',
+            thumb: 'img/2021.jpg',
+            caption: '謝謝阿姨安排的活動! / 20210222 屏東豐年祭',
+            alt: '謝謝阿姨安排的活動! / 20210222 屏東豐年祭'
+        },
+        {
+            key: '2017',
+            full: 'img/2017.jpg',
+            thumb: 'img/2017.jpg',
+            caption: '阿公是在大聲什麼?! / 20170802 彰化老家',
+            alt: '阿公是在大聲什麼?! / 20170802 彰化老家'
+        },
+        {
+            key: '2016',
+            full: 'img/2016.jpg',
+            thumb: 'img/2016.jpg',
+            caption: '雙胞胎的一致專注 / 20160325 桃園親子餐廳',
+            alt: '雙胞胎的一致專注 / 20160325 桃園親子餐廳'
+        },
+        {
+            key: '2015',
+            full: 'img/2015.jpg',
+            thumb: 'img/2015.jpg',
+            caption: '慶生太吵引來鄰居抗議 / 20150715 礁溪大伯家',
+            alt: '慶生太吵引來鄰居抗議 / 20150715 礁溪大伯家'
+        },
+        {
+            key: '2023',
+            full: 'img/2023.jpg',
+            thumb: 'img/2023.jpg',
+            caption: '舅媽送的禮物可以穿了 / 20231108 新埔古早味料理會館',
+            alt: '舅媽送的禮物可以穿了 / 20231108 新埔古早味料理會館'
+        }
+    ];
+
+    function escapeHtml(text) {
+        return String(text == null ? '' : text)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function renderPortfolio($section, photos) {
+        var $main = $section.find('.portfolio-main').first();
+        var $track = $section.find('.portfolio-thumbs__track').first();
+        if (!$main.length || !$track.length || !photos || !photos.length) return;
+
+        var first = photos[0];
+        $main.html(
+            '<a class="portfolio-main__link" href="' + escapeHtml(first.full) + '" data-fancybox="portfolio-images" data-caption="' + escapeHtml(first.caption) + '">' +
+                '<div class="portfolio-main__frame">' +
+                    '<img class="portfolio-main__img" src="' + escapeHtml(first.thumb) + '" alt="' + escapeHtml(first.alt || first.caption) + '">' +
+                    '<div class="portfolio-main__overlay" aria-hidden="true">' +
+                        '<div class="portfolio-main__icon"><i class="fa fa-plus"></i></div>' +
+                        '<div class="portfolio-main__hint alt-font">原圖</div>' +
+                    '</div>' +
+                '</div>' +
+                '<img class="portfolio-main__corner-png" src="img/toy.png" alt="" aria-hidden="true">' +
+            '</a>' +
+            '<div class="portfolio-main__caption text-yellow main-font">' + escapeHtml(first.caption) + '</div>'
+        );
+
+        $track.html(
+            photos.map(function (photo, idx) {
+                return '' +
+                    '<a class="portfolio-thumbs__item' + (idx === 0 ? ' is-active' : '') + '"' +
+                    ' href="' + escapeHtml(photo.full) + '"' +
+                    ' data-index="' + idx + '"' +
+                    ' data-thumb="' + escapeHtml(photo.thumb) + '"' +
+                    ' data-caption="' + escapeHtml(photo.caption) + '"' +
+                    ' aria-label="' + escapeHtml(photo.key || String(idx + 1)) + '">' +
+                        '<img src="' + escapeHtml(photo.thumb) + '" alt="' + escapeHtml(photo.alt || photo.caption) + '">' +
+                    '</a>';
+            }).join('')
+        );
+    }
+
+    function syncPortfolioUiToIndex(index) {
+        var $portfolio = $('#portfolio');
+        var $track = $portfolio.find('.portfolio-thumbs__track').first();
+        var $items = $track.find('.portfolio-thumbs__item');
+        var $mainLink = $portfolio.find('.portfolio-main__link').first();
+        var $mainImg = $portfolio.find('.portfolio-main__img').first();
+        var $mainCaption = $portfolio.find('.portfolio-main__caption').first();
+        var $item = $items.eq(index);
+
+        if (!$item.length) return;
+
+        $items.removeClass('is-active');
+        $item.addClass('is-active');
+
+        var full = $item.attr('href') || '';
+        var thumb = $item.data('thumb') || $item.find('img').attr('src') || '';
+        var caption = $item.data('caption') || $item.attr('aria-label') || '';
+        var alt = $item.find('img').attr('alt') || caption;
+
+        if ($mainLink.length) {
+            $mainLink.attr('href', full);
+            $mainLink.attr('data-caption', caption);
+            $mainLink.attr('data-index', index);
+        }
+        if ($mainImg.length) {
+            $mainImg.attr('src', thumb);
+            $mainImg.attr('alt', alt);
+        }
+        if ($mainCaption.length) {
+            $mainCaption.text(caption);
+        }
+
+        var el = $item.get(0);
+        if (el && typeof el.scrollIntoView === 'function') {
+            try {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
+            } catch (e) {
+                el.scrollIntoView();
+            }
+        }
+    }
+
+    function openPortfolioLightbox(startIndex) {
+        if (!$.fancybox || !PORTFOLIO_PHOTOS.length) return;
+
+        var items = PORTFOLIO_PHOTOS.map(function (photo) {
+            return {
+                src: photo.full,
+                opts: {
+                    caption: photo.caption
+                }
+            };
+        });
+
+        $.fancybox.open(items, {
+            protect: true,
+            animationEffect: 'fade',
+            hash: null,
+            loop: true,
+            afterShow: function (instance, current) {
+                if (!current) return;
+                syncPortfolioUiToIndex(current.index || 0);
+            }
+        }, startIndex || 0);
+    }
+
     function initThumbs($root) {
         var $track = $root.find('.portfolio-thumbs__track');
         var $items = $track.find('.portfolio-thumbs__item');
@@ -633,149 +792,68 @@ if ($(".owl-videos").length) {
         var $mainLink = $portfolio.find('.portfolio-main__link').first();
         var $mainImg = $portfolio.find('.portfolio-main__img').first();
         var $mainCaption = $portfolio.find('.portfolio-main__caption').first();
+        var activeIndex = 0;
 
-        var visibleCount = 3;
-
-        if (!$track.length || $items.length <= visibleCount) {
+        if (!$track.length || !$items.length) {
             $prev.prop('disabled', true);
             $next.prop('disabled', true);
             return;
         }
 
-        // Build loop by cloning head/tail items once.
-        if (!$track.data('thumbsLoopReady')) {
-            var originals = $items.toArray();
-            originals.forEach(function (el, i) {
-                el.dataset.originalIndex = String(i);
-            });
-
-            var cloneCount = Math.min(visibleCount, originals.length);
-            var head = originals.slice(0, cloneCount).map(function (el) {
-                var c = el.cloneNode(true);
-                c.classList.add('is-clone');
-                c.setAttribute('aria-hidden', 'true');
-                c.dataset.originalIndex = el.dataset.originalIndex;
-                return c;
-            });
-
-            var tail = originals.slice(originals.length - cloneCount).map(function (el) {
-                var c = el.cloneNode(true);
-                c.classList.add('is-clone');
-                c.setAttribute('aria-hidden', 'true');
-                c.dataset.originalIndex = el.dataset.originalIndex;
-                return c;
-            });
-
-            // Prepend tail clones, append head clones.
-            tail.forEach(function (c) { $track.get(0).insertBefore(c, $track.get(0).firstChild); });
-            head.forEach(function (c) { $track.get(0).appendChild(c); });
-
-            $track.data('thumbsLoopReady', true);
+        function refreshRefs() {
+            $items = $track.find('.portfolio-thumbs__item');
+            $mainLink = $portfolio.find('.portfolio-main__link').first();
+            $mainImg = $portfolio.find('.portfolio-main__img').first();
+            $mainCaption = $portfolio.find('.portfolio-main__caption').first();
         }
 
-        $items = $track.find('.portfolio-thumbs__item');
-        var originalCount = $items.not('.is-clone').length;
-        var cloneCount = Math.min(visibleCount, originalCount);
-
-        // Start at the first original item (after prepended clones).
-        var index = cloneCount;
-
-        function selectOriginal(originalIndex) {
-            if (originalIndex == null) return;
-
-            // Highlight all items (original + clones) that point to the same original index.
-            $items.removeClass('is-active');
-            $items.filter('[data-original-index="' + originalIndex + '"]').addClass('is-active');
-
-            var $original = $items.not('.is-clone').filter('[data-original-index="' + originalIndex + '"]').first();
-            if (!$original.length) return;
-
-            var full = $original.attr('href') || '';
-            var thumb = $original.data('thumb') || $original.find('img').attr('src') || '';
-            var caption = $original.data('caption') || $original.attr('aria-label') || '';
-
-            if ($mainLink.length) {
-                $mainLink.attr('href', full);
-                $mainLink.attr('data-caption', caption);
-            }
-            if ($mainImg.length) {
-                $mainImg.attr('src', thumb);
-                $mainImg.attr('alt', caption);
-            }
-            if ($mainCaption.length) {
-                $mainCaption.text(caption);
-            }
+        function updateNavState() {
+            var disabled = $items.length <= 1;
+            $prev.prop('disabled', disabled);
+            $next.prop('disabled', disabled);
         }
 
-        function itemStepPx() {
-            var first = $items.get(0);
-            var second = $items.get(1);
-            if (!first || !second) return 0;
-            return Math.round(second.offsetLeft - first.offsetLeft);
+        function applyPhoto(index) {
+            var $item = $items.eq(index);
+            if (!$item.length) return;
+
+            activeIndex = index;
+            syncPortfolioUiToIndex(index);
         }
 
-        function setTransition(enabled) {
-            var el = $track.get(0);
-            if (!el) return;
-            el.style.transition = enabled ? 'transform 350ms ease' : 'none';
-        }
-
-        function render(animate) {
-            setTransition(animate !== false);
-            var step = itemStepPx();
-            var offset = step * index;
-            $track.get(0).style.setProperty('--thumbs-offset', offset + 'px');
-            $prev.prop('disabled', false);
-            $next.prop('disabled', false);
-
-            // Seamless jump when reaching clone zones.
-            if (index < cloneCount) {
-                setTimeout(function () {
-                    index += originalCount;
-                    render(false);
-                }, 360);
-            } else if (index >= cloneCount + originalCount) {
-                setTimeout(function () {
-                    index -= originalCount;
-                    render(false);
-                }, 360);
-            }
-        }
-
-        $items.on('click', function (e) {
+        $track.off('click.portfolioThumbs').on('click.portfolioThumbs', '.portfolio-thumbs__item', function (e) {
             e.preventDefault();
-            var originalIndex = this.dataset.originalIndex;
-            if (typeof originalIndex === 'undefined') return;
-            selectOriginal(originalIndex);
-            index = cloneCount + (parseInt(originalIndex, 10) || 0);
-            render(true);
+            var index = parseInt(this.dataset.index, 10);
+            if (!Number.isFinite(index)) return;
+            applyPhoto(index);
         });
 
-        $prev.on('click', function () {
-            index -= 1;
-            render(true);
+        $portfolio.off('click.portfolioLightbox').on('click.portfolioLightbox', '.portfolio-main__link', function (e) {
+            var index = parseInt($(this).attr('data-index'), 10);
+            e.preventDefault();
+            openPortfolioLightbox(Number.isFinite(index) ? index : activeIndex);
         });
 
-        $next.on('click', function () {
-            index += 1;
-            render(true);
+        $prev.off('click.portfolioThumbs').on('click.portfolioThumbs', function () {
+            if ($items.length <= 1) return;
+            applyPhoto((activeIndex - 1 + $items.length) % $items.length);
         });
 
-        $(window).on('resize', function () {
-            render(false);
+        $next.off('click.portfolioThumbs').on('click.portfolioThumbs', function () {
+            if ($items.length <= 1) return;
+            applyPhoto((activeIndex + 1) % $items.length);
         });
 
-        var $initial = $items.not('.is-clone').filter('.is-active').first();
-        if (!$initial.length) {
-            $initial = $items.not('.is-clone').first();
-        }
-        var initIdx = $initial.get(0) ? ($initial.get(0).dataset.originalIndex || '0') : '0';
-        selectOriginal(initIdx);
-        index = cloneCount + (parseInt(initIdx, 10) || 0);
-        render(false);
+        refreshRefs();
+        updateNavState();
+        applyPhoto(0);
     }
 
     $(function () {
+        $('#portfolio').each(function () {
+            renderPortfolio($(this), PORTFOLIO_PHOTOS);
+        });
+
         $('.portfolio-thumbs').each(function () {
             initThumbs($(this));
         });
@@ -1100,62 +1178,33 @@ if ($(window).width() > 991) {
     }
 
     $(function () {
-        var elA = document.getElementById('banner-slider-img');
-        if (!elA) return;
-
-        // Create a second <image> stacked on top for crossfade overlap.
-        var elB = document.getElementById('banner-slider-img-2');
-        if (!elB) {
-            try {
-                elB = elA.cloneNode(true);
-                elB.setAttribute('id', 'banner-slider-img-2');
-                // Ensure it is painted above the first image.
-                if (elA.parentNode) {
-                    elA.parentNode.appendChild(elB);
-                }
-            } catch (e) {
-                elB = null;
-            }
-        }
-
-        var front = elA;
-        var back = elB || elA;
-
+        var el = document.getElementById('banner-slider-img');
+        var timer = null;
         var index = 0;
-        var intervalMs = 2800; // faster cycle
-        var fadeMs = 450; // faster crossfade
-        var isAnimating = false;
+        var intervalMs = 2800;
+        if (!el) return;
+
+        function scheduleNext() {
+            window.clearTimeout(timer);
+            timer = window.setTimeout(next, intervalMs);
+        }
 
         function next() {
-            if (isAnimating) return;
-            isAnimating = true;
+            if (document.hidden) {
+                scheduleNext();
+                return;
+            }
             index = (index + 1) % paths.length;
-
-            // Crossfade overlap: back fades in while front fades out.
-            try { back.style.opacity = '0'; } catch (e) {}
-            setSvgImageHref(back, paths[index]);
-
-            // Next frame: trigger transition
-            requestAnimationFrame(function () {
-                try { front.style.opacity = '0'; } catch (e) {}
-                try { back.style.opacity = '1'; } catch (e) {}
-
-                setTimeout(function () {
-                    // Swap roles
-                    var tmp = front;
-                    front = back;
-                    back = tmp;
-                    isAnimating = false;
-                }, Math.max(0, fadeMs + 30));
-            });
+            setSvgImageHref(el, paths[index]);
+            scheduleNext();
         }
 
-        // Ensure initial href is consistent
-        setSvgImageHref(front, paths[0]);
-        try { front.style.opacity = '1'; } catch (e) {}
-        if (back && back !== front) {
-            try { back.style.opacity = '0'; } catch (e) {}
-        }
-        setInterval(next, intervalMs);
+        setSvgImageHref(el, paths[0]);
+        document.addEventListener('visibilitychange', function () {
+            if (!document.hidden) {
+                scheduleNext();
+            }
+        });
+        scheduleNext();
     });
 })();
