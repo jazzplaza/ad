@@ -324,7 +324,9 @@ $(window).on("load", function () {
     $('.side-menu').removeClass('hidden');
 
     setTimeout(function(){
-        $("#loader-fade").fadeOut("slow");
+        $("#loader-fade").fadeOut("slow", function () {
+            $(window).trigger('treeHintReady');
+        });
     }, 1000);
 });
 
@@ -524,6 +526,7 @@ $(".owl-testimonial").owlCarousel({
 ====================================== */
 
 $(".team-classic.owl-team").owlCarousel({
+    onInitialized: function () {},
     items: 3,
     margin: 30,
     dots: false,
@@ -699,14 +702,14 @@ if ($(".owl-videos").length) {
         );
 
         $track.html(
-            photos.map(function (photo, idx) {
+            photos.map(function (photo) {
                 return '' +
-                    '<a class="portfolio-thumbs__item' + (idx === 0 ? ' is-active' : '') + '"' +
+                    '<a class="portfolio-thumbs__item' + (photo === first ? ' is-active' : '') + '"' +
                     ' href="' + escapeHtml(photo.full) + '"' +
-                    ' data-index="' + idx + '"' +
+                    ' data-index="' + photos.indexOf(photo) + '"' +
                     ' data-thumb="' + escapeHtml(photo.thumb) + '"' +
                     ' data-caption="' + escapeHtml(photo.caption) + '"' +
-                    ' aria-label="' + escapeHtml(photo.key || String(idx + 1)) + '">' +
+                    ' aria-label="' + escapeHtml(photo.key || String(photos.indexOf(photo) + 1)) + '">' +
                         '<img src="' + escapeHtml(photo.thumb) + '" alt="' + escapeHtml(photo.alt || photo.caption) + '">' +
                     '</a>';
             }).join('')
@@ -789,9 +792,6 @@ if ($(".owl-videos").length) {
         var $prev = $root.find('.portfolio-thumbs__nav--prev');
         var $next = $root.find('.portfolio-thumbs__nav--next');
         var $portfolio = $root.closest('#portfolio');
-        var $mainLink = $portfolio.find('.portfolio-main__link').first();
-        var $mainImg = $portfolio.find('.portfolio-main__img').first();
-        var $mainCaption = $portfolio.find('.portfolio-main__caption').first();
         var activeIndex = 0;
 
         if (!$track.length || !$items.length) {
@@ -802,9 +802,6 @@ if ($(".owl-videos").length) {
 
         function refreshRefs() {
             $items = $track.find('.portfolio-thumbs__item');
-            $mainLink = $portfolio.find('.portfolio-main__link').first();
-            $mainImg = $portfolio.find('.portfolio-main__img').first();
-            $mainCaption = $portfolio.find('.portfolio-main__caption').first();
         }
 
         function updateNavState() {
