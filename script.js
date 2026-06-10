@@ -1,6 +1,7 @@
 ﻿$(function () {
     var $infoModal = $('#genealogy-info-modal');
     var $infoTrigger = $('#genealogy-info-trigger');
+    var treeHintCanShow = false;
 
     function cloneTemplate(templateId) {
         var template = document.getElementById(templateId);
@@ -604,9 +605,14 @@
     function updateTreeOpenHint() {
         var $hint = $('#tree-open-hint');
         if (!$hint.length) return;
+        var allowHint = !window.matchMedia || window.matchMedia('(min-width: 768px)').matches;
+        var shouldAllowNow = allowHint && treeHintCanShow;
+        $hint.prop('hidden', !shouldAllowNow);
 
         var $activePanel = $('[data-genealogy-panel].is-active').first();
         var $tree = $activePanel.find('.genealogy-tree').first();
+        $hint.toggleClass('is-ready', shouldAllowNow);
+        if (!shouldAllowNow) return;
         if (!$tree.length) {
             $hint.removeClass('is-hidden');
             return;
@@ -1088,6 +1094,12 @@
     $('[data-genealogy-tab]').on('click', function () {
         setGenealogyPanel($(this).data('genealogyTab'));
         updateTreeOpenHint();
+    });
+
+    $(window).on('treeHintReady', function () {
+        treeHintCanShow = true;
+        updateTreeOpenHint();
+        setTimeout(updateTreeOpenHint, 80);
     });
 
     $infoTrigger.on('click', function () {

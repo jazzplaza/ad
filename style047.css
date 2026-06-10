@@ -1481,6 +1481,10 @@
     z-index: 9999;
 }
 
+.tree-open-hint.is-ready {
+    display: block;
+}
+
 .tree-open-hint img {
     width: min(360px, 60vw);
     max-width: 360px;
@@ -1502,10 +1506,6 @@
     #about .genealogy-panel-wrap {
         position: relative;
         padding-bottom: 140px; /* reserve space so hint doesn't overlap the tree */
-    }
-
-    .tree-open-hint {
-        display: block;
     }
 
     .tree-open-hint.is-hidden {
