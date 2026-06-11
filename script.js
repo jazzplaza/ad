@@ -196,6 +196,29 @@
         });
     }
 
+    function isMaternalPanelExpanded($panel) {
+        if (!$panel || !$panel.length) {
+            return false;
+        }
+
+        if ($panel.hasClass('is-expanded')) {
+            return true;
+        }
+
+        var expanded = false;
+        $panel.find('.genealogy-tree').each(function () {
+            var $tree = $(this);
+            var $rootLi = $tree.children('ul').children('li').first();
+            var $rootChildren = $rootLi.children('ul');
+            if ($rootChildren.length && $rootChildren.is(':visible')) {
+                expanded = true;
+                return false;
+            }
+        });
+
+        return expanded;
+    }
+
     function ensureGenealogyTreeContent($content) {
         if (!$content || !$content.length) {
             return null;
@@ -625,14 +648,7 @@
         var $rootChildren = $rootLi.children('ul');
         var expanded = false;
         if ($activePanel.is('#genealogy-panel-maternal')) {
-            $activePanel.find('.genealogy-tree').each(function () {
-                var $rt = $(this);
-                var $rtRoot = $rt.children('ul').children('li').first();
-                var $rtChildren = $rtRoot.children('ul');
-                if ($rtChildren.length && $rtChildren.is(':visible')) {
-                    expanded = true;
-                }
-            });
+            expanded = isMaternalPanelExpanded($activePanel);
         } else {
             expanded = $rootChildren.length ? $rootChildren.is(':visible') : false;
         }
@@ -985,17 +1001,9 @@
         if (!$panel.length) return;
 
         $panel.addClass('is-expanding');
-        var expanded = false;
-        $panel.find('.genealogy-tree').each(function () {
-            var $tree = $(this);
-            var $rootLi = $tree.children('ul').children('li').first();
-            var $rootChildren = $rootLi.children('ul');
-            if ($rootChildren.length && $rootChildren.is(':visible')) {
-                expanded = true;
-            }
-        });
+        var shouldExpand = !isMaternalPanelExpanded($panel);
+        $panel.toggleClass('is-expanded', shouldExpand);
 
-        var shouldExpand = !expanded;
         $panel.find('.genealogy-tree').each(function () {
             var $tree = $(this);
             var $rootLi = $tree.children('ul').children('li').first();
@@ -1007,7 +1015,12 @@
         centerGenealogyBody($panel.find('.genealogy-body').first());
         updateTreeOpenHint();
         setTimeout(updateTreeOpenHint, 260);
-        setTimeout(function () { $panel.removeClass('is-expanding'); }, 320);
+        setTimeout(function () {
+            $panel.removeClass('is-expanding');
+            if (!shouldExpand) {
+                centerGenealogyBody($panel.find('.genealogy-body').first());
+            }
+        }, 320);
 
         event.preventDefault();
         event.stopPropagation();
