@@ -749,15 +749,26 @@ if ($(".owl-videos").length) {
         }
 
         var el = $item.get(0);
-        if (el && typeof el.scrollIntoView === 'function') {
-            try {
-                el.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'nearest',
-                    inline: 'center'
-                });
-            } catch (e) {
-                el.scrollIntoView();
+        var viewportEl = $item.closest('.portfolio-thumbs__viewport').get(0);
+        if (el && viewportEl) {
+            var viewportWidth = viewportEl.clientWidth || 0;
+            var maxScrollLeft = Math.max(0, viewportEl.scrollWidth - viewportWidth);
+            var itemLeft = el.offsetLeft || 0;
+            var itemWidth = el.offsetWidth || 0;
+            var targetLeft = itemLeft - Math.max(0, (viewportWidth - itemWidth) / 2);
+            var nextScrollLeft = Math.max(0, Math.min(maxScrollLeft, targetLeft));
+
+            if (typeof viewportEl.scrollTo === 'function') {
+                try {
+                    viewportEl.scrollTo({
+                        left: nextScrollLeft,
+                        behavior: 'smooth'
+                    });
+                } catch (e) {
+                    viewportEl.scrollLeft = nextScrollLeft;
+                }
+            } else {
+                viewportEl.scrollLeft = nextScrollLeft;
             }
         }
     }
