@@ -54,7 +54,9 @@ $(window).on("load", function () {
 	                }
 
 	                var rect = aboutEl.getBoundingClientRect();
-	                if (rect.bottom < 0) {
+	                var shouldCollapse = rect.bottom < 0;
+
+	                if (shouldCollapse) {
 	                    if (collapsedOnce) return;
 	                    collapsedOnce = true;
 	                    try {
@@ -174,9 +176,12 @@ $(window).on("load", function () {
 		                    }, 650);
 		                }
 
-		                // Leaving About downward: collapse expanded genealogy so it won't visually leak into the next section
+		                // Leaving About downward: fully collapse genealogy so it won't visually leak into the next section
 		                if (index == 2 && direction === 'down') {
 		                    try {
+		                        if (window.collapseAncestorGenealogyTree) {
+		                            window.collapseAncestorGenealogyTree();
+		                        }
 		                        if (window.resetActiveGenealogyTree) {
 		                            window.resetActiveGenealogyTree();
 		                        }
