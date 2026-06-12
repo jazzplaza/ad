@@ -896,11 +896,19 @@
             $tree.children('ul').show();
         });
 
-        // Ensure the ancestor container is scrolled back to the top.
-        var $body = $panel.find('.genealogy-body').first();
-        if ($body.length) {
-            $body.scrollTop(0);
-            $body.get(0).scrollLeft = 0;
+        $panel.removeClass('is-expanded is-expanding');
+
+        // Ensure the ancestor container is scrolled back to the top-left.
+        var $scroller = $panel.find('.ancestor-scroll').first();
+        if ($scroller.length) {
+            $scroller.scrollTop(0);
+            $scroller.scrollLeft(0);
+        } else {
+            var $body = $panel.find('.genealogy-body').first();
+            if ($body.length) {
+                $body.scrollTop(0);
+                $body.scrollLeft(0);
+            }
         }
 
         // Reset life open state when collapsing the tree
