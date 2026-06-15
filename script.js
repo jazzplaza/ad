@@ -3,6 +3,20 @@
     var $infoTrigger = $('#genealogy-info-trigger');
     var treeHintCanShow = false;
 
+    function syncTreeHintReadyState() {
+        if (treeHintCanShow) {
+            return true;
+        }
+
+        var $loader = $("#loader-fade");
+        if (!$loader.length || !$loader.is(":visible")) {
+            treeHintCanShow = true;
+            return true;
+        }
+
+        return false;
+    }
+
     function cloneTemplate(templateId) {
         var template = document.getElementById(templateId);
         if (!template || !('content' in template)) {
@@ -628,6 +642,7 @@
     function updateTreeOpenHint() {
         var $hint = $('#tree-open-hint');
         if (!$hint.length) return;
+        syncTreeHintReadyState();
         var allowHint = !window.matchMedia || window.matchMedia('(min-width: 768px)').matches;
         var shouldAllowNow = allowHint && treeHintCanShow;
         $hint.prop('hidden', !shouldAllowNow);
@@ -1122,6 +1137,19 @@
         updateTreeOpenHint();
         setTimeout(updateTreeOpenHint, 80);
     });
+
+    $(window).on('load', function () {
+        if (syncTreeHintReadyState()) {
+            updateTreeOpenHint();
+            setTimeout(updateTreeOpenHint, 80);
+        }
+    });
+
+    setTimeout(function () {
+        if (syncTreeHintReadyState()) {
+            updateTreeOpenHint();
+        }
+    }, 1400);
 
     $infoTrigger.on('click', function () {
         openInfoModal();
